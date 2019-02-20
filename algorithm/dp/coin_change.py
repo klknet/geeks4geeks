@@ -55,6 +55,8 @@ def count_dp_opt(s, m, n):
 
 
 arr = [1, 2, 3]
-print(count(arr, len(arr), 4))
-print(count_dp(arr, len(arr), 4))
-print(count_dp_opt(arr, len(arr), 5))
+arr = [3, 2, 1, 5]
+n = 9
+print(count(arr, len(arr), n))
+print(count_dp(arr, len(arr), n))
+print(count_dp_opt(arr, len(arr), n))

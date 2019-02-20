@@ -29,5 +29,22 @@ def matrix_chain_order(p, i, j):
     return min_num
 
 
+def matrix_chain_order_dp(p, n):
+    # t[i,j] is the minimum num of scalar multiplications needed to compute the matrix p[i]p[i+1]...p[j]=p[i..j] where
+    # dimension of p[i] is p[i-1]*p[i]
+    m = [[0] * n for i in range(n)]
+    # L is the length of matrix chain.
+    for L in range(2, n):
+        for i in range(1, n - L + 1):
+            j = i + L - 1
+            m[i][j] = sys.maxsize
+            for k in range(i, j):
+                count = m[i][k] + m[k + 1][j] + p[i - 1] * p[k] * p[j]
+                if m[i][j] > count:
+                    m[i][j] = count
+    return m[1][n - 1]
+
+
 arr = [1, 2, 3, 4, 3]
 print(matrix_chain_order(arr, 1, len(arr) - 1))
+print(matrix_chain_order_dp(arr, len(arr)))

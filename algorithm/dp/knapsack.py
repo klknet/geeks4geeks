@@ -1,5 +1,5 @@
 """
-Given weights and values of n iterms, put these items in a knapsack of capacity W to get the maximum total value in the
+Given weights and values of n items, put these items in a knapsack of capacity W to get the maximum total value in the
 knapsack.
 Solution:
 To consider all subsets of n items, there can be two cases for every item: (1)the item is included in the optimal subset

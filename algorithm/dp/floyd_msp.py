@@ -11,6 +11,7 @@ source and destination vertices respectively, there are two possible cases:
 if dist[i][j]>dist[i][k]+dist[k][j].
 """
 import sys
+import copy
 
 INF = sys.maxsize
 
@@ -18,14 +19,22 @@ INF = sys.maxsize
 def floyd_msp(graph):
     # init matrix dist same as graph, so distance of every pair vertices are not having any intermediate vertices.
     # dist = map(lambda i: map(lambda j: j, i), graph)
-    dist = list(graph)
+    dist = copy.deepcopy(graph)
     v = len(graph)
+    # store the predecessor information.
+    path = copy.deepcopy(graph)
+    for i in range(v):
+        for j in range(v):
+            if i != j and graph[i][j] != INF:
+                path[i][j] = i
     for k in range(v):
         for i in range(v):
             for j in range(v):
-                if i != j and dist[i][k] != INF and dist[k][j] != INF:
-                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+                if i != j and dist[i][k] != INF and dist[k][j] != INF and dist[i][j] > dist[i][k] + dist[k][j]:
+                    dist[i][j] = dist[i][k] + dist[k][j]
+                    path[i][j] = k
     print_solution(dist)
+    print_path(dist, path)
 
 
 def print_solution(dist):
@@ -37,6 +46,22 @@ def print_solution(dist):
             else:
                 print(dist[i][j], end='\t')
         print()
+
+
+# print the shortest path between every pair vertices of the weighted directed graph.
+def print_path(dist, path):
+    v = len(dist)
+    for i in range(v):
+        for j in range(v):
+            if i != j and path[i][j] != INF:
+                print("The shortest path from %d to %d is " % (i, j), end='')
+                print(i, end='')
+                p = path[i][j]
+                while p != i:
+                    print("-->", p, end='')
+                    p = path[i][p]
+                print("-->", j, '\t', end='')
+                print(dist[i][j])
 
 
 graph = [[0, 5, INF, 10],

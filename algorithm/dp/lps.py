@@ -64,7 +64,7 @@ def lps_dp_opt(s):
 
 
 seq = "aababab"
-seq = "GEEKSFORGEEKSabcdeffedcbaefa"
+# seq = "GEEKSFORGEEKSabcdeffedcbaefa"
 # print(lps_recur(seq, 0, len(seq) - 1))
 print(lps_dp(seq, 0, len(seq)))
 print(lps_dp2(seq, 0, len(seq)))

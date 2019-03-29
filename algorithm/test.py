@@ -1,5 +1,7 @@
 import random
 import string
+import uuid
+import base64
 
 
 def generateCode():
@@ -17,3 +19,5 @@ def generateCode():
 
 
 print(generateCode())
+print(uuid.uuid1())
+print(base64.b64encode('konglkqintian'.encode('utf8')))

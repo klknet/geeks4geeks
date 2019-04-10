@@ -48,14 +48,14 @@ def fib_matrix_bs(n):
         return [[1, 1], [1, 0]]
     if n & 1 == 1:
         h = fib_matrix_bs((n - 1) // 2)
-        h = multipy(h, h)
-        return multipy(h, [[1, 1], [1, 0]])
+        h = multiply(h, h)
+        return multiply(h, [[1, 1], [1, 0]])
     else:
         h = fib_matrix_bs(n // 2)
-        return multipy(h, h)
+        return multiply(h, h)
 
 
-def multipy(m, n):
+def multiply(m, n):
     return [[m[0][0] * n[0][0] + m[0][1] * n[1][0], m[0][0] * n[0][1] + m[0][1] * n[1][1]],
             [m[1][0] * n[0][0] + m[1][1] * n[1][0], m[1][0] * n[0][1] + m[1][1] * n[1][1]]]
 

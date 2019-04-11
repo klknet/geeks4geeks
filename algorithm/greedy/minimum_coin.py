@@ -26,4 +26,4 @@ def find_largest(v, idx):
             return i
 
 
-minimum_coin(5)
+minimum_coin(25)

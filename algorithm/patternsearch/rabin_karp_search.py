@@ -37,7 +37,8 @@ def rk_search(txt, pat):
             for k in range(m):
                 if txt[i+k] != pat[k]:
                     break
-            if k == m-1:
+                k += 1
+            if k == m:
                 print('Pattern found at index', i)
         else:
             if i < n-m-1:

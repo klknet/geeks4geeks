@@ -8,7 +8,7 @@ values for following strings.
 Therefore, the numeric value is calculated using modular arithmetic to make sure that the hash values can be stored in an
 integer variable. To do rehashing, we need to take off the most significant digit and add the new least significant digit
 for in hash value. Rehashing is done using following formula.
-hash(txt[s+1..s+m]) = (R*(hash(txt[s..s+m-1] - txt[s]*h) + txt[s+m]) mod q
+hash(txt[s+1..s+m]) = (R*(hash(txt[s..s+m-1]) - txt[s]*h) + txt[s+m]) mod q
 
 hash(txt[s..s+m-1]): hash value at shift s.
 hash(txt[s+1..s+m]): hash value at next shift.

@@ -15,20 +15,21 @@ def search(pat, txt):
             print(sa[mid].index)
             return
         elif res < 0:
-            r = mid-1
+            r = mid - 1
         else:
             l = mid + 1
 
 
 # compare pattern with suffix, return 0 if match.
 def strncmp(pat, suffix, m):
-    # if the length of pattern is longer than suffix, then return 1
-    if len(suffix) < m:
-        return 1
-    for i in range(m):
-        if ord(pat[i])-ord(suffix[i]) != 0:
-            return ord(pat[i])-ord(suffix[i])
-    return 0
+    # compare the common str
+    n = min(len(suffix), m)
+    i = 0
+    while i < n and pat[i] == suffix[i]:
+        i += 1
+    if i == n:
+        return n < m
+    return ord(pat[i]) - ord(suffix[i])
 
 
 # build a suffix array.
@@ -46,6 +47,6 @@ class Suffix(object):
         self.suff = suff
 
 
-pat = 'nan'
+pat = 'nana'
 txt = 'banana'
 search(pat, txt)

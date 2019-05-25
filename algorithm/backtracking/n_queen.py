@@ -1,11 +1,13 @@
 """
 N Queen Problem.
 """
+import copy
 
 
 class ChessBoard(object):
     def __init__(self, n):
         self.n = n
+        self.t = 0
         self.board = [[0 for col in range(n)] for row in range(n)]
 
     def print_chess(self):
@@ -32,22 +34,24 @@ class ChessBoard(object):
 
 def n_queen_util(cb, queen):
     if queen == cb.n:
+        cb.t += 1
+        print(cb.t, '--')
+        cb.print_chess()
         return True
+    res = False
     for i in range(cb.n):
         if cb.isSafe(i, queen):
             cb.board[i][queen] = 1
-            if n_queen_util(cb, queen + 1):
-                return True
+            res = n_queen_util(cb, queen + 1) or res
             cb.board[i][queen] = 0
-    return False
+    return res
 
 
 def n_queen(cb):
-    for i in range(cb.n):
-        if n_queen_util(cb, i):
-            cb.print_chess()
-            break
+    if not n_queen_util(cb, 0):
+        print("no solution exists.")
 
 
-cb = ChessBoard(5)
+n = 8
+cb = ChessBoard(n)
 n_queen(cb)

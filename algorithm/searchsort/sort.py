@@ -105,7 +105,8 @@ def quick_sort(arr, l, r):
     :return:
     """
     if l < r:
-        pi = _partition(arr, l, r)
+        pi = _partition1(arr, l, r)
+        # pi = _partition(arr, l, r)
         quick_sort(arr, l, pi - 1)
         quick_sort(arr, pi + 1, r)
 
@@ -297,6 +298,19 @@ def _partition(arr, l, r):
     return i + 1
 
 
+def _partition1(arr, l, r):
+    pivot = arr[l]
+    while l < r:
+        while l < r and arr[r] > pivot:
+            r -= 1
+        arr[l] = arr[r]
+        while l < r and arr[l] <= pivot:
+            l += 1
+        arr[r] = arr[l]
+    arr[l] = pivot
+    return l
+
+
 def _heapify(arr, n, i):
     """
     在指定位置堆化arr
@@ -320,6 +334,9 @@ def _heapify(arr, n, i):
 if __name__ == '__main__':
     arr = [9, 2, 18, 8, -3, 2, 32, 21, 16, 6, -9, -8, 22, 20]
     arr = [4, 3, 5, 2, 1, 3, 2, 3]
+    arr = [10, 16, 4, 10, 2, 8, 9, 3, 6]
+    # arr = [1,2,5,6,7,8]
+    # arr = [8,7,6,5,3,2,1]
     print(arr)
     # arr = list(range(-5, 10, 2))
     # selection_sort(arr)

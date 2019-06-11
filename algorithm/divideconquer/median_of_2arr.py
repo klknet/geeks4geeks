@@ -27,11 +27,13 @@ def mid_of_arr(arr1, arr2, n):
                 return mid_of_arr(arr1[:int(n / 2) + 1], arr2[int(n / 2) - 1:], n // 2 + 1)
             else:
                 return mid_of_arr(arr1[:int(n / 2) + 1], arr2[int(n / 2):], int(n / 2) + 1)
-        else:
+        elif m1 < m2:
             if n & 1 == 0:
                 return mid_of_arr(arr1[int(n / 2) - 1:], arr2[:int(n / 2 + 1)], n // 2 + 1)
             else:
                 return mid_of_arr(arr1[int(n / 2):], arr2[:int(n / 2) + 1], int(n / 2) + 1)
+        else:
+            return m1
 
 
 def median(arr, n):

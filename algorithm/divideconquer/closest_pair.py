@@ -20,8 +20,8 @@ import math
 
 
 def closest_pair(arr, l, r):
-    if l == r:
-        return sys.maxsize
+    if l+1 == r:
+        return distance(arr[l], arr[r])
     m = (l + r) >> 1
     dl = closest_pair(arr, l, m)
     dr = closest_pair(arr, m + 1, r)
@@ -59,6 +59,6 @@ class Point(object):
         self.y = y
 
 
-points = [Point(2, 3), Point(12, 30), Point(40, 50), Point(5, 1), Point(12, 10), Point(3, 4)]
+points = [Point(2, 3), Point(12, 30), Point(40, 50), Point(5, 1), Point(12, 10), Point(3, 4),  Point(24, 28), Point(6, 3)]
 points.sort(key = lambda p: p.x)
 print(closest_pair(points, 0, len(points) -1))

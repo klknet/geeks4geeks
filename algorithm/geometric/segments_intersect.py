@@ -35,7 +35,7 @@ def intersect(seg1, seg2):
 
 
 def onsegment(p1, p2, p3):
-    return min(p1.x, p2.x) < p3.x < max(p1.x, p2.x) and min(p1.y, p2.y) < p3.y < max(p1.y, p2.y)
+    return min(p1.x, p2.x) <= p3.x <= max(p1.x, p2.x) and min(p1.y, p2.y) <= p3.y <= max(p1.y, p2.y)
 
 
 def orientation(p1, p2, p3):
@@ -45,11 +45,15 @@ def orientation(p1, p2, p3):
     :param p3:
     :return: 0 - co-linear   1 - counterclockwise  2 -- clockwise
     """
+    # print("orientation of", p1, p2, p3, "is ", end="")
     detb = (p1.x - p2.x) * (p3.y - p2.y) - (p3.x - p2.x) * (p1.y - p2.y)
     if detb == 0:
+        # print("colinear")
         return detb
     if detb > 0:
+        # print("clockwise")
         return 2
+    # print("counterclockwise")
     return 1
 
 
@@ -64,15 +68,19 @@ class Point(object):
         self.x = x
         self.y = y
 
+    def __str__(self):
+        return '('+str(self.x)+","+str(self.y)+")"
 
-seg1 = Segment(Point(1, 1), Point(10, 1))
-seg2 = Segment(Point(1, 2), Point(10, 2))
-print(intersect(seg1, seg2))
 
-seg1 = Segment(Point(10, 0), Point(0, 10))
-seg2 = Segment(Point(0, 0), Point(10, 10))
-print(intersect(seg1, seg2))
+if __name__ == '__main__':
+    seg1 = Segment(Point(1, 1), Point(10, 1))
+    seg2 = Segment(Point(1, 2), Point(10, 2))
+    print(intersect(seg1, seg2))
 
-seg1 = Segment(Point(-5, -5), Point(0, 0))
-seg2 = Segment(Point(1, 1), Point(10, 10))
-print(intersect(seg1, seg2))
+    seg1 = Segment(Point(10, 0), Point(0, 10))
+    seg2 = Segment(Point(0, 0), Point(10, 10))
+    print(intersect(seg1, seg2))
+
+    seg1 = Segment(Point(-5, -5), Point(0, 0))
+    seg2 = Segment(Point(1, 1), Point(10, 10))
+    print(intersect(seg1, seg2))

@@ -20,4 +20,9 @@ def multiple_of_3(n):
     return multiple_of_3(odd_count - even_count)
 
 
+def multiply_by_seven(n):
+    return (n << 3) - n
+
+
 print(multiple_of_3(24))
+print(multiply_by_seven(6))

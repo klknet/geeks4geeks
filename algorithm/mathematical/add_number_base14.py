@@ -40,18 +40,14 @@ def add_num(s1, s2):
 
 
 def to_decimal(c):
-    return int(c, 16)
+    if ord('0') <= ord(c) <= ord('9'):
+        return ord(c) - ord('0')
+    return ord(c) - ord('A') + 10
 
 
 def to_char(c):
-    if c == 10:
-        return 'A'
-    elif c == 11:
-        return 'B'
-    elif c == 12:
-        return 'C'
-    elif c == 13:
-        return 'D'
+    if c >= 10:
+        return chr(c - 10 + ord('A'))
     return str(c)
 
 

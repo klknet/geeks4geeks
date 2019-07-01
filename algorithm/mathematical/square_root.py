@@ -1,5 +1,10 @@
 """
 Babylonian method for square root.
+1. Start with an arbitrary positive start value x(the closer to the root, the better)
+2. Initialize y = 1.
+3. Do following util desired approximation is achieved.
+    a)Get the next approximation for root using average x and y.
+    b)Set y=n/x.
 """
 
 

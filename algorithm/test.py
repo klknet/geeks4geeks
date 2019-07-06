@@ -20,8 +20,10 @@ def generateCode():
 def validateCode(code):
     check1 = (((ord(code[0]) + 3) << 1) + ((ord(code[1]) + 2) << 2) + ((ord(code[2]) + 1) << 3) + int(code[4], 16)) & 15
     check2 = (((ord(code[3]) + 3) << 1) + ((ord(code[6]) + 2) << 2) + ((ord(code[7]) + 1) << 3) + int(code[5], 16)) & 15
-    check3 = (((ord(code[8]) + 3) << 1) + ((ord(code[9]) + 2) << 2) + ((ord(code[12]) + 1) << 3) + int(code[10], 16)) & 15
-    check4 = (((ord(code[13]) + 3) << 1) + ((ord(code[14]) + 2) << 2) + ((ord(code[15]) + 1) << 3) + int(code[11], 16)) & 15
+    check3 = (((ord(code[8]) + 3) << 1) + ((ord(code[9]) + 2) << 2) + ((ord(code[12]) + 1) << 3) + int(code[10],
+                                                                                                       16)) & 15
+    check4 = (((ord(code[13]) + 3) << 1) + ((ord(code[14]) + 2) << 2) + ((ord(code[15]) + 1) << 3) + int(code[11],
+                                                                                                         16)) & 15
     return check1 == 0 and check2 == 0 and check3 == 0 and check4 == 0
 
 
@@ -59,7 +61,14 @@ def swap_arr1(arr):
     return arr
 
 
-a= [1, 2, 3, 4, 5, 6, 7, 4, 8, 9]
+a = [1, 2, 3, 4, 5]
+b = a[::2]
+c = [x+1 for x in a]
+a[::2] = [-1]*len(a[::2])
+print(id(a), id(b), id(c))
+print(a, b, c)
+
+a = [1, 2, 3, 4, 5, 6, 7, 4, 8, 9]
 a = [2, 1, 2, 1]
 # print(swap_arr(a))
 # print(swap_arr1(a))

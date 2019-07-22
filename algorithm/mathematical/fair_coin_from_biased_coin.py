@@ -28,22 +28,20 @@ def foo():
         return 0
 
 
-sample = 10000
-trueCount = 0
-falseCount = 0
-for i in range(sample):
-    v = fair_coin()
-    if v:
-        trueCount += 1
-    elif not v:
-        falseCount += 1
-print(trueCount, falseCount, trueCount / falseCount)
+def coin_trail():
+    trueCount = 0
+    falseCount = 0
+    for i in range(100):
+        v = fair_coin()
+        if v:
+            trueCount += 1
+        elif not v:
+            falseCount += 1
+    return trueCount / falseCount
 
-zeroCount = 0
-oneCount = 1
+
+sample = 10000
+trail = []
 for i in range(sample):
-    if foo() == 0:
-        zeroCount += 1
-    else:
-        oneCount += 1
-print(zeroCount, oneCount, zeroCount / oneCount)
+    trail.append(coin_trail())
+print(sum(trail) / sample)

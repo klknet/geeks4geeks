@@ -290,7 +290,7 @@ def _partition(arr, l, r):
     arr[r_idx], arr[r] = arr[r], arr[r_idx]
     i = l - 1
     for j in range(l, r):
-        if arr[j] <= pivot:
+        if arr[j] < pivot:
             i += 1
             if i != j:
                 arr[i], arr[j] = arr[j], arr[i]

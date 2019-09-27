@@ -1,7 +1,7 @@
 """
 Detect Cycle in a Directed Graph.
 """
-from algorithm.graph.graph import Graph
+from algorithm.graph.graph import DirectedGraph
 
 
 def dfs(graph):
@@ -27,7 +27,7 @@ def dfs_util(graph, visited, recStack, u):
     return False
 
 
-graph = Graph()
+graph = DirectedGraph()
 graph.add_edge(0, 1)
 graph.add_edge(0, 2)
 graph.add_edge(1, 2)

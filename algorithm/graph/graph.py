@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 
-class Graph(object):
+class DirectedGraph(object):
     def __init__(self):
         self.edge = defaultdict(list)
 
@@ -10,3 +10,33 @@ class Graph(object):
 
     def size(self):
         return len(self.edge)
+
+
+class UndirectedGraph(object):
+    def __init__(self):
+        self.edge = []
+        self.graph = defaultdict(list)
+
+    def add_edge(self, u, v):
+        self.edge.append((u, v))
+        self.graph[u].append(v)
+        self.graph[v].append(u)
+
+    def size(self):
+        return len(self.edge)
+
+
+class DisjointSet(object):
+    def __init__(self, n):
+        self.parent = [-1] * n
+
+    def find(self, u):
+        if self.parent[u] != -1:
+            return self.find(self.parent[u])
+        return u
+
+    def union(self, u, v):
+        p_u = self.find(u)
+        p_v = self.find(v)
+        self.parent[p_u] = p_v
+

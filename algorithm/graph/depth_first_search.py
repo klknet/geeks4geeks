@@ -1,7 +1,7 @@
 """
 Depth first search for a graph.
 """
-from algorithm.graph.graph import Graph
+from algorithm.graph.graph import DirectedGraph
 
 
 def dfs(graph, start):
@@ -17,7 +17,7 @@ def dfs_util(graph, visited, u):
             dfs_util(graph, visited, v)
 
 
-graph = Graph()
+graph = DirectedGraph()
 graph.add_edge(0, 1)
 graph.add_edge(0, 2)
 graph.add_edge(1, 2)

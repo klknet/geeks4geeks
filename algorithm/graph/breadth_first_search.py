@@ -2,7 +2,7 @@
 Breadth first search or a BFS for a graph.
 """
 from collections import defaultdict
-from algorithm.graph.graph import Graph
+from algorithm.graph.graph import DirectedGraph
 
 
 def bfs(graph, start):
@@ -19,8 +19,7 @@ def bfs(graph, start):
                 visited[e] = 1
 
 
-
-graph = Graph()
+graph = DirectedGraph()
 graph.add_edge(0, 1)
 graph.add_edge(0, 2)
 graph.add_edge(1, 2)

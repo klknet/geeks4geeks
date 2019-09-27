@@ -2,10 +2,11 @@
 Breadth first search or a BFS for a graph.
 """
 from collections import defaultdict
+from algorithm.graph.graph import Graph
 
 
 def bfs(graph, start):
-    visited = [0] * graph.vertex
+    visited = [0] * graph.size()
     queue = [start]
     visited[start] = 1
     while len(queue) > 0:
@@ -18,16 +19,8 @@ def bfs(graph, start):
                 visited[e] = 1
 
 
-class Graph(object):
-    def __init__(self, v):
-        self.vertex = v
-        self.edge = defaultdict(list)
 
-    def add_edge(self, u, v):
-        self.edge[u].append(v)
-
-
-graph = Graph(5)
+graph = Graph()
 graph.add_edge(0, 1)
 graph.add_edge(0, 2)
 graph.add_edge(1, 2)

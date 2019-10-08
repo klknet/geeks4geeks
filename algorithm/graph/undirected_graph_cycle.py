@@ -16,9 +16,36 @@ def detect_cycle(graph, disjoint):
     return False
 
 
+def detect_cycle_1(graph):
+    visited = [False] * graph.size()
+    for i in range(graph.size()):
+        if not visited[i]:
+            if isCycleUtil(graph, i, visited, -1):
+                return True
+    return False
+
+
+def isCycleUtil(graph, v, visited, parent):
+    adj = graph.graph[v]
+    visited[v] = True
+    for i in adj:
+        if not visited[i]:
+            if isCycleUtil(graph, i, visited, v):
+                return True
+        elif parent != i:
+            return True
+    return False
+
+
+
 graph = UndirectedGraph()
 graph.add_edge(0, 1)
 graph.add_edge(1, 2)
 graph.add_edge(0, 2)
+graph.add_edge(0, 3)
+graph.add_edge(3, 4)
 disjoint = DisjointSet(graph.size())
 print(detect_cycle(graph, disjoint))
+
+print(detect_cycle_1(graph))
+

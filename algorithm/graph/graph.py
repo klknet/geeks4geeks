@@ -4,12 +4,17 @@ from collections import defaultdict
 class DirectedGraph(object):
     def __init__(self):
         self.edge = defaultdict(list)
+        self.graph = defaultdict(list)
+        self.vertex = set()
 
     def add_edge(self, u, v):
         self.edge[u].append(v)
+        self.graph[u].append(v)
+        self.vertex.add(u)
+        self.vertex.add(v)
 
     def size(self):
-        return len(self.edge)
+        return len(self.vertex)
 
 
 class UndirectedGraph(object):

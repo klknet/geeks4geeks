@@ -23,7 +23,23 @@ class UndirectedGraph(object):
         self.graph[v].append(u)
 
     def size(self):
-        return len(self.edge)
+        return len(self.graph)
+
+
+class DirectedWeightGraph(object):
+    def __init__(self):
+        self.edge = []
+        self.graph = defaultdict(list)
+        self.vertex = set()
+
+    def add_edge(self, u, v, w):
+        self.vertex.add(u)
+        self.vertex.add(v)
+        self.edge.append((u, v, w))
+        self.graph[u].append((v, w))
+
+    def size(self):
+        return len(self.vertex)
 
 
 class DisjointSet(object):

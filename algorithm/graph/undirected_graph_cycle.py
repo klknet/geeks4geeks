@@ -37,15 +37,15 @@ def isCycleUtil(graph, v, visited, parent):
     return False
 
 
+if __name__ == '__main__':
+    graph = UndirectedGraph()
+    graph.add_edge(0, 1)
+    graph.add_edge(1, 2)
+    graph.add_edge(0, 2)
+    graph.add_edge(0, 3)
+    graph.add_edge(3, 4)
+    disjoint = DisjointSet(graph.size())
+    print(detect_cycle(graph, disjoint))
 
-graph = UndirectedGraph()
-graph.add_edge(0, 1)
-graph.add_edge(1, 2)
-graph.add_edge(0, 2)
-graph.add_edge(0, 3)
-graph.add_edge(3, 4)
-disjoint = DisjointSet(graph.size())
-print(detect_cycle(graph, disjoint))
-
-print(detect_cycle_1(graph))
+    print(detect_cycle_1(graph))
 

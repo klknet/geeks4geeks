@@ -36,10 +36,12 @@ class UndirectedGraph(object):
 
 class UndirectedWeightGraph(object):
     def __init__(self):
+        self.edge = []
         self.graph = defaultdict(list)
         self.vertex = set()
 
     def add_edge(self, u, v, w):
+        self.edge.append((u, v, w))
         self.graph[u].append((v, w))
         self.graph[v].append((u, w))
         self.vertex.add(u)

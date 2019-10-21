@@ -2,8 +2,8 @@
 Dijkstra's shortest path algorithm.
 """
 import sys
-import heapq
-from algorithm.graph.graph import UndirectedWeightGraph
+
+from algorithm.graph.graph import UndirectedWeightGraph, DirectedWeightGraph
 
 INF = sys.maxsize
 
@@ -75,3 +75,14 @@ graph.add_edge(7, 8, 7)
 graph.add_edge(7, 6, 1)
 graph.add_edge(8, 6, 6)
 dijkstra(graph, 0)
+
+# graph = DirectedWeightGraph()
+# graph.add_edge(0, 1, -1)
+# graph.add_edge(0, 2, 4)
+# graph.add_edge(1, 2, 3)
+# graph.add_edge(1, 3, 2)
+# graph.add_edge(1, 4, 2)
+# graph.add_edge(3, 2, 5)
+# graph.add_edge(3, 1, 1)
+# graph.add_edge(4, 3, -3)
+# dijkstra(graph, 0)

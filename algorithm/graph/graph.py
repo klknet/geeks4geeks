@@ -67,6 +67,14 @@ class DirectedWeightGraph(object):
         return len(self.vertex)
 
 
+class DirectedWeightMatrixGraph(object):
+    def __init__(self, matrix):
+        self.matrix = matrix
+
+    def size(self):
+        return len(self.matrix[0])
+
+
 class DisjointSet(object):
     def __init__(self, n):
         self.parent = [-1] * n

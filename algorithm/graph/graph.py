@@ -51,6 +51,14 @@ class UndirectedWeightGraph(object):
         return len(self.vertex)
 
 
+class UndirectedMatrixGraph(object):
+    def __init__(self, matrix):
+        self.matrix = matrix
+
+    def size(self):
+        return len(self.matrix[0])
+
+
 class DirectedWeightGraph(object):
     def __init__(self):
         self.edge = []

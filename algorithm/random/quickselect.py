@@ -9,6 +9,8 @@ def k_smallest(arr, k):
 
 
 def quick_select(arr, l, r, k):
+    if k-1 > r or k-1 < l:
+        return -1
     pivot_idx = partition(arr, l, r)
     if pivot_idx == k:
         return arr[pivot_idx]

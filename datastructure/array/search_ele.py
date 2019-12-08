@@ -40,8 +40,33 @@ def search_ele(arr, e):
     return binary_search(arr, 0, p-1, e)
 
 
+def search_ele1(arr, e):
+    return search(arr, 0, len(arr)-1, e)
+
+
+def search(arr, low, high, e):
+    if low > high:
+        return -1
+    mid = int((low + high)/2)
+    if arr[mid] == e:
+        return mid
+    # left arr[l...mid] is sorted.
+    if arr[low] <= arr[mid]:
+        # As this subarray is sorted, we can quickly check if key lies in half or other half.
+        if arr[low] <= e < arr[mid]:
+            return search(arr, low, mid-1, e)
+        else:
+            return search(arr, mid+1, high, e)
+    #If arr[l...mid] is not sorted, then arr[mid...high] must be sorted subarray.
+    if arr[mid] < e <= arr[high]:
+        return search(arr, mid+1, high, e)
+    return search(arr, low, mid-1, e)
+
+
+
 arr = [5, 6, 1, 2, 3, 4]
 # arr = [1, 2, 3, 4, 5, 6, 7]
-print(search_ele(arr, 10))
+# print(search_ele(arr, 10))
 for i in arr:
-    print(search_ele(arr, i))
+    # print(search_ele(arr, i))
+    print(search_ele1(arr, i))

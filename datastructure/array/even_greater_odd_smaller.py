@@ -30,6 +30,46 @@ def rearrange1(arr):
     return arr
 
 
+def move_zero_to_end(arr):
+    n = len(arr)
+    count = 0
+    for i in range(n):
+        if arr[i] != 0:
+            arr[count], arr[i] = arr[i], arr[count]
+            count += 1
+    return arr
+
+
+def move_zero_to_end1(arr):
+    count = 0
+    for i in range(len(arr)):
+        if arr[i] != 0:
+            arr[count] = arr[i]
+            count += 1
+    while count < len(arr):
+        arr[count] = 0
+        count += 1
+    return arr
+
+
+def rearrange2(arr):
+    tmp = [-1] * len(arr)
+    arr.sort()
+    mid = int(len(arr)/2)
+    i, j = 0, len(arr)-1
+    k=0
+    while i < mid or mid <= j:
+        if k<len(arr):
+            tmp[k] = arr[i]
+            k += 1
+        if k<len(arr):
+            tmp[k] = arr[j]
+            k += 1
+        i += 1
+        j -= 1
+    return tmp
+
+
 def split(arr):
     pivot = 0
     i = j = 0
@@ -43,3 +83,7 @@ def split(arr):
 print(rearrange([1, 2, 3, 4, 5, 6, 7]))
 print(rearrange([1, 2, 1, 4, 5, 6, 8, 8]))
 print(rearrange1([-1, 2, -3, 4, 5, 6, -7, 8, 9]))
+print(move_zero_to_end([1, 2, 0, 4, 3, 0, 5, 0]))
+print(move_zero_to_end1([1, 2, 0, 4, 3, 0, 5, 0]))
+print(rearrange2([5, 8, 1, 4, 2, 9, 3, 7, 6]))
+print(rearrange2([5, 8, 1, 4, 2, 9, 3, 7, 6, 10]))

@@ -145,19 +145,52 @@ def swap_i_j(arr, idx, val):
 
 def rearrange_wave(arr):
     arr.sort(reverse=False)
-    for i in range(1, len(arr)-1, 2):
-        arr[i], arr[i+1] = arr[i+1], arr[i]
+    for i in range(1, len(arr) - 1, 2):
+        arr[i], arr[i + 1] = arr[i + 1], arr[i]
     return arr
 
 
 def rearrange_wave1(arr):
-    for i in range(len(arr)-1):
+    for i in range(len(arr) - 1):
         if i & 1 == 0:
-            if arr[i] > arr[i+1]:
-                arr[i], arr[i+1] = arr[i+1], arr[i]
+            if arr[i] > arr[i + 1]:
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
         else:
-            if arr[i] < arr[i+1]:
-                arr[i], arr[i+1] = arr[i+1], arr[i]
+            if arr[i] < arr[i + 1]:
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+    return arr
+
+
+def replace_mul_prev_next(arr):
+    """
+    Replace every arr element by multiplication of previous and next.
+    :param arr:
+    :return:
+    """
+    if len(arr) <= 1:
+        return arr
+    prev = arr[0]
+    arr[0] = arr[0] * arr[1]
+    for i in range(1, len(arr) - 1):
+        cur = arr[i]
+        arr[i] = prev * arr[i + 1]
+        prev = cur
+    arr[-1] = arr[-1] * prev
+    return arr
+
+
+def segregate_arr(arr):
+    """
+    Segregate even and odd numbers.
+    :param arr:
+    :return:
+    """
+    i = j = 0
+    while j < len(arr):
+        if arr[j] & 1 == 0:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+        j += 1
     return arr
 
 
@@ -171,3 +204,5 @@ print("swap arr[i] = j if arr[j] = i.\n", arrange_i_j([1, 3, 0, 2]))
 print("swap arr[i] = j if arr[j] = i.\n", arrange_i_j([2, 0, 1, 4, 5, 3]))
 print("rearrange arr in wave order.\n", rearrange_wave([6, 4, 2, 1, 8, 3, 10]))
 print("rearrange arr in wave order.\n", rearrange_wave1([6, 4, 2, 1, 8, 3]))
+print("replace element by multiplication previous and next.\n", replace_mul_prev_next([2, 3, 4, 5, 6]))
+print("segregate even and odd numbers.\n", segregate_arr([1, 9, 5, 3, 2, 6, 7, 11]))

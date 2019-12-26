@@ -123,6 +123,7 @@ def k_max_combination(arr1, arr2, k):
 def k_smallest_order(arr, k):
     """
     K smallest elements in same order using O(1) extra space.
+    Using insert sort
     :param arr:
     :param k:
     :return:
@@ -144,8 +145,63 @@ def k_smallest_order(arr, k):
     print(arr[:k])
 
 
+def second_largest_element(arr):
+    """
+    Find second largest element in an array.
+    :param arr:
+    :return:
+    """
+    first = second = -sys.maxsize
+    for data in arr:
+        if data > first:
+            second = first
+            first = data
+        elif data > second:
+            second = data
+    return second
+
+
+def k_num_occurrence(arr, k):
+    """
+    Find k numbers with most occurrences in the given array.
+    :param arr:
+    :param k:
+    :return:
+    """
+    freq = {}
+    for key in arr:
+        if key in freq:
+            freq[key] += 1
+        else:
+            freq[key] = 1
+
+    def orderby_val(item):
+        return -item[1], -item[0]
+
+    return list(map(lambda item: item[0], sorted(freq.items(), key=orderby_val)[:k]))
+
+
+def smallest_second_arr(arr):
+    """
+    Find smallest and second smallest element in an array.
+    :param arr:
+    :return:
+    """
+    first = second = sys.maxsize
+    for d in arr:
+        if first > d:
+            second = first
+            first = d
+        elif second > d != first:
+            second = d
+    return first, second
+
+
 print(kth_smallest([12, 3, 5, 7, 19], 4))
 print(largest_3_elements([12, 13, 1, 10, 34, 1]))
 print(median_of_stream([-5, -10, 5, -8, 8]))
 k_max_combination([1, 4, 2, 3], [2, 5, 1, 6], 4)
 k_smallest_order([1, 5, 8, 9, 6, 7, 3, 4, 2, 0], 5)
+print(second_largest_element([12, 35, 1, 10, 34, 1]))
+print(k_num_occurrence([7, 10, 11, 5, 2, 5, 5, 7, 11, 8, 9], 4))
+print(smallest_second_arr([12, 13, 1, 10, 34, 1]))

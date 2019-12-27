@@ -197,6 +197,69 @@ def smallest_second_arr(arr):
     return first, second
 
 
+def find_smallest_missing_num(arr):
+    """
+    Find the first missing number.
+    :param arr:
+    :return:
+    """
+    return binary_search(arr, 0, len(arr) - 1)
+
+
+def binary_search(arr, l, r):
+    if l > r:
+        return r + 1
+    if arr[l] != l:
+        return l
+    m = int((l + r) / 2)
+    if arr[m] > m:
+        return binary_search(arr, l, m)
+    else:
+        return binary_search(arr, m + 1, r)
+
+
+def max_no_adjacent(arr):
+    """
+    Maximum sum such that no two elements are adjacent.
+    :param arr:
+    :return:
+    """
+    incl = arr[0]
+    excl = 0
+    for i in range(1, len(arr)):
+        incl, excl = excl + arr[i], max(incl, excl)
+    return max(incl, excl)
+
+
+def get_min_max(arr):
+    if len(arr) == 0:
+        return
+    if len(arr) == 1:
+        return arr[0], arr[0]
+    if len(arr) & 1 == 0:
+        if arr[0] < arr[1]:
+            s, c = arr[0], arr[1]
+        else:
+            s, c = arr[1], arr[0]
+        idx = 2
+    else:
+        s = c = arr[0]
+        idx = 1
+    for i in range(idx, len(arr)-1, 2):
+        if arr[i] > arr[i+1]:
+            if arr[i] > c:
+                c = arr[i]
+            if arr[i+1] < s:
+                s = arr[i+1]
+        else:
+            if arr[i] < s:
+                s = arr[i]
+            if arr[i+1] > c:
+                c = arr[i+1]
+    return s,c
+
+
+
 print(kth_smallest([12, 3, 5, 7, 19], 4))
 print(largest_3_elements([12, 13, 1, 10, 34, 1]))
 print(median_of_stream([-5, -10, 5, -8, 8]))
@@ -205,3 +268,8 @@ k_smallest_order([1, 5, 8, 9, 6, 7, 3, 4, 2, 0], 5)
 print(second_largest_element([12, 35, 1, 10, 34, 1]))
 print(k_num_occurrence([7, 10, 11, 5, 2, 5, 5, 7, 11, 8, 9], 4))
 print(smallest_second_arr([12, 13, 1, 10, 34, 1]))
+print(find_smallest_missing_num([4, 5, 10, 11]))
+print(find_smallest_missing_num([0, 1, 3, 6, 9]))
+print(max_no_adjacent([5, 5, 10, 100, 10, 5]))
+print(get_min_max([1000, 11, 445, 1, 330, 3000]))
+print("你好啊！abc"[5:])

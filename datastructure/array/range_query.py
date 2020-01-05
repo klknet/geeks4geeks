@@ -9,6 +9,14 @@ frequency = None
 
 
 def sparse_table(arr, l, r):
+    """
+    build a lookup[i][j] table where i is range in [0, n] and j is range in [0, sqrt(n)],
+    and respond in arr[i] to arr[i+2^j -1]
+    :param arr:
+    :param l:
+    :param r:
+    :return:
+    """
     global lookup
     sqrt = math.floor(math.sqrt(len(arr)))
     if lookup is None:
@@ -51,6 +59,15 @@ def sparse_table_sum(arr, l, r):
 
 
 def range_frequencies(arr, l, r, ele):
+    """
+    using a map store element's occurrence position, find lower_bound of l and upper_bound of r,
+    then result is r-l
+    :param arr:
+    :param l:
+    :param r:
+    :param ele:
+    :return:
+    """
     global frequency
     if frequency is None:
         frequency = {}
@@ -64,8 +81,6 @@ def range_frequencies(arr, l, r, ele):
 
 
 def binary_search(arr, l, r, e):
-    if arr[l] > e:
-        return l
     if l <= r:
         m = int((l + r) / 2)
         if m > l and arr[m - 1] < e <= arr[m]:
@@ -81,7 +96,7 @@ def binary_search(arr, l, r, e):
 
 def binary_search_greater(arr, l, r, e):
     if arr[r] <= e:
-        return r+1
+        return r + 1
     if l <= r:
         m = int((l + r) / 2)
         if m > l and arr[m - 1] <= e < arr[m]:
@@ -93,6 +108,77 @@ def binary_search_greater(arr, l, r, e):
         else:
             return binary_search_greater(arr, l, m, e)
     return -1
+
+
+def constant_add(arr, l, r, delta):
+    n = len(arr)
+    arr[l] += delta
+    if r + 1 < n:
+        arr[r + 1] -= delta
+
+
+def update_arr(arr):
+    for i in range(1, len(arr)):
+        arr[i] += arr[i - 1]
+    return arr
+
+
+tree = [0] * 1000
+
+
+def lcm_build(arr, node, start, end):
+    """
+    find lcm in range queries.
+    using segment tree.
+    :param arr:
+    :param node:
+    :param start:
+    :param end:
+    :return:
+    """
+    global tree
+    if start == end:
+        tree[node] = arr[start]
+        return arr[start]
+    mid = int((end + start) / 2)
+    left_lcm = lcm_build(arr, node * 2, start, mid)
+    right_lcm = lcm_build(arr, node * 2 + 1, mid + 1, end)
+    tree[node] = lcm(left_lcm, right_lcm)
+    return tree[node]
+
+
+def query_lcm(node, start, end, l, r):
+    global tree
+    if start > r or end < l:
+        return 1
+    if start >= l and r >= end:
+        return tree[node]
+    mid = int((start + end) / 2)
+    left_lcm = query_lcm(node * 2, start, mid, l, r)
+    right_lcm = query_lcm(node * 2 + 1, mid+1, end, l, r)
+    return lcm(left_lcm, right_lcm)
+
+
+def lcm(a, b):
+    """
+    lowest common multiple
+    lcm(a,b) = a*b/gcd(a,b)
+    :param a:
+    :param b:
+    :return:
+    """
+    return int(a * b / gcd(min(a, b), max(a, b)))
+
+
+def gcd(a, b):
+    """
+    greatest common divisor.
+    gcd(a,b) = gcd(b, a%b) a>b
+    :param a:
+    :param b:
+    :return:
+    """
+    return a if b == 0 else gcd(b, a % b)
 
 
 if __name__ == '__main__':
@@ -107,7 +193,17 @@ if __name__ == '__main__':
     assert sparse_table_sum(arr, 2, 4) == 15
 
     arr = [2, 8, 6, 9, 8, 6, 8, 2, 11]
-    # arr = [2, 3, 5, 8]
-    # print(binary_search(arr, 0, len(arr) - 1, 9))
     assert range_frequencies(arr, 0, 5, 2) == 1
     assert range_frequencies(arr, 3, 8, 8) == 2
+
+    arr = [0] * 6
+    constant_add(arr, 0, 2, 100)
+    constant_add(arr, 1, 5, 100)
+    constant_add(arr, 2, 3, 100)
+
+    print(update_arr(arr))
+    arr = [5, 7, 5, 2, 10, 12, 11, 17, 14, 1, 44]
+    lcm_build(arr, 1, 0, len(arr)-1)
+    print(query_lcm(1, 0, len(arr)-1, 2, 5))
+    print(query_lcm(1, 0, len(arr)-1, 5, 10))
+    print(query_lcm(1, 0, len(arr)-1, 0, 10))

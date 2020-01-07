@@ -155,7 +155,7 @@ def query_lcm(node, start, end, l, r):
         return tree[node]
     mid = int((start + end) / 2)
     left_lcm = query_lcm(node * 2, start, mid, l, r)
-    right_lcm = query_lcm(node * 2 + 1, mid+1, end, l, r)
+    right_lcm = query_lcm(node * 2 + 1, mid + 1, end, l, r)
     return lcm(left_lcm, right_lcm)
 
 
@@ -167,7 +167,7 @@ def lcm(a, b):
     :param b:
     :return:
     """
-    return int(a * b / gcd(min(a, b), max(a, b)))
+    return int(a * b / gcd(max(a, b), min(a, b)))
 
 
 def gcd(a, b):
@@ -179,6 +179,38 @@ def gcd(a, b):
     :return:
     """
     return a if b == 0 else gcd(b, a % b)
+
+
+gcd_tree = None
+
+
+def gcd_construct(arr, node, start, end):
+    global gcd_tree
+    if gcd_tree is None:
+        n = 2 ** ((math.ceil(math.log(len(arr), 2)))+1)
+        gcd_tree = [0] * n
+    if start == end:
+        gcd_tree[node] = arr[start]
+        return arr[start]
+    mid = int((start+end)/2)
+    left_gcd = gcd_construct(arr, node*2+1, start, mid)
+    right_gcd = gcd_construct(arr, node*2+2, mid+1, end)
+    gcd_tree[node] = gcd(max(left_gcd, right_gcd), min(left_gcd, right_gcd))
+    return gcd_tree[node]
+
+
+def gcd_query(node, start, end, l, r):
+    global gcd_tree
+    # out of range
+    if end < l or start > r:
+        return 0
+    # inside range
+    if l<=start and r>=end:
+        return gcd_tree[node]
+    mid = (start+end)//2
+    left_gcd = gcd_query(node*2+1, start, mid, l, r)
+    right_gcd = gcd_query(node*2+2, mid+1, end, l, r)
+    return gcd(max(left_gcd, right_gcd), min(left_gcd, right_gcd))
 
 
 if __name__ == '__main__':
@@ -203,7 +235,12 @@ if __name__ == '__main__':
 
     print(update_arr(arr))
     arr = [5, 7, 5, 2, 10, 12, 11, 17, 14, 1, 44]
-    lcm_build(arr, 1, 0, len(arr)-1)
-    print(query_lcm(1, 0, len(arr)-1, 2, 5))
-    print(query_lcm(1, 0, len(arr)-1, 5, 10))
-    print(query_lcm(1, 0, len(arr)-1, 0, 10))
+    lcm_build(arr, 1, 0, len(arr) - 1)
+    print(query_lcm(1, 0, len(arr) - 1, 2, 5))
+    print(query_lcm(1, 0, len(arr) - 1, 5, 10))
+    print(query_lcm(1, 0, len(arr) - 1, 0, 10))
+
+    arr = [2, 3, 6, 9, 5]
+    gcd_construct(arr, 0, 0, len(arr)-1)
+    print(gcd_query(0, 0, len(arr)-1, 1, 3))
+    print(gcd_query(0, 0, len(arr)-1, 2, 3))

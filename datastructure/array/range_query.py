@@ -178,6 +178,8 @@ def gcd(a, b):
     :param b:
     :return:
     """
+    if a < b:
+        return gcd(b, a)
     return a if b == 0 else gcd(b, a % b)
 
 
@@ -187,15 +189,15 @@ gcd_tree = None
 def gcd_construct(arr, node, start, end):
     global gcd_tree
     if gcd_tree is None:
-        n = 2 ** ((math.ceil(math.log(len(arr), 2)))+1)
+        n = 2 ** ((math.ceil(math.log(len(arr), 2))) + 1)
         gcd_tree = [0] * n
     if start == end:
         gcd_tree[node] = arr[start]
         return arr[start]
-    mid = int((start+end)/2)
-    left_gcd = gcd_construct(arr, node*2+1, start, mid)
-    right_gcd = gcd_construct(arr, node*2+2, mid+1, end)
-    gcd_tree[node] = gcd(max(left_gcd, right_gcd), min(left_gcd, right_gcd))
+    mid = int((start + end) / 2)
+    left_gcd = gcd_construct(arr, node * 2 + 1, start, mid)
+    right_gcd = gcd_construct(arr, node * 2 + 2, mid + 1, end)
+    gcd_tree[node] = gcd(left_gcd, right_gcd)
     return gcd_tree[node]
 
 
@@ -205,12 +207,68 @@ def gcd_query(node, start, end, l, r):
     if end < l or start > r:
         return 0
     # inside range
-    if l<=start and r>=end:
+    if l <= start and r >= end:
         return gcd_tree[node]
-    mid = (start+end)//2
-    left_gcd = gcd_query(node*2+1, start, mid, l, r)
-    right_gcd = gcd_query(node*2+2, mid+1, end, l, r)
-    return gcd(max(left_gcd, right_gcd), min(left_gcd, right_gcd))
+    mid = (start + end) // 2
+    left_gcd = gcd_query(node * 2 + 1, start, mid, l, r)
+    right_gcd = gcd_query(node * 2 + 2, mid + 1, end, l, r)
+    return gcd(left_gcd, right_gcd)
+
+
+prefix_tree = None
+suffix_tree = None
+
+
+def build_out_range_gcd(arr):
+    global prefix_tree
+    global suffix_tree
+    if prefix_tree is None or suffix_tree is None:
+        prefix_tree = [0] * len(arr)
+        suffix_tree = [0] * len(arr)
+        prefix_tree[0] = arr[0]
+        suffix_tree[-1] = arr[-1]
+        for i in range(1, len(arr)):
+            prefix_tree[i] = gcd(prefix_tree[i - 1], arr[i])
+        for i in range(len(arr) - 2, -1, -1):
+            suffix_tree[i] = gcd(suffix_tree[i + 1], arr[i])
+
+
+def query_out_range_gcd(arr, l, r):
+    global prefix_tree
+    global suffix_tree
+    n = len(arr)
+    if l == 0:
+        return suffix_tree[r + 1]
+    if r == n - 1:
+        return prefix_tree[l - 1]
+    return gcd(prefix_tree[l - 1], suffix_tree[r + 1])
+
+
+def count_ele(arr, l, r):
+    arr.sort()
+    return upper_bin(arr, r) - lower_bin(arr, l) + 1
+
+
+def lower_bin(arr, x):
+    l, h = 0, len(arr) - 1
+    while l <= h:
+        m = (l + h) // 2
+        if arr[m] >= x:
+            h = m - 1
+        else:
+            l = m + 1
+    return l
+
+
+def upper_bin(arr, x):
+    l, h = 0, len(arr) - 1
+    while l <= h:
+        m = (l + h) // 2
+        if arr[m] <= x:
+            l = m + 1
+        else:
+            h = m - 1
+    return h
 
 
 if __name__ == '__main__':
@@ -241,6 +299,16 @@ if __name__ == '__main__':
     print(query_lcm(1, 0, len(arr) - 1, 0, 10))
 
     arr = [2, 3, 6, 9, 5]
-    gcd_construct(arr, 0, 0, len(arr)-1)
-    print(gcd_query(0, 0, len(arr)-1, 1, 3))
-    print(gcd_query(0, 0, len(arr)-1, 2, 3))
+    gcd_construct(arr, 0, 0, len(arr) - 1)
+    print(gcd_query(0, 0, len(arr) - 1, 1, 3))
+    print(gcd_query(0, 0, len(arr) - 1, 2, 3))
+
+    arr = [2, 6, 9]
+    build_out_range_gcd(arr)
+    print(query_out_range_gcd(arr, 0, 0))
+    print(query_out_range_gcd(arr, 1, 1))
+    print(query_out_range_gcd(arr, 1, 2))
+
+    arr = [1, 4, 4, 9, 10, 3]
+    print(count_ele(arr, 1, 4))
+    print(count_ele(arr, 9, 12))

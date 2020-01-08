@@ -271,6 +271,40 @@ def upper_bin(arr, x):
     return h
 
 
+prefix_bits = None
+
+
+def min_max_xor_sum(arr, l, r):
+    """
+    Number whose sum of XOR with given array range is maximum.
+    :param arr:
+    :param l:
+    :param r:
+    :return:
+    """
+    global prefix_bits
+    r = min(r, len(arr))
+    if prefix_bits is None:
+        prefix_bits = [[0 for col in range(32)] for row in range(len(arr) + 1)]
+        for i in range(1, len(arr) + 1):
+            a = arr[i - 1]
+            for j in range(32):
+                if a & (1 << j):
+                    prefix_bits[i][j] = prefix_bits[i - 1][j] + 1
+                else:
+                    prefix_bits[i][j] = prefix_bits[i - 1][j]
+        print(prefix_bits)
+    res = 0x7fffffff
+    ran = r - l + 1
+    for i in range(32):
+        one_bits = prefix_bits[r][i] - prefix_bits[l - 1][i]
+        # if one bits number is less than zero, then the bit of result is 1
+        if one_bits * 2 >= ran:
+            # set the ith bits to 0
+            res ^= (1 << i)
+    return res
+
+
 if __name__ == '__main__':
     arr = [7, 2, 3, 0, 5, 10, 3, 12, 18]
     print(sparse_table(arr, 0, 4))
@@ -312,3 +346,8 @@ if __name__ == '__main__':
     arr = [1, 4, 4, 9, 10, 3]
     print(count_ele(arr, 1, 4))
     print(count_ele(arr, 9, 12))
+
+    arr = [20, 11, 18, 2, 13]
+    print(min_max_xor_sum(arr, 1, 3))
+    print(min_max_xor_sum(arr, 3, 5))
+    print(min_max_xor_sum(arr, 2, 4))

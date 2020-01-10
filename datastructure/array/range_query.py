@@ -305,6 +305,24 @@ def min_max_xor_sum(arr, l, r):
     return res
 
 
+def number_equal_ele(arr, l, r):
+    """
+    Number of indexes with equal elements in given range.
+    :param arr:
+    :param l:
+    :param r:
+    :return:
+    """
+    n = len(arr)
+    prefix_count = [0] * n
+    for i in range(1, n):
+        if arr[i] == arr[i - 1]:
+            prefix_count[i] = prefix_count[i - 1] + 1
+        else:
+            prefix_count[i] = prefix_count[i - 1]
+    return prefix_count[r] - prefix_count[0 if l == 0 else l - 1]
+
+
 if __name__ == '__main__':
     arr = [7, 2, 3, 0, 5, 10, 3, 12, 18]
     print(sparse_table(arr, 0, 4))
@@ -351,3 +369,7 @@ if __name__ == '__main__':
     print(min_max_xor_sum(arr, 1, 3))
     print(min_max_xor_sum(arr, 3, 5))
     print(min_max_xor_sum(arr, 2, 4))
+
+    arr = [1, 2, 2, 2, 3, 3, 4, 4, 4]
+    print(number_equal_ele(arr, 0, 4))
+    print(number_equal_ele(arr, 1, 8))

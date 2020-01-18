@@ -56,8 +56,70 @@ def buy_sell_share_atmost_twice(arr):
     return profit[-1]
 
 
+def find_subarray_least_average(arr, k):
+    """
+    Find the subarray with least average.
+    Given an array arr[] with size of n and an integer k such that k<=n.
+    Using sliding windows.
+    :param arr:
+    :param k:
+    :return:
+    """
+    res_idx = 0
+    min_sum = 0
+    for i in range(3):
+        min_sum += arr[i]
+    curr_sum = min_sum
+    for i in range(3, len(arr)):
+        curr_sum = curr_sum + arr[i] - arr[i-k]
+        if curr_sum<min_sum:
+            min_sum = curr_sum
+            res_idx = i
+    return res_idx-k, min_sum/3
+
+
+def minimize_maximum_difference(arr, k):
+    n = len(arr)
+    if n<=1:
+        return 0
+    arr.sort()
+    ans = arr[-1] - arr[0]
+    big = arr[-1] - k
+    small = arr[0] + k
+    if small > big:
+        small, big = big, small
+    for i in range(1, n-1):
+        add = arr[i] + k
+        subtract = arr[i] - k
+        # If both subtraction and addition don't change diff
+        if subtract >= small or add <= big:
+            continue
+        # Either subtraction causes a smaller number or addition causes a greater number
+        # Update small or big using greedy approach.
+        if add - small >= big - subtract:
+            small = subtract
+        else:
+            big = add
+    return min(ans, big-small)
+
+
+
 if __name__ == '__main__':
     arr = [-2, -3, 4, -1, -2, 1, 5, -3]
     print('Maximum contiguous sum is', largest_sum_subarray(arr))
     arr = [2, 30, 15, 10, 8, 25, 80]
     print("Max profit", buy_sell_share_atmost_twice(arr))
+    arr = [3, 7, 90, 20, 10, 50, 40]
+    res = find_subarray_least_average(arr, 3)
+    print("Least average is %s at %s position" %(res[1], res[0]))
+    arr = [4, 6]
+    print("Minimum difference is", minimize_maximum_difference(arr, 10))
+    arr = [1, 15, 10]
+    print("Minimum difference is", minimize_maximum_difference(arr, 6))
+    arr = [1, 5, 15, 10]
+    print("Minimum difference is", minimize_maximum_difference(arr, 3))
+    arr = [6, 10]
+    print("Minimum difference is", minimize_maximum_difference(arr, 3))
+    arr = [1, 10, 14, 14, 14, 15]
+    print("Minimum difference is", minimize_maximum_difference(arr, 6))
+

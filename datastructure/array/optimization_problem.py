@@ -134,10 +134,48 @@ def min_jumps_dp(arr):
         for j in range(i):
             # find the first position that can reach to i
             if j + arr[j] >= i and dp[j] != sys.maxsize:
-                dp[i] = min(dp[i], dp[j]+1)
+                dp[i] = min(dp[i], dp[j] + 1)
                 break
     return dp[-1]
 
+
+max_sum = 0
+
+
+def _max_sum_incr_seq(arr, n):
+    global max_sum
+    if n == 1:
+        return arr[n - 1]
+    res = 0
+    for i in range(1, n):
+        s = _max_sum_incr_seq(arr, i)
+        if arr[i - 1] < arr[n - 1] and s + arr[n - 1] > res:
+            res = s + arr[n - 1]
+    max_sum = max(max_sum, res)
+    return res
+
+
+def max_sum_incr_seq(arr):
+    """
+    Maximum Sum Increasing Subsequence.
+    :param arr:
+    :return:
+    """
+    global max_sum
+    n = len(arr)
+    _max_sum_incr_seq(arr, n)
+    return max_sum
+
+
+def max_sum_incr_seq_dp(arr):
+    dp = [0] * len(arr)
+    for i in range(len(arr)):
+        dp[i] = arr[i]
+    for i in range(1, len(arr)):
+        for j in range(i):
+            if arr[j] < arr[i] and dp[j] + arr[i] > dp[i]:
+                dp[i] = dp[j] + arr[i]
+    return max(dp)
 
 if __name__ == '__main__':
     arr = [-2, -3, 4, -1, -2, 1, 5, -3]
@@ -148,16 +186,20 @@ if __name__ == '__main__':
     res = find_subarray_least_average(arr, 3)
     print("Least average is %s at %s position" % (res[1], res[0]))
     arr = [4, 6]
-    print("Minimum difference is", minimize_maximum_difference(arr, 10))
-    arr = [1, 15, 10]
-    print("Minimum difference is", minimize_maximum_difference(arr, 6))
-    arr = [1, 5, 15, 10]
-    print("Minimum difference is", minimize_maximum_difference(arr, 3))
-    arr = [6, 10]
-    print("Minimum difference is", minimize_maximum_difference(arr, 3))
-    arr = [1, 10, 14, 14, 14, 15]
+    # print("Minimum difference is", minimize_maximum_difference(arr, 10))
+    # arr = [1, 15, 10]
+    # print("Minimum difference is", minimize_maximum_difference(arr, 6))
+    # arr = [1, 5, 15, 10]
+    # print("Minimum difference is", minimize_maximum_difference(arr, 3))
+    # arr = [6, 10]
+    # print("Minimum difference is", minimize_maximum_difference(arr, 3))
+    # arr = [1, 10, 14, 14, 14, 15]
     print("Minimum difference is", minimize_maximum_difference(arr, 6))
     arr = [1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9]
     # arr = [1, 3, 6, 3, 2, 3, 6, 8, 9, 5]
     print("Minimum jumps to reach end", min_num_of_jumps(arr, len(arr)))
     print("Minimum jumps to reach end", min_jumps_dp(arr))
+    arr = [1, 101, 2, 3, 100, 4, 5]
+    print("Maximum sum increasing subsequence is", max_sum_incr_seq(arr))
+    print("Maximum sum increasing subsequence is", max_sum_incr_seq_dp(arr))
+

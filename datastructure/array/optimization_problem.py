@@ -139,6 +139,24 @@ def min_jumps_dp(arr):
     return dp[-1]
 
 
+def length_of_maximum_sum_subarray(arr):
+    max_ending_here = 0
+    max_so_far = -sys.maxsize
+    start=end=0
+    s = 0
+    for i in range(len(arr)):
+        max_ending_here += arr[i]
+        if max_so_far < max_ending_here:
+            max_so_far = max_ending_here
+            end = i
+            start = s
+        if max_ending_here < 0:
+            max_ending_here = 0
+            s = i+1
+    return max_so_far, start, end
+
+
+
 if __name__ == '__main__':
     arr = [-2, -3, 4, -1, -2, 1, 5, -3]
     print('Maximum contiguous sum is', largest_sum_subarray(arr))
@@ -161,3 +179,5 @@ if __name__ == '__main__':
     # arr = [1, 3, 6, 3, 2, 3, 6, 8, 9, 5]
     print("Minimum jumps to reach end", min_num_of_jumps(arr, len(arr)))
     print("Minimum jumps to reach end", min_jumps_dp(arr))
+    arr = [-2, -3, 4, -1, -2, 1, 5, -3]
+    print("Maximum sum of subarray", length_of_maximum_sum_subarray(arr))

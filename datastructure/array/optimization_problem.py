@@ -2,6 +2,7 @@
 Optimization Problems.
 """
 import sys
+import math
 
 
 def largest_sum_subarray(arr):
@@ -134,15 +135,20 @@ def min_jumps_dp(arr):
         for j in range(i):
             # find the first position that can reach to i
             if j + arr[j] >= i and dp[j] != sys.maxsize:
-                dp[i] = min(dp[i], dp[j]+1)
+                dp[i] = min(dp[i], dp[j] + 1)
                 break
     return dp[-1]
 
 
 def length_of_maximum_sum_subarray(arr):
+    """
+    Find the length of maximum sum of sub array of a given array.
+    :param arr:
+    :return:
+    """
     max_ending_here = 0
     max_so_far = -sys.maxsize
-    start=end=0
+    start = end = 0
     s = 0
     for i in range(len(arr)):
         max_ending_here += arr[i]
@@ -152,9 +158,48 @@ def length_of_maximum_sum_subarray(arr):
             start = s
         if max_ending_here < 0:
             max_ending_here = 0
-            s = i+1
+            s = i + 1
     return max_so_far, start, end
 
+
+def minimum_difference_pair(arr):
+    """
+    Find the minimum difference between any pair in an unsort array.
+    :param arr:
+    :return:
+    """
+    arr.sort()
+    res = sys.maxsize
+    for i in range(1, len(arr)):
+        if arr[i] - arr[i - 1] < res:
+            res = arr[i] - arr[i - 1]
+    return res
+
+
+def bitset(a, b):
+    """
+    Given two integer a and b, find multiple of 2 or 5 between a and b
+    Using bitset save space
+    :param a:
+    :param b:
+    :return:
+    """
+    size = math.ceil((b - a) / 32)
+    arr = [0] * size
+    for i in range(a, b + 1):
+        if i % 2 == 0 or i % 5 == 0:
+            setbit(arr, i - a)
+    for i in range(a, b + 1):
+        if checkbit(arr, i - a):
+            print(i, end=" ")
+
+
+def setbit(arr, idx):
+    arr[idx >> 5] |= (1 << (idx & 31))
+
+
+def checkbit(arr, idx):
+    return arr[idx >> 5] & (1 << (idx & 31))
 
 
 if __name__ == '__main__':
@@ -181,3 +226,6 @@ if __name__ == '__main__':
     print("Minimum jumps to reach end", min_jumps_dp(arr))
     arr = [-2, -3, 4, -1, -2, 1, 5, -3]
     print("Maximum sum of subarray", length_of_maximum_sum_subarray(arr))
+    a, b = 2, 10
+    print("Multiple of 2 or 5 between %s and %s is" % (a, b))
+    bitset(a, b)

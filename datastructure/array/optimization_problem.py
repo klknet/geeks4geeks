@@ -202,6 +202,29 @@ def checkbit(arr, idx):
     return arr[idx >> 5] & (1 << (idx & 31))
 
 
+def longest_span_with_same_sum(arr1, arr2):
+    """
+    Longest span with same sum in two Binary arrays.
+    :param arr1:
+    :param arr2:
+    :return:
+    """
+    hash = {}
+    max_len = 0
+    diff = [0] * len(arr1)
+    for i in range(len(arr1)):
+        diff[i] = arr1[i] - arr2[i]
+    s = 0
+    for i in range(len(arr1)):
+        s += diff[i]
+        if s==0:
+            max_len = i+1
+        if s in hash:
+            max_len = max(max_len, i - hash[s])
+        else:
+            hash[s] = i
+    return max_len
+
 if __name__ == '__main__':
     arr = [-2, -3, 4, -1, -2, 1, 5, -3]
     print('Maximum contiguous sum is', largest_sum_subarray(arr))
@@ -229,3 +252,6 @@ if __name__ == '__main__':
     a, b = 2, 10
     print("Multiple of 2 or 5 between %s and %s is" % (a, b))
     bitset(a, b)
+    arr1 = [0, 1, 0, 1, 1, 1, 1]
+    arr2 = [1, 1, 1, 1, 1, 0, 1]
+    print("\nLength of the longest common span with same sum is", longest_span_with_same_sum(arr1, arr2))

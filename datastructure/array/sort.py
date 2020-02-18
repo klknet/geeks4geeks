@@ -73,6 +73,33 @@ def wave_sort1(arr):
     return arr
 
 
+def merge_n_arr(arr1, arr2):
+    idx1 = len(arr1)
+    for i in range(len(arr1)-1, -1, -1):
+        if arr1[i] != -1:
+            idx1 -= 1
+            arr1[idx1] = arr1[i]
+    idx = idx2 = 0
+    while idx1 < len(arr1) and idx2 < len(arr2):
+        if arr1[idx1] < arr2[idx2]:
+            arr1[idx] = arr1[idx1]
+            idx1 += 1
+        else:
+            arr1[idx] = arr2[idx2]
+            idx2 += 1
+        idx += 1
+    while idx1 < len(arr1):
+        arr1[idx] = arr1[idx1]
+        idx1 += 1
+        idx += 1
+    while idx2 < len(arr2):
+        arr1[idx] = arr2[idx2]
+        idx2 += 1
+        idx += 1
+    return arr1
+
+
+
 if __name__ == "__main__":
     arr = [6, 5, 3, 2, 8, 10, 9]
     print("ksorted array is", ksorted_array(copy.deepcopy(arr), 3))
@@ -80,3 +107,6 @@ if __name__ == "__main__":
     arr = [10, 5, 6, 3, 2, 20, 100, 80]
     print("wave sort", wave_sort(copy.deepcopy(arr)))
     print("wave sort", wave_sort1(copy.deepcopy(arr)))
+    arr1 = [2, -1, 7, -1, -1, 10, -1]
+    arr2 = [5, 8, 12, 14]
+    print("merge one array of size n into another one of size mn", merge_n_arr(arr1, arr2))

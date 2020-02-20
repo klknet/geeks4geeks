@@ -99,6 +99,39 @@ def merge_n_arr(arr1, arr2):
     return arr1
 
 
+def sort_arr_contains_1_n(arr):
+    """
+    Sort an array which contains 1 to n values.
+    :param arr:
+    :return:
+    """
+    n = len(arr)
+    for i in range(n):
+        idx = i
+        val = arr[i]
+        while idx+1 != val:
+            idx = val-1
+            arr[val-1], val = val, arr[val-1]
+    return arr
+
+
+def sort_1_n_adj_swap(arrA, arrB):
+    """
+    Given an array, A of size n consisting of elements 1 to n. A boolean array B consisting of n-1 elements indicates
+    that if B[i] is 1, then A[i] can be swapped with A[i+1].
+    Find out if A can be sorted by swapping elements.
+    :param arrA:
+    :param arrB:
+    :return:
+    """
+    for i in range(len(arrB)):
+        if arrA[i] != i+1:
+            arrA[i], arrA[i+1] = arrA[i+1], arrA[i]
+    for i in range(len(arrA)):
+        if arrA[i] != i+1:
+            return False
+    return True
+
 
 if __name__ == "__main__":
     arr = [6, 5, 3, 2, 8, 10, 9]
@@ -110,3 +143,9 @@ if __name__ == "__main__":
     arr1 = [2, -1, 7, -1, -1, 10, -1]
     arr2 = [5, 8, 12, 14]
     print("merge one array of size n into another one of size mn", merge_n_arr(arr1, arr2))
+    arr = [10, 7, 9, 2, 8,
+                 3, 5, 4, 6, 1]
+    print("sort an array which contains 1 to n values", sort_arr_contains_1_n(arr))
+    arrA = [2, 3, 1, 4, 5, 6]
+    arrB = [0, 1, 1, 1, 1]
+    print("arrA can be sorted?", sort_1_n_adj_swap(arrA, arrB))

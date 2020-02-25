@@ -3,6 +3,7 @@ Sorting
 """
 import heapq
 import copy
+import sys
 
 
 def ksorted_array(arr, k):
@@ -193,7 +194,7 @@ def count_inversion(arr):
     :param arr:
     :return:
     """
-    return merge_sort(arr, 0, len(arr)-1, [0]*len(arr))
+    return merge_sort(arr, 0, len(arr) - 1, [0] * len(arr))
 
 
 def merge_sort(arr, left, right, tmp):
@@ -203,7 +204,7 @@ def merge_sort(arr, left, right, tmp):
     c_left = merge_sort(arr, left, mid, tmp)
     c_right = merge_sort(arr, mid + 1, right, tmp)
     cross = merge(arr, left, right, tmp)
-    return c_left+c_right+cross
+    return c_left + c_right + cross
 
 
 def merge(arr, left, right, tmp):
@@ -218,21 +219,51 @@ def merge(arr, left, right, tmp):
         else:
             tmp[idx] = arr[j]
             j += 1
-            count += (mid-i+1)
+            count += (mid - i + 1)
         idx += 1
-    while i<=mid:
+    while i <= mid:
         tmp[idx] = arr[i]
         idx += 1
         i += 1
-    while j<=right:
+    while j <= right:
         tmp[idx] = arr[j]
         idx += 1
         j += 1
     idx = 0
-    for i in range(left, right+1):
+    for i in range(left, right + 1):
         arr[i] = tmp[idx]
         idx += 1
     return count
+
+
+def two_ele_sum_closest_zero(arr):
+    """
+    Find the two elements whose sum is closet to zero.
+    1. Sort the array.
+    2. Use two index variables i and j from left and right ends respectively. Initialize i as 0 and j as n-1.
+    3. sum = a[i]+a[j].
+    4. Keep track of abs min sum.
+    5. if sum is -ev, i++.
+    6. if sum is +ev, l--.
+    7. Repeat 3,4,5,6 while i<l.
+    :param arr:
+    :return:
+    """
+    arr.sort()
+    i, j = 0, len(arr) - 1
+    s = sys.maxsize
+    a = b = 0
+    while i < j:
+        cur_sum = arr[i] + arr[j]
+        if abs(cur_sum) < s:
+            s = abs(cur_sum)
+            a, b = arr[i], arr[j]
+        if cur_sum < 0:
+            i += 1
+        else:
+            j -= 1
+    return a, b, s
+
 
 if __name__ == "__main__":
     arr = [6, 5, 3, 2, 8, 10, 9]
@@ -255,5 +286,7 @@ if __name__ == "__main__":
     print("Sort is", partition_sort(arr))
     arr = [2, 5, 2, 6, -1, 9999999, 5, 8, 8, 8]
     print("Sort by frequency", sort_by_frequency(arr))
-    arr = [ 1, 20, 6, 4, 5]
+    arr = [1, 20, 6, 4, 5]
     print("Inversion count", count_inversion(arr))
+    arr = [1, 60, -10, 70, -80, 85]
+    print("Closest to zero elements is %s, %s, sum is %s" % two_ele_sum_closest_zero(arr))

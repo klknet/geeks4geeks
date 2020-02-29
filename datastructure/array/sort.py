@@ -265,6 +265,49 @@ def two_ele_sum_closest_zero(arr):
     return a, b, s
 
 
+def shortest_unsorted_array(arr):
+    """
+    Find the shortest unsorted (neither increasing nor decreasing) sub array in given array.
+    :param arr:
+    :return:
+    """
+    if len(arr) <= 1:
+        return 0
+    asc = True
+    for i in range(1, len(arr)):
+        if arr[i] - arr[i - 1] < 0:
+            asc = False
+            break
+    des = True
+    for i in range(1, len(arr)):
+        if arr[i] - arr[i - 1] > 0:
+            des = False
+            break
+    return 0 if asc|des else 3
+
+
+def min_step_swap(arr):
+    n = len(arr)
+    pairs = []
+    for i in range(n):
+        pairs.append((arr[i], i))
+    pairs.sort(key = lambda pair: pair[0])
+    ans = 0
+    vector = [0]*n
+    for i in range(n):
+        if i == pairs[i][1] or vector[i]:
+            continue
+        j = i
+        cycle = 0
+        while not vector[j]:
+            vector[j] = 1
+            cycle += 1
+            j = pairs[j][1]
+        if cycle>0:
+            ans += (cycle-1)
+    return ans
+
+
 if __name__ == "__main__":
     arr = [6, 5, 3, 2, 8, 10, 9]
     print("ksorted array is", ksorted_array(copy.deepcopy(arr), 3))
@@ -290,3 +333,9 @@ if __name__ == "__main__":
     print("Inversion count", count_inversion(arr))
     arr = [1, 60, -10, 70, -80, 85]
     print("Closest to zero elements is %s, %s, sum is %s" % two_ele_sum_closest_zero(arr))
+    arr = [7, 9, 10, 8, 11]
+    print("shortest unsort subarray length is", shortest_unsorted_array(arr))
+    arr = [1, 2, 3, 4, 5]
+    print("shortest unsort subarray length is", shortest_unsorted_array(arr))
+    arr = [1, 5, 4, 3, 2]
+    print("Minimum swaps is", min_step_swap(arr))

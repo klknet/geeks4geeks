@@ -283,7 +283,7 @@ def shortest_unsorted_array(arr):
         if arr[i] - arr[i - 1] > 0:
             des = False
             break
-    return 0 if asc|des else 3
+    return 0 if asc | des else 3
 
 
 def min_step_swap(arr):
@@ -291,9 +291,9 @@ def min_step_swap(arr):
     pairs = []
     for i in range(n):
         pairs.append((arr[i], i))
-    pairs.sort(key = lambda pair: pair[0])
+    pairs.sort(key=lambda pair: pair[0])
     ans = 0
-    vector = [0]*n
+    vector = [0] * n
     for i in range(n):
         if i == pairs[i][1] or vector[i]:
             continue
@@ -303,9 +303,31 @@ def min_step_swap(arr):
             vector[j] = 1
             cycle += 1
             j = pairs[j][1]
-        if cycle>0:
-            ans += (cycle-1)
+        if cycle > 0:
+            ans += (cycle - 1)
     return ans
+
+
+def sort_arr_0_1_2(arr):
+    """
+    Sort an array of 0s, 1s and 2s.
+    :param arr:
+    :return:
+    """
+    lo = 0
+    mid = 0
+    hi = len(arr) - 1
+    while mid <= hi:
+        if arr[mid] == 0:
+            arr[lo], arr[mid] = arr[mid], arr[lo]
+            lo += 1
+            mid += 1
+        elif arr[mid] == 1:
+            mid += 1
+        elif arr[mid] == 2:
+            arr[mid], arr[hi] = arr[hi], arr[mid]
+            hi -= 1
+    return arr
 
 
 if __name__ == "__main__":
@@ -339,3 +361,5 @@ if __name__ == "__main__":
     print("shortest unsort subarray length is", shortest_unsorted_array(arr))
     arr = [1, 5, 4, 3, 2]
     print("Minimum swaps is", min_step_swap(arr))
+    arr = [0, 1, 2, 0, 1, 2]
+    print("Sort 0, 1, 2", sort_arr_0_1_2(arr))

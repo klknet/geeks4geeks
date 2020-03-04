@@ -330,6 +330,40 @@ def sort_arr_0_1_2(arr):
     return arr
 
 
+def min_unsorted_subarray(arr):
+    """
+     Find the minimum length unsorted subarray, sorting which makes the complete array sorted.
+    :param arr:
+    :return:
+    """
+    s = e = 0
+    for i in range(len(arr)-1):
+        if arr[i] > arr[i+1]:
+            s = i
+            break
+    for i in range(len(arr)-1, 0, -1):
+        if arr[i] < arr[i-1]:
+            e = i
+            break
+    min_v = sys.maxsize
+    max_v = -sys.maxsize
+    for i in range(s, e+1):
+        if arr[i] > max_v:
+            max_v = arr[i]
+        if arr[i] < min_v:
+            min_v = arr[i]
+    for i in range(s):
+        if arr[i] > min_v:
+            s = i
+            break
+    for i in range(len(arr)-1, e, -1):
+        if arr[i] < max_v:
+            e = i
+            break
+    return s, e
+
+
+
 if __name__ == "__main__":
     arr = [6, 5, 3, 2, 8, 10, 9]
     print("ksorted array is", ksorted_array(copy.deepcopy(arr), 3))
@@ -363,3 +397,6 @@ if __name__ == "__main__":
     print("Minimum swaps is", min_step_swap(arr))
     arr = [0, 1, 2, 0, 1, 2]
     print("Sort 0, 1, 2", sort_arr_0_1_2(arr))
+    arr = [10, 12, 20, 30, 25,
+                 40, 32, 31, 35, 50, 60]
+    print("Minimum length of unsorted subarray", min_unsorted_subarray(arr))

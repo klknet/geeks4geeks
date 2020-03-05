@@ -15,6 +15,9 @@ class MaxHeap(object):
             return ele
         return latest
 
+    def top(self):
+        return self.heap[0]
+
     def _siftdown(self, start, pos):
         new_item = self.heap[pos]
         while pos > start:

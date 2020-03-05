@@ -4,6 +4,7 @@ Sorting
 import heapq
 import copy
 import sys
+from datastructure.array.max_heap import MaxHeap
 
 
 def ksorted_array(arr, k):
@@ -337,17 +338,17 @@ def min_unsorted_subarray(arr):
     :return:
     """
     s = e = 0
-    for i in range(len(arr)-1):
-        if arr[i] > arr[i+1]:
+    for i in range(len(arr) - 1):
+        if arr[i] > arr[i + 1]:
             s = i
             break
-    for i in range(len(arr)-1, 0, -1):
-        if arr[i] < arr[i-1]:
+    for i in range(len(arr) - 1, 0, -1):
+        if arr[i] < arr[i - 1]:
             e = i
             break
     min_v = sys.maxsize
     max_v = -sys.maxsize
-    for i in range(s, e+1):
+    for i in range(s, e + 1):
         if arr[i] > max_v:
             max_v = arr[i]
         if arr[i] < min_v:
@@ -356,12 +357,53 @@ def min_unsorted_subarray(arr):
         if arr[i] > min_v:
             s = i
             break
-    for i in range(len(arr)-1, e, -1):
+    for i in range(len(arr) - 1, e, -1):
         if arr[i] < max_v:
             e = i
             break
     return s, e
 
+
+def find_median_in_streams(arr):
+    """
+    Median in a stream of integers(running).
+    Using heap.
+    Build two heap left and right with maximum heap and minimum heap respectively.
+    Reading integers from stream.
+    if e<m:
+        put e in left. (if left size greater than right, pop left and push to right first)
+    if e==m:
+        than put e in less heap
+    if e>m:
+        put e in right. (if right size greater than left, pop right and push to left first)
+    :param arr:
+    :return:
+    """
+    left = MaxHeap()
+    right = []
+    m = 0
+    for e in arr:
+        if e < m:
+            # if left size greater than right, than pop left and push to right, than push e to left.
+            if left.size() > len(right):
+                heapq.heappush(right, left.pop())
+            left.push(e)
+        elif e == m:
+            if left.size() < len(right):
+                left.push(e)
+            else:
+                heapq.heappush(right, e)
+        else:
+            if left.size() < len(right):
+                left.push(heapq.heappop(right))
+            heapq.heappush(right, e)
+        if left.size() == len(right):
+            m = (left.top()+right[0])/2
+        elif left.size() > len(right):
+            m = left.top()
+        else:
+            m = right[0]
+        print(m, end='    ')
 
 
 if __name__ == "__main__":
@@ -398,5 +440,8 @@ if __name__ == "__main__":
     arr = [0, 1, 2, 0, 1, 2]
     print("Sort 0, 1, 2", sort_arr_0_1_2(arr))
     arr = [10, 12, 20, 30, 25,
-                 40, 32, 31, 35, 50, 60]
+           40, 32, 31, 35, 50, 60]
     print("Minimum length of unsorted subarray", min_unsorted_subarray(arr))
+    find_median_in_streams([5, 15, 1, 3, 2, 8, 7, 9, 10, 6, 11, 4])
+    print()
+    find_median_in_streams([5, 1, 6, 8])

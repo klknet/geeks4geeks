@@ -398,12 +398,31 @@ def find_median_in_streams(arr):
                 left.push(heapq.heappop(right))
             heapq.heappush(right, e)
         if left.size() == len(right):
-            m = (left.top()+right[0])/2
+            m = (left.top() + right[0]) / 2
         elif left.size() > len(right):
             m = left.top()
         else:
             m = right[0]
         print(m, end='    ')
+
+
+def num_of_triangle(arr):
+    """
+    Find the number of possible triangles
+    :param arr:
+    :return:
+    """
+    arr.sort()
+    res = 0
+    k = 2
+    for i in range(len(arr) - 2):
+        k = i + 2
+        for j in range(i + 1, len(arr) - 1):
+            while k < len(arr) and arr[i] + arr[j] > arr[k]:
+                k += 1
+            if k > j:
+                res += k - j - 1
+    return res
 
 
 if __name__ == "__main__":
@@ -443,5 +462,6 @@ if __name__ == "__main__":
            40, 32, 31, 35, 50, 60]
     print("Minimum length of unsorted subarray", min_unsorted_subarray(arr))
     find_median_in_streams([5, 15, 1, 3, 2, 8, 7, 9, 10, 6, 11, 4])
+    arr = [10, 21, 22, 100, 101, 200, 300]
     print()
-    find_median_in_streams([5, 1, 6, 8])
+    print('Number of possible triangles', num_of_triangle(arr))

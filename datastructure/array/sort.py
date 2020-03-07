@@ -425,6 +425,29 @@ def num_of_triangle(arr):
     return res
 
 
+def count_pairs_diff_k(arr, k):
+    """
+    Count all distinct pairs with difference equals to k.
+    :param arr:
+    :param k:
+    :return:
+    """
+    arr.sort()
+    l = r = 0
+    count = 0
+    while l < len(arr) and r < len(arr):
+        diff = arr[r] - arr[l]
+        if diff == k:
+            count += 1
+            l += 1
+            r += 1
+        elif diff < k:
+            r += 1
+        elif diff > k:
+            l += 1
+    return count
+
+
 if __name__ == "__main__":
     arr = [6, 5, 3, 2, 8, 10, 9]
     print("ksorted array is", ksorted_array(copy.deepcopy(arr), 3))
@@ -465,3 +488,6 @@ if __name__ == "__main__":
     arr = [10, 21, 22, 100, 101, 200, 300]
     print()
     print('Number of possible triangles', num_of_triangle(arr))
+    find_median_in_streams([5, 1, 6, 8])
+    arr = [1, 5, 3, 4, 2]
+    print("Count all pairs with difference equals to k", count_pairs_diff_k(arr, 3))

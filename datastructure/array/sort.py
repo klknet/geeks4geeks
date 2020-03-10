@@ -448,6 +448,39 @@ def count_pairs_diff_k(arr, k):
     return count
 
 
+def construct_arr(pairs, n):
+    """
+    Given an pair-sum array and the size of origin array, construct the origin array.
+    Pair-Sum array for arr[0, n-1] is {arr[0]+arr[1], arr[0]+arr[2], ..., arr[0]+arr[n-1], ..., arr[n-2]+arr[n-1] }
+    :param pairs:
+    :param n:
+    :return:
+    """
+    arr = [0] * n
+    arr[0] = (pairs[0] + pairs[1] - pairs[n - 1]) // 2
+    for i in range(1, n):
+        arr[i] = pairs[i - 1] - arr[0]
+    return arr
+
+
+def merge_sorted_arr(a1, a2):
+    n1, n2 = len(a1), len(a2)
+    i = j = 0
+    while i < n1 and j < n2:
+        if a1[i] <= a2[j]:
+            i += 1
+        else:
+            a1[i], a2[j] = a2[j], a1[i]
+            i += 1
+            k = j + 1
+            tmp = a2[j]
+            while k < n2 and a2[k] < tmp:
+                a2[k - 1] = a2[k]
+                k += 1
+            a2[k - 1] = tmp
+    print(a1, a2)
+
+
 if __name__ == "__main__":
     arr = [6, 5, 3, 2, 8, 10, 9]
     print("ksorted array is", ksorted_array(copy.deepcopy(arr), 3))
@@ -491,3 +524,7 @@ if __name__ == "__main__":
     find_median_in_streams([5, 1, 6, 8])
     arr = [1, 5, 3, 4, 2]
     print("Count all pairs with difference equals to k", count_pairs_diff_k(arr, 3))
+    arr = [15, 13, 11, 10, 12, 10, 9, 8, 7, 5]
+    print("Origin array is", construct_arr(arr, 5))
+    print("Merge two array")
+    merge_sorted_arr([1, 5, 9, 10, 15, 20], [2, 3, 8, 13])

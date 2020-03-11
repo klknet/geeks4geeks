@@ -481,38 +481,6 @@ def merge_sorted_arr(a1, a2):
     print(a1, a2)
 
 
-def sum_pair_as_x(arr, x):
-    """
-    Given an array A[] and a number x, check for pair in A[] with sum as x.
-    :param arr:
-    :param x:
-    :return:
-    """
-    arr.sort()
-    i, j = 0, len(arr) - 1
-    while i < j:
-        s = arr[i] + arr[j]
-        if s == x:
-            print(arr[i], arr[j])
-            return True
-        elif s > x:
-            j -= 1
-        elif s < x:
-            i += 1
-    return False
-
-
-def pair_sum_as_x_hash(arr, x):
-    t = set()
-    for i in arr:
-        if x-i in t:
-            print(i, x-i)
-            return True
-        else:
-            t.add(i)
-    return False
-
-
 if __name__ == "__main__":
     arr = [6, 5, 3, 2, 8, 10, 9]
     print("ksorted array is", ksorted_array(copy.deepcopy(arr), 3))
@@ -560,7 +528,4 @@ if __name__ == "__main__":
     print("Origin array is", construct_arr(arr, 5))
     print("Merge two array")
     merge_sorted_arr([1, 5, 9, 10, 15, 20], [2, 3, 8, 13])
-    arr = [1, 4, 45, 6, 10, -8]
-    x = 16
-    print("have pair of sum equals to x", sum_pair_as_x(arr, x))
-    print("have pair of sum equals to x", pair_sum_as_x_hash(arr, x))
+

@@ -22,12 +22,28 @@ def sum_pair_as_x(arr, x):
 def pair_sum_as_x_hash(arr, x):
     t = set()
     for i in arr:
-        if x-i in t:
-            print(i, x-i)
+        if x - i in t:
+            print(i, x - i)
             return True
         else:
             t.add(i)
     return False
+
+
+def search_in_step_arr(arr, step, x):
+    """
+    Search in an array where adjacent diff by at most k.
+    :param arr:
+    :param step:
+    :param x:
+    :return:
+    """
+    i = 0
+    while i < len(arr):
+        if arr[i] == x:
+            return i
+        i += max(1, abs(x - arr[i]) // step)
+    return -1
 
 
 if __name__ == '__main__':
@@ -35,3 +51,5 @@ if __name__ == '__main__':
     x = 16
     print("have pair of sum equals to x", sum_pair_as_x(arr, x))
     print("have pair of sum equals to x", pair_sum_as_x_hash(arr, x))
+    arr = [2, 4, 5, 7, 7, 6]
+    print("element at index", search_in_step_arr(arr, 2, 7))

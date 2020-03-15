@@ -72,6 +72,33 @@ def find_common_ele(a1, a2, a3):
             k += 1
 
 
+def find_pos_of_inf_arr(arr, key):
+    """
+    Find position of an element in a sorted array of infinite numbers.
+    :param arr:
+    :param key:
+    :return:
+    """
+    pos = find_position(arr, key)
+    l, h = pos // 2, pos
+    while l <= h:
+        m = (l + h) // 2
+        if arr[m] == key:
+            return m
+        elif arr[m] > key:
+            h = m - 1
+        else:
+            l = m + 1
+    return -1
+
+
+def find_position(arr, key):
+    h = 1
+    while arr[h] < key:
+        h = 2 * h
+    return h
+
+
 def find_repetitive_ele(arr):
     """
     Find the only repetitive element between 1 and n-1.
@@ -156,6 +183,8 @@ if __name__ == '__main__':
     a2 = [6, 7, 20, 80, 100]
     a3 = [3, 4, 15, 20, 30, 70, 80, 120]
     find_common_ele(a1, a2, a3)
+    arr = [3, 5, 7, 9, 10, 90, 100, 130, 140, 160, 170]
+    print("\nPosition of an element in a sorted of infinite numbers", find_pos_of_inf_arr(arr, 10))
     arr = [1, 5, 1, 2, 3, 4]
     arr = [1, 3, 2, 3, 4]
     print('Repetitive element is', find_repetitive_ele(arr))

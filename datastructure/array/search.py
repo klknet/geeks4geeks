@@ -69,6 +69,34 @@ def find_common_ele(a1, a2, a3):
             k += 1
 
 
+def find_repetitive_ele(arr):
+    """
+    Find the only repetitive element between 1 and n-1.
+    Using sum, first compute sum of 1 to n-1 say s1, than compute sum of arr say s2,
+    the result is s2-s1.
+    :param arr:
+    :return:
+    """
+    n = len(arr)
+    s1 = (n-1)*n//2
+    sw = sum(arr)
+    return sw-s1
+
+
+def find_repetitive_ele_xor(arr):
+    """
+    Find the only repetitive element between 1 and n-1.
+    Using xor, base the fact x^x=0, x^y=y^x.
+    so we can xor the arr with 1 to n-1, the result is answer.
+    :param arr:
+    :return:
+    """
+    res = 0
+    for i in range(len(arr)):
+        res ^= arr[i]^i
+    return res
+
+
 if __name__ == '__main__':
     arr = [1, 4, 45, 6, 10, -8]
     x = 16
@@ -80,3 +108,7 @@ if __name__ == '__main__':
     a2 = [6, 7, 20, 80, 100]
     a3 = [3, 4, 15, 20, 30, 70, 80, 120]
     find_common_ele(a1, a2, a3)
+    arr = [1, 5, 1, 2, 3, 4]
+    arr = [1, 3, 2, 3, 4]
+    print('Repetitive element is', find_repetitive_ele(arr))
+    print('Repetitive element is', find_repetitive_ele_xor(arr))

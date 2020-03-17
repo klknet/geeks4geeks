@@ -1,3 +1,6 @@
+import sys
+
+
 def sum_pair_as_x(arr, x):
     """
     Given an array A[] and a number x, check for pair in A[] with sum as x.
@@ -78,9 +81,9 @@ def find_repetitive_ele(arr):
     :return:
     """
     n = len(arr)
-    s1 = (n-1)*n//2
+    s1 = (n - 1) * n // 2
     sw = sum(arr)
-    return sw-s1
+    return sw - s1
 
 
 def find_repetitive_ele_xor(arr):
@@ -93,8 +96,30 @@ def find_repetitive_ele_xor(arr):
     """
     res = 0
     for i in range(len(arr)):
-        res ^= arr[i]^i
+        res ^= arr[i] ^ i
     return res
+
+
+def max_sum_arr(arrA, arrB):
+    max_so_far = 0
+    max_ending_here = 0
+    for i in range(len(arrA)):
+        if in_arr(arrB, arrA[i]):
+            max_ending_here = 0
+            continue
+        max_ending_here += arrA[i]
+        if max_ending_here > max_so_far:
+            max_so_far = max_ending_here
+        if max_ending_here < 0:
+            max_ending_here = 0
+    return max_so_far
+
+
+def in_arr(arr, x):
+    for i in arr:
+        if x == i:
+            return True
+    return False
 
 
 if __name__ == '__main__':
@@ -112,3 +137,8 @@ if __name__ == '__main__':
     arr = [1, 3, 2, 3, 4]
     print('Repetitive element is', find_repetitive_ele(arr))
     print('Repetitive element is', find_repetitive_ele_xor(arr))
+    arrA = [1, 7, -10, 6, 2]
+    arrA = [3, 4, 5, -4, 6]
+    arrB = [5, 6, 7, 1]
+    arrB = [1, 8, 5]
+    print("Maximum contiguous subarray sum is", max_sum_arr(arrA, arrB))

@@ -101,6 +101,12 @@ def find_repetitive_ele_xor(arr):
 
 
 def max_sum_arr(arrA, arrB):
+    """
+    Find the contiguous subarray sum which not include in another array.
+    :param arrA:
+    :param arrB:
+    :return:
+    """
     max_so_far = 0
     max_ending_here = 0
     for i in range(len(arrA)):
@@ -120,6 +126,23 @@ def in_arr(arr, x):
         if x == i:
             return True
     return False
+
+
+def equal_prefix_suffix_sum(arr):
+    """
+    Find the maximum prefix sum which is also suffix sum for index i in arr.
+    :param arr:
+    :return:
+    """
+    s = sum(arr)
+    prefix = 0
+    m = -sys.maxsize
+    for i in range(len(arr)):
+        prefix += arr[i]
+        if prefix == s:
+            m = max(m, prefix)
+        s -= arr[i]
+    return m
 
 
 if __name__ == '__main__':
@@ -142,3 +165,5 @@ if __name__ == '__main__':
     arrB = [5, 6, 7, 1]
     arrB = [1, 8, 5]
     print("Maximum contiguous subarray sum is", max_sum_arr(arrA, arrB))
+    arr = [-2, 5, 3, 1, 2, 6, -4, 2]
+    print("Maximum prefix sum equals suffix sum", equal_prefix_suffix_sum(arr))

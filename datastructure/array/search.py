@@ -189,6 +189,21 @@ def equilibrium(arr):
     return -1
 
 
+def leaders_in_array(arr):
+    """
+    An element is leader if it is greater than all the elements to its right side.
+    :param arr:
+    :return:
+    """
+    m = arr[-1]
+    res = [m]
+    for i in range(len(arr)-2, -1, -1):
+        if arr[i] > m:
+            m = arr[i]
+            res.append(m)
+    return res
+
+
 if __name__ == '__main__':
     arr = [1, 4, 45, 6, 10, -8]
     x = 16
@@ -215,3 +230,5 @@ if __name__ == '__main__':
     print("Maximum prefix sum equals suffix sum", equal_prefix_suffix_sum(arr))
     arr = [-7, 1, 5, 2, -4, 3, 0]
     print("Equilibrium index is", equilibrium(arr))
+    arr = [16, 17, 4, 3, 5, 2]
+    print("Leaders in array", leaders_in_array(arr))

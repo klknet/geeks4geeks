@@ -197,11 +197,51 @@ def leaders_in_array(arr):
     """
     m = arr[-1]
     res = [m]
-    for i in range(len(arr)-2, -1, -1):
+    for i in range(len(arr) - 2, -1, -1):
         if arr[i] > m:
             m = arr[i]
             res.append(m)
     return res
+
+
+def ceil_of_x(arr, x):
+    """
+    The ceiling of x is the smallest element in array greater than or equal to x.
+    :param arr:
+    :param x:
+    :return:
+    """
+    if arr[-1] < x:
+        return None
+    l, r = 0, len(arr) - 1
+    while l < r:
+        m = (l + r) // 2
+        if arr[m] < x:
+            l = m + 1
+        else:
+            r = m
+    return arr[l]
+
+
+def floor_of_x(arr, x):
+    """
+    The floor of x is the greatest element in array smaller than or equal to x.
+    :param arr:
+    :param x:
+    :return:
+    """
+    if arr[0] > x:
+        return None
+    l, h = 0, len(arr) - 1
+    while l < h:
+        m = (l + h) // 2
+        if arr[m] > x:
+            h = m
+        else:
+            l = m + 1
+    if arr[l] <= x:
+        return arr[l]
+    return arr[l - 1]
 
 
 if __name__ == '__main__':
@@ -232,3 +272,7 @@ if __name__ == '__main__':
     print("Equilibrium index is", equilibrium(arr))
     arr = [16, 17, 4, 3, 5, 2]
     print("Leaders in array", leaders_in_array(arr))
+    arr = [1, 2, 8, 10, 10, 12, 19]
+    x = 19
+    print("Ceil of %s is" % x, ceil_of_x(arr, x))
+    print("Floor of %s is" % x, floor_of_x(arr, x))

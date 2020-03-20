@@ -172,6 +172,23 @@ def equal_prefix_suffix_sum(arr):
     return m
 
 
+def equilibrium(arr):
+    """
+    Equilibrium index of an array is an index such that the sum of elements at lower indexes is equal to the sum of
+    elements at higher indexes.
+    :param arr:
+    :return:
+    """
+    s = sum(arr)
+    low = 0
+    for i in range(len(arr)):
+        s -= arr[i]
+        if low == s:
+            return i
+        low += arr[i]
+    return -1
+
+
 if __name__ == '__main__':
     arr = [1, 4, 45, 6, 10, -8]
     x = 16
@@ -196,3 +213,5 @@ if __name__ == '__main__':
     print("Maximum contiguous subarray sum is", max_sum_arr(arrA, arrB))
     arr = [-2, 5, 3, 1, 2, 6, -4, 2]
     print("Maximum prefix sum equals suffix sum", equal_prefix_suffix_sum(arr))
+    arr = [-7, 1, 5, 2, -4, 3, 0]
+    print("Equilibrium index is", equilibrium(arr))

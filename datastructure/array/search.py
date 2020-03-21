@@ -244,6 +244,35 @@ def floor_of_x(arr, x):
     return arr[l - 1]
 
 
+def majority_element(arr):
+    """
+    Majority Element. A majority element in an array a[] of size n is an element that appears more than n/2 times.
+    Using Moore's Voting Algorithm.
+    Basic idea of the algorithm is that if we cancel out each occurrence of element e with all other elements that are
+    different from e then e will exist till end if it is a majority element.
+    :param arr:
+    :return:
+    """
+    major = 0
+    count = 1
+    for i in range(1, len(arr)):
+        if arr[i] != arr[major]:
+            count -= 1
+        else:
+            count += 1
+        if count == 0:
+            major = i
+            count = 1
+    half = len(arr)//2+1
+    count = 0
+    for e in arr:
+        if e == arr[major]:
+            count += 1
+    if count>=half:
+        return arr[major]
+    return None
+
+
 if __name__ == '__main__':
     arr = [1, 4, 45, 6, 10, -8]
     x = 16
@@ -276,3 +305,5 @@ if __name__ == '__main__':
     x = 19
     print("Ceil of %s is" % x, ceil_of_x(arr, x))
     print("Floor of %s is" % x, floor_of_x(arr, x))
+    arr = [1, 3, 3, 1, 2, 1, 1]
+    print("Majority element is", majority_element(arr))

@@ -263,14 +263,43 @@ def majority_element(arr):
         if count == 0:
             major = i
             count = 1
-    half = len(arr)//2+1
+    half = len(arr) // 2 + 1
     count = 0
     for e in arr:
         if e == arr[major]:
             count += 1
-    if count>=half:
+    if count >= half:
         return arr[major]
     return None
+
+
+def check_for_majority(arr, x):
+    """
+    Find if a given integer appears more than n/2 times in a sorted array of n size.
+    :param arr:
+    :param x:
+    :return:
+    """
+    idx = first_occurrence(arr, x)
+    if idx == -1:
+        return False
+    n = idx+len(arr)//2
+    return n < len(arr) and arr[n] == x
+
+
+def first_occurrence(arr, x):
+    l, r = 0, len(arr) - 1
+    while l < r:
+        m = (l + r) // 2
+        if m == 0 and arr[m] == x:
+            return m
+        elif arr[m] == x and arr[m - 1] < x:
+            return m
+        if arr[m] >= x:
+            r = m
+        else:
+            l = m + 1
+    return -1
 
 
 if __name__ == '__main__':
@@ -307,3 +336,6 @@ if __name__ == '__main__':
     print("Floor of %s is" % x, floor_of_x(arr, x))
     arr = [1, 3, 3, 1, 2, 1, 1]
     print("Majority element is", majority_element(arr))
+    arr = [1, 2, 3, 3, 3, 3, 10]
+    x = 1
+    print("%s Is Majority" % x, check_for_majority(arr, x))

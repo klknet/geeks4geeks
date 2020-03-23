@@ -283,7 +283,7 @@ def check_for_majority(arr, x):
     idx = first_occurrence(arr, x)
     if idx == -1:
         return False
-    n = idx+len(arr)//2
+    n = idx + len(arr) // 2
     return n < len(arr) and arr[n] == x
 
 
@@ -300,6 +300,26 @@ def first_occurrence(arr, x):
         else:
             l = m + 1
     return -1
+
+
+def find_peak(arr):
+    """
+    Find a peak element. An array element is peak if it is NOT SMALLER THAN its neighbors.
+    :param arr:
+    :return:
+    """
+    return find_peak_util(arr, 0, len(arr) - 1)
+
+
+def find_peak_util(arr, l, r):
+    m = (l + r) // 2
+    if (m == 0 or arr[m] >= arr[m - 1]) and \
+            (m == len(arr) - 1 or arr[m] >= arr[m + 1]):
+        return m
+    elif m > 0 and arr[m] <= arr[m - 1]:
+        return find_peak_util(arr, l, m - 1)
+    else:
+        return find_peak_util(arr, m + 1, r)
 
 
 if __name__ == '__main__':
@@ -339,3 +359,5 @@ if __name__ == '__main__':
     arr = [1, 2, 3, 3, 3, 3, 10]
     x = 1
     print("%s Is Majority" % x, check_for_majority(arr, x))
+    arr = [1, 3, 20, 4, 1, 0]
+    print("Peak index is", find_peak(arr))

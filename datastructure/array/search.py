@@ -322,6 +322,46 @@ def find_peak_util(arr, l, r):
         return find_peak_util(arr, m + 1, r)
 
 
+def find_fixed_point(arr):
+    """
+    Find a fixed point in an array.
+    Fixed point in an array is an index i such that arr[i] equal to i.
+    :param arr:
+    :return:
+    """
+    l, r = 0, len(arr)
+    while l <= r:
+        m = (l + r) // 2
+        if arr[m] == m:
+            return m
+        elif arr[m] < m:
+            l = m + 1
+        else:
+            r = m - 1
+    return -1
+
+
+def subarray_sum_equal_to_x(arr, x):
+    """
+    Given an unsorted array of nonnegative integers, find a continuous subarray which adds to a given number.
+    :param arr:
+    :param x:
+    :return:
+    """
+    curr_sum = arr[0]
+    start = 0
+    for i in range(1, len(arr) + 1):
+        while curr_sum > x and start <= i - 1:
+            curr_sum -= arr[start]
+            start += 1
+        if curr_sum == x:
+            print("find subarray, start at %s end at %s" % (start, i - 1))
+            return
+        if i < len(arr):
+            curr_sum += arr[i]
+    print("No solution")
+
+
 if __name__ == '__main__':
     arr = [1, 4, 45, 6, 10, -8]
     x = 16
@@ -361,3 +401,7 @@ if __name__ == '__main__':
     print("%s Is Majority" % x, check_for_majority(arr, x))
     arr = [1, 3, 20, 4, 1, 0]
     print("Peak index is", find_peak(arr))
+    arr = [-10, -5, 0, 3, 7]
+    print("Fixed Point", find_fixed_point(arr))
+    arr = [15, 2, 4, 8, 9, 5, 10, 23]
+    subarray_sum_equal_to_x(arr, 12)

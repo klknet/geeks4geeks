@@ -362,6 +362,27 @@ def subarray_sum_equal_to_x(arr, x):
     print("No solution")
 
 
+def max_triplet_sum(arr):
+    """
+    Maximum triplet sum in array.
+    :param arr:
+    :return:
+    """
+    first = second = third = -sys.maxsize
+    for e in arr:
+        if e>first:
+            third = second
+            second = first
+            first = e
+        elif e>second:
+            third = second
+            second = e
+        elif e>third:
+            third = e
+    return first+second+third
+
+
+
 if __name__ == '__main__':
     arr = [1, 4, 45, 6, 10, -8]
     x = 16
@@ -405,3 +426,4 @@ if __name__ == '__main__':
     print("Fixed Point", find_fixed_point(arr))
     arr = [15, 2, 4, 8, 9, 5, 10, 23]
     subarray_sum_equal_to_x(arr, 12)
+    print("Maximum triplet sum", max_triplet_sum(arr))

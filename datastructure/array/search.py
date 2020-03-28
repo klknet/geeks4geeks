@@ -370,17 +370,49 @@ def max_triplet_sum(arr):
     """
     first = second = third = -sys.maxsize
     for e in arr:
-        if e>first:
+        if e > first:
             third = second
             second = first
             first = e
-        elif e>second:
+        elif e > second:
             third = second
             second = e
-        elif e>third:
+        elif e > third:
             third = e
-    return first+second+third
+    return first + second + third
 
+
+def smallest_diff_triplet(a1, a2, a3):
+    """
+    smallest difference triplet from three arrays.
+    :param a1:
+    :param a2:
+    :param a3:
+    :return:
+    """
+    n = len(a1)
+    a1.sort()
+    a2.sort()
+    a3.sort()
+    f = s = t = 0
+    diff = sys.maxsize
+    small = mid = big = 0
+    while f < n and s < n and t < n:
+        max_v = max(a1[f], a2[s], a3[t])
+        min_v = min(a1[f], a2[s], a3[t])
+        sum_v = sum([a1[f], a2[s], a3[t]])
+        if a1[f] == min_v:
+            f += 1
+        elif a2[s] == min_v:
+            s += 1
+        else:
+            t += 1
+        if diff > max_v-min_v:
+            small = min_v
+            big = max_v
+            mid = sum_v-max_v-min_v
+            diff = max_v-min_v
+    return small, mid, big
 
 
 if __name__ == '__main__':
@@ -427,3 +459,4 @@ if __name__ == '__main__':
     arr = [15, 2, 4, 8, 9, 5, 10, 23]
     subarray_sum_equal_to_x(arr, 12)
     print("Maximum triplet sum", max_triplet_sum(arr))
+    print("smallest triple", smallest_diff_triplet([15, 12, 18, 9], [10, 17, 13, 8], [14, 16, 11, 5]))

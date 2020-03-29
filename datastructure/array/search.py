@@ -407,12 +407,35 @@ def smallest_diff_triplet(a1, a2, a3):
             s += 1
         else:
             t += 1
-        if diff > max_v-min_v:
+        if diff > max_v - min_v:
             small = min_v
             big = max_v
-            mid = sum_v-max_v-min_v
-            diff = max_v-min_v
+            mid = sum_v - max_v - min_v
+            diff = max_v - min_v
     return small, mid, big
+
+
+def triplet_sum(arr, x):
+    """
+    Find a triplet that sum to a given value.
+    :param arr:
+    :param x:
+    :return:
+    """
+    arr.sort()
+    f = 0
+    for f in range(len(arr) - 2):
+        l = f + 1
+        r = len(arr) - 1
+        while l < r:
+            s = arr[l] + arr[r] + arr[f]
+            if s == x:
+                return arr[f], arr[l], arr[r]
+            elif s < x:
+                l += 1
+            else:
+                r -= 1
+    return None
 
 
 if __name__ == '__main__':
@@ -460,3 +483,4 @@ if __name__ == '__main__':
     subarray_sum_equal_to_x(arr, 12)
     print("Maximum triplet sum", max_triplet_sum(arr))
     print("smallest triple", smallest_diff_triplet([15, 12, 18, 9], [10, 17, 13, 8], [14, 16, 11, 5]))
+    print("triplet sum to given value", triplet_sum(arr, 11))

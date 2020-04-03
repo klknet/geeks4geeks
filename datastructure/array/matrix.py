@@ -1,3 +1,6 @@
+import copy
+
+
 def rotate_matrix(m, n, matrix):
     """
     Clockwise rotate elements in it.
@@ -52,21 +55,41 @@ def anti_clockwise(matrix):
     n = len(matrix)
     # have n/2 cycles.
     for i in range(n // 2):
-        for j in range(i, n - i -1):
+        for j in range(i, n - i - 1):
             tmp = matrix[i][j]
             # move right to top
             matrix[i][j] = matrix[j][n - i - 1]
             # move bottom to right
-            matrix[j][n-i-1] = matrix[n-i-1][n-j-1]
+            matrix[j][n - i - 1] = matrix[n - i - 1][n - j - 1]
             # move left to bottom
-            matrix[n-i-1][n-j-1] = matrix[n-j-1][i]
+            matrix[n - i - 1][n - j - 1] = matrix[n - j - 1][i]
             # move top to left
-            matrix[n-j-1][i] = tmp
+            matrix[n - j - 1][i] = tmp
+    print_matrix(matrix)
+
+
+def transpose_anticlockwise(matrix):
+    """
+    1)first compute the transpose matrix
+    2)Then we reverse elements of every column
+    :param matrix:
+    :return:
+    """
+    n = len(matrix)
+    # get transpose matrix
+    for i in range(n):
+        for j in range(i, n):
+            if i != j:
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+    # reverse every column.
+    for i in range(n // 2):
+        for j in range(n):
+            matrix[i][j], matrix[n - 1 - i][j] = matrix[n - 1 - i][j], matrix[i][j]
     print_matrix(matrix)
 
 
 if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
-    rotate_matrix(len(matrix), len(matrix[0]), matrix)
-    matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
-    anti_clockwise(matrix)
+    rotate_matrix(len(matrix), len(matrix[0]), copy.deepcopy(matrix))
+    anti_clockwise(copy.deepcopy(matrix))
+    transpose_anticlockwise(copy.deepcopy(matrix))

@@ -88,8 +88,27 @@ def transpose_anticlockwise(matrix):
     print_matrix(matrix)
 
 
+def transpose_180(matrix):
+    n = len(matrix)
+    for i in range(n - 1, -1, -1):
+        for j in range(n - 1, -1, -1):
+            print(matrix[i][j], end="  ")
+        print()
+    print()
+
+
+def transpose_180_inplace(matrix):
+    n = len(matrix)
+    for i in range(n//2):
+        for j in range(n):
+            matrix[i][j], matrix[n-i-1][n-j-1] = matrix[n-i-1][n-j-1], matrix[i][j]
+    print_matrix(matrix)
+
+
 if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
     rotate_matrix(len(matrix), len(matrix[0]), copy.deepcopy(matrix))
     anti_clockwise(copy.deepcopy(matrix))
     transpose_anticlockwise(copy.deepcopy(matrix))
+    transpose_180(copy.deepcopy(matrix))
+    transpose_180_inplace(copy.deepcopy(matrix))

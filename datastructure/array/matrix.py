@@ -99,10 +99,24 @@ def transpose_180(matrix):
 
 def transpose_180_inplace(matrix):
     n = len(matrix)
-    for i in range(n//2):
+    for i in range(n // 2):
         for j in range(n):
-            matrix[i][j], matrix[n-i-1][n-j-1] = matrix[n-i-1][n-j-1], matrix[i][j]
+            matrix[i][j], matrix[n - i - 1][n - j - 1] = matrix[n - i - 1][n - j - 1], matrix[i][j]
     print_matrix(matrix)
+
+
+def turn_image_90(matrix):
+    """
+    turn an image by 90-degree.
+    :param matrix:
+    :return:
+    """
+    m, n = len(matrix), len(matrix[0])
+    tran = [[0 for col in range(m)] for row in range(n)]
+    for i in range(m):
+        for j in range(n):
+            tran[j][m - 1 - i] = matrix[i][j]
+    print_matrix(tran)
 
 
 if __name__ == '__main__':
@@ -112,3 +126,5 @@ if __name__ == '__main__':
     transpose_anticlockwise(copy.deepcopy(matrix))
     transpose_180(copy.deepcopy(matrix))
     transpose_180_inplace(copy.deepcopy(matrix))
+    image = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
+    turn_image_90(image)

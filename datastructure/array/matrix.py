@@ -119,6 +119,77 @@ def turn_image_90(matrix):
     print_matrix(tran)
 
 
+def rotate_k_element(matrix, k):
+    """
+    rotate a matrix of m*n by k in anti-clockwise.
+    以螺旋方式复制环中元素到tmp数组，将前k个元素倒序添加到环尾。再将tmp数组以螺旋方式复制会原矩阵。
+    :param matrix:
+    :param k:
+    :return:
+    """
+    m, n = len(matrix), len(matrix[0])
+    tmp = []
+    row = col = 0
+    start = end = 0
+    # copy ring elements to tmp
+    while row < m and col < n:
+        # copy first row to tmp
+        for i in range(col, n):
+            tmp.append(matrix[row][i])
+            end += 1
+        row += 1
+        # copy last column to tmp
+        for i in range(row, m):
+            tmp.append(matrix[i][n - 1])
+            end += 1
+        n -= 1
+        # copy last row to tmp
+        for i in range(n - 1, col - 1, -1):
+            tmp.append(matrix[m - 1][i])
+            end += 1
+        m -= 1
+        # copy first column to tmp
+        for i in range(m - 1, row - 1, -1):
+            tmp.append(matrix[i][col])
+            end += 1
+        col += 1
+        if end - start > k:
+            reverse(tmp, start, start + k)
+            reverse(tmp, start + k, end)
+            reverse(tmp, start, end)
+            start = end
+    # copy tmp to matrix again.
+    row = col = 0
+    m, n = len(matrix), len(matrix[0])
+    idx = 0
+    while row < m and col < n:
+        for i in range(col, n):
+            matrix[row][i] = tmp[idx]
+            idx += 1
+        row += 1
+        for i in range(row, m):
+            matrix[i][n - 1] = tmp[idx]
+            idx += 1
+        n -= 1
+        for i in range(n - 1, col - 1, -1):
+            matrix[m - 1][i] = tmp[idx]
+            idx += 1
+        m -= 1
+        for i in range(m - 1, row - 1, -1):
+            matrix[i][col] = tmp[idx]
+            idx += 1
+        col += 1
+    print_matrix(matrix)
+
+
+def reverse(l, s, e):
+    e -= 1
+    while 0 <= s < e < len(l):
+        l[s], l[e] = l[e], l[s]
+        s += 1
+        e -= 1
+
+
 if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
     rotate_matrix(len(matrix), len(matrix[0]), copy.deepcopy(matrix))
@@ -128,3 +199,5 @@ if __name__ == '__main__':
     transpose_180_inplace(copy.deepcopy(matrix))
     image = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
     turn_image_90(image)
+    # matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
+    rotate_k_element(copy.deepcopy(matrix), 3)

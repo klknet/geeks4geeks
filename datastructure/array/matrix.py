@@ -190,6 +190,20 @@ def reverse(l, s, e):
         e -= 1
 
 
+def check_rows_circular_rotation(matrix):
+    """
+    Check if all rows of a matrix are circular rotations of each other.
+    :param matrix:
+    :return:
+    """
+    str_concat = "".join(map(lambda x: str(x), matrix[0])) * 2
+    for i in range(len(matrix)):
+        str_curr = "".join(map(lambda x: str(x), matrix[i]))
+        if str_concat.find(str_curr) == -1:
+            return False
+    return True
+
+
 if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
     rotate_matrix(len(matrix), len(matrix[0]), copy.deepcopy(matrix))
@@ -201,3 +215,5 @@ if __name__ == '__main__':
     turn_image_90(image)
     # matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
     rotate_k_element(copy.deepcopy(matrix), 3)
+    matrix = [[1,2,3,4],[4,1,2,3],[3,4,1,2],[2,3,4,1]]
+    print(check_rows_circular_rotation(matrix))

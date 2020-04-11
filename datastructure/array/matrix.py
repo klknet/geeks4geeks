@@ -204,6 +204,26 @@ def check_rows_circular_rotation(matrix):
     return True
 
 
+def sort_matrix(matrix):
+    """
+    Sort the given matrix
+    :param matrix:
+    :return:
+    """
+    n = len(matrix)
+    tmp = []
+    for i in range(n):
+        for j in range(n):
+            tmp.append(matrix[i][j])
+    tmp.sort()
+    idx = 0
+    for i in range(n):
+        for j in range(n):
+            matrix[i][j] = tmp[idx]
+            idx += 1
+    print_matrix(matrix)
+
+
 if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
     rotate_matrix(len(matrix), len(matrix[0]), copy.deepcopy(matrix))
@@ -217,3 +237,5 @@ if __name__ == '__main__':
     rotate_k_element(copy.deepcopy(matrix), 3)
     matrix = [[1,2,3,4],[4,1,2,3],[3,4,1,2],[2,3,4,1]]
     print(check_rows_circular_rotation(matrix))
+    matrix = [[5,4,7],[1,3,8],[2,9,6]]
+    sort_matrix(matrix)

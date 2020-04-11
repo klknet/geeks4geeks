@@ -2,6 +2,7 @@
 Optimization Problems.
 """
 import sys
+import math
 
 
 def largest_sum_subarray(arr):
@@ -139,6 +140,91 @@ def min_jumps_dp(arr):
     return dp[-1]
 
 
+def length_of_maximum_sum_subarray(arr):
+    """
+    Find the length of maximum sum of sub array of a given array.
+    :param arr:
+    :return:
+    """
+    max_ending_here = 0
+    max_so_far = -sys.maxsize
+    start = end = 0
+    s = 0
+    for i in range(len(arr)):
+        max_ending_here += arr[i]
+        if max_so_far < max_ending_here:
+            max_so_far = max_ending_here
+            end = i
+            start = s
+        if max_ending_here < 0:
+            max_ending_here = 0
+            s = i + 1
+    return max_so_far, start, end
+
+
+def minimum_difference_pair(arr):
+    """
+    Find the minimum difference between any pair in an unsort array.
+    :param arr:
+    :return:
+    """
+    arr.sort()
+    res = sys.maxsize
+    for i in range(1, len(arr)):
+        if arr[i] - arr[i - 1] < res:
+            res = arr[i] - arr[i - 1]
+    return res
+
+
+def bitset(a, b):
+    """
+    Given two integer a and b, find multiple of 2 or 5 between a and b
+    Using bitset save space
+    :param a:
+    :param b:
+    :return:
+    """
+    size = math.ceil((b - a) / 32)
+    arr = [0] * size
+    for i in range(a, b + 1):
+        if i % 2 == 0 or i % 5 == 0:
+            setbit(arr, i - a)
+    for i in range(a, b + 1):
+        if checkbit(arr, i - a):
+            print(i, end=" ")
+
+
+def setbit(arr, idx):
+    arr[idx >> 5] |= (1 << (idx & 31))
+
+
+def checkbit(arr, idx):
+    return arr[idx >> 5] & (1 << (idx & 31))
+
+
+def longest_span_with_same_sum(arr1, arr2):
+    """
+    Longest span with same sum in two Binary arrays.
+    :param arr1:
+    :param arr2:
+    :return:
+    """
+    hash = {}
+    max_len = 0
+    diff = [0] * len(arr1)
+    for i in range(len(arr1)):
+        diff[i] = arr1[i] - arr2[i]
+    s = 0
+    for i in range(len(arr1)):
+        s += diff[i]
+        if s==0:
+            max_len = i+1
+        if s in hash:
+            max_len = max(max_len, i - hash[s])
+        else:
+            hash[s] = i
+    return max_len
+
 max_sum = 0
 
 
@@ -203,3 +289,11 @@ if __name__ == '__main__':
     print("Maximum sum increasing subsequence is", max_sum_incr_seq(arr))
     print("Maximum sum increasing subsequence is", max_sum_incr_seq_dp(arr))
 
+    arr = [-2, -3, 4, -1, -2, 1, 5, -3]
+    print("Maximum sum of subarray", length_of_maximum_sum_subarray(arr))
+    a, b = 2, 10
+    print("Multiple of 2 or 5 between %s and %s is" % (a, b))
+    bitset(a, b)
+    arr1 = [0, 1, 0, 1, 1, 1, 1]
+    arr2 = [1, 1, 1, 1, 1, 0, 1]
+    print("\nLength of the longest common span with same sum is", longest_span_with_same_sum(arr1, arr2))

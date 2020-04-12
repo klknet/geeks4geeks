@@ -224,6 +224,44 @@ def sort_matrix(matrix):
     print_matrix(matrix)
 
 
+def find_row_with_max_1s(matrix):
+    """
+    Find the row with maximum number 1s.
+    :param matrix:
+    :return:
+    """
+    m, n = len(matrix), len(matrix[0])
+    left_1_idx = first(matrix[0], 0, n-1)
+    j = left_1_idx
+    if left_1_idx == -1:
+        j = n-1
+    max_row_idx = 0
+    for i in range(1, m):
+        while j>=0 and matrix[i][j] == 1:
+            j -= 1
+            max_row_idx = i
+    return max_row_idx
+
+
+def first(arr, low, high):
+    """
+    Find the first 1s.
+    :param arr:
+    :param low:
+    :param high:
+    :return:
+    """
+    if low <= high:
+        mid = int((low + high) / 2)
+        if (mid == 0 or arr[mid - 1] == 0) and arr[mid] == 1:
+            return mid
+        elif arr[mid] == 1:
+            return first(arr, low, mid - 1)
+        elif arr[mid] == 0:
+            return first(mid + 1, high)
+    return -1
+
+
 if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
     rotate_matrix(len(matrix), len(matrix[0]), copy.deepcopy(matrix))
@@ -235,7 +273,9 @@ if __name__ == '__main__':
     turn_image_90(image)
     # matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
     rotate_k_element(copy.deepcopy(matrix), 3)
-    matrix = [[1,2,3,4],[4,1,2,3],[3,4,1,2],[2,3,4,1]]
+    matrix = [[1, 2, 3, 4], [4, 1, 2, 3], [3, 4, 1, 2], [2, 3, 4, 1]]
     print(check_rows_circular_rotation(matrix))
-    matrix = [[5,4,7],[1,3,8],[2,9,6]]
+    matrix = [[5, 4, 7], [1, 3, 8], [2, 9, 6]]
     sort_matrix(matrix)
+    matrix = [[0, 1, 1, 1], [0, 0, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]]
+    print('maximum 1s row', find_row_with_max_1s(matrix))

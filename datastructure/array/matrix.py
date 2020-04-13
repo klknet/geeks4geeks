@@ -231,13 +231,13 @@ def find_row_with_max_1s(matrix):
     :return:
     """
     m, n = len(matrix), len(matrix[0])
-    left_1_idx = first(matrix[0], 0, n-1)
+    left_1_idx = first(matrix[0], 0, n - 1)
     j = left_1_idx
     if left_1_idx == -1:
-        j = n-1
+        j = n - 1
     max_row_idx = 0
     for i in range(1, m):
-        while j>=0 and matrix[i][j] == 1:
+        while j >= 0 and matrix[i][j] == 1:
             j -= 1
             max_row_idx = i
     return max_row_idx
@@ -262,6 +262,20 @@ def first(arr, low, high):
     return -1
 
 
+def multiply(M, N):
+    m1, n1 = len(M), len(M[0])
+    m2, n2 = len(N), len(N[0])
+    if n1 != m2:
+        print("Not possible")
+        return
+    c = [[0 for i in range(n2)] for j in range(m1)]
+    for i in range(m1):
+        for j in range(n2):
+            for z in range(n1):
+                c[i][j] += M[i][z] * N[z][j]
+    print_matrix(c)
+
+
 if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
     rotate_matrix(len(matrix), len(matrix[0]), copy.deepcopy(matrix))
@@ -279,3 +293,6 @@ if __name__ == '__main__':
     sort_matrix(matrix)
     matrix = [[0, 1, 1, 1], [0, 0, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]]
     print('maximum 1s row', find_row_with_max_1s(matrix))
+    M = [[2, 4], [3, 4]]
+    N = [[1, 2], [1, 3]]
+    multiply(M, N)

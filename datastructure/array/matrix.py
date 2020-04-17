@@ -1,4 +1,5 @@
 import copy
+import sys
 
 
 def rotate_matrix(m, n, matrix):
@@ -276,6 +277,131 @@ def multiply(M, N):
     print_matrix(c)
 
 
+def lower_triangular(matrix):
+    """
+    Lower triangular matrix.
+    :param matrix:
+    :return:
+    """
+    m = len(matrix)
+    for i in range(m):
+        for j in range(m):
+            if j > i:
+                matrix[i][j] = 0
+    print_matrix(matrix)
+
+
+def upper_triangular(matrix):
+    """
+    Upper triangular matrix.
+    :param matrix:
+    :return:
+    """
+    m = len(matrix)
+    for i in range(m):
+        for j in range(m):
+            if j < i:
+                matrix[i][j] = 0
+    print_matrix(matrix)
+
+
+def common_elements(matrix):
+    """
+    Find the common elements of every row.
+    :param matrix:
+    :return:
+    """
+    n = len(matrix)
+    for i in range(n):
+        matrix[i].sort()
+    idx = [0] * n
+    res = []
+    while True:
+        equal = True
+        for i in range(1, n):
+            if matrix[i][idx[i]] != matrix[i - 1][idx[i - 1]]:
+                equal = False
+                break
+        if equal:
+            res.append(matrix[0][idx[0]])
+        min_val = sys.maxsize
+        min_idx = 0
+        for i in range(n):
+            if matrix[i][idx[i]] < min_val:
+                min_val = matrix[i][idx[i]]
+                min_idx = i
+        if idx[min_idx] + 1 == n:
+            break
+        else:
+            idx[min_idx] += 1
+    return res
+
+
+def common_elements_1(matrix):
+    n = len(matrix)
+    for i in range(n):
+        matrix[i].sort()
+    idx = [0] * n
+    res = []
+    f = 0
+    for i in range(n):
+        present = True
+        value = matrix[0][idx[0]]
+        idx[0] += 1
+        for j in range(1, n):
+            while idx[j] < n and matrix[j][idx[j]] <= value:
+                idx[j] += 1
+            if matrix[j][idx[j] - 1] != value:
+                present = False
+            if idx[j] == n:
+                f = 1
+                # break
+        if present:
+            res.append(value)
+        if f == 1:
+            break
+    return res
+
+
+def common_elements_2(matrix):
+    n = len(matrix)
+    h = dict()
+    for i in range(n):
+        h[matrix[0][i]] = 1
+    for i in range(1, n):
+        tmp = dict()
+        for j in range(n):
+            tmp[matrix[i][j]] = 1
+        for e in list(h):
+            if e not in tmp:
+                del h[e]
+    return list(h)
+
+
+def spiral_form(matrix):
+    m, n = len(matrix), len(matrix[0])
+    row = col = 0
+    while row < m and col < n:
+        # print first row
+        for i in range(row, n):
+            print(matrix[row][i], end='  ')
+        row += 1
+        # print last column
+        for i in range(row, m):
+            print(matrix[i][n - 1], end='  ')
+        n -= 1
+        # print last row
+        if row < m:
+            for i in range(n - 1, col - 1, -1):
+                print(matrix[m - 1][i], end='  ')
+            m -= 1
+        # print first column
+        if col < n:
+            for i in range(m - 1, row - 1, -1):
+                print(matrix[i][col], end='  ')
+        col += 1
+
+
 if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
     rotate_matrix(len(matrix), len(matrix[0]), copy.deepcopy(matrix))
@@ -296,3 +422,14 @@ if __name__ == '__main__':
     M = [[2, 4], [3, 4]]
     N = [[1, 2], [1, 3]]
     multiply(M, N)
+    matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
+    lower_triangular(copy.deepcopy(matrix))
+    upper_triangular(copy.deepcopy(matrix))
+    matrix = [[2, 1, 4, 3], [1, 2, 3, 2], [3, 6, 2, 3], [5, 2, 5, 3]]
+    print("common elements", common_elements(copy.deepcopy(matrix)))
+    # matrix = [[3, 4, 5], [1, 2, 3], [1, 2, 4]]
+    print("common elements", common_elements_1(copy.deepcopy(matrix)))
+    print("common elements", common_elements_2(copy.deepcopy(matrix)))
+    matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
+    matrix = [[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12], [13, 14, 15, 16, 17, 18]]
+    spiral_form(matrix)

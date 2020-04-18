@@ -400,6 +400,23 @@ def spiral_form(matrix):
             for i in range(m - 1, row - 1, -1):
                 print(matrix[i][col], end='  ')
         col += 1
+    print()
+
+
+def shift_matrix_k(matrix, k):
+    """
+    Shift matrix elements row-wist by k.
+    :param matrix:
+    :param k:
+    :return:
+    """
+    m, n = len(matrix), len(matrix[0])
+    for i in range(m):
+        row = matrix[i]
+        reverse(row, 0, k)
+        reverse(row, k, n)
+        reverse(row, 0, n)
+    print_matrix(matrix)
 
 
 if __name__ == '__main__':
@@ -433,3 +450,4 @@ if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
     matrix = [[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12], [13, 14, 15, 16, 17, 18]]
     spiral_form(matrix)
+    shift_matrix_k(matrix, 2)

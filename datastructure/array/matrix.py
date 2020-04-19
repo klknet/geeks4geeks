@@ -419,6 +419,30 @@ def shift_matrix_k(matrix, k):
     print_matrix(matrix)
 
 
+def counter_clock_spiral_form(matrix):
+    m, n = len(matrix), len(matrix[0])
+    row = col = 0
+    while row<m and col<n:
+        # print first column
+        for i in range(row, m):
+            print(matrix[i][col], end='  ')
+        col += 1
+        # pring last row
+        for i in range(col, n):
+            print(matrix[m-1][i], end='  ')
+        m -= 1
+        # print last column
+        if col<n:
+            for i in range(m-1, row-1, -1):
+                print(matrix[i][n-1], end='  ')
+        n -= 1
+        # print first row
+        if row < m:
+            for i in range(n-1, col-1, -1):
+                print(matrix[row][i], end='  ')
+        row += 1
+
+
 if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
     rotate_matrix(len(matrix), len(matrix[0]), copy.deepcopy(matrix))
@@ -450,4 +474,6 @@ if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
     matrix = [[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12], [13, 14, 15, 16, 17, 18]]
     spiral_form(matrix)
-    shift_matrix_k(matrix, 2)
+    shift_matrix_k(copy.deepcopy(matrix), 2)
+    # matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
+    counter_clock_spiral_form(matrix)

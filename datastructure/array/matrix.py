@@ -422,23 +422,23 @@ def shift_matrix_k(matrix, k):
 def counter_clock_spiral_form(matrix):
     m, n = len(matrix), len(matrix[0])
     row = col = 0
-    while row<m and col<n:
+    while row < m and col < n:
         # print first column
         for i in range(row, m):
             print(matrix[i][col], end='  ')
         col += 1
         # pring last row
         for i in range(col, n):
-            print(matrix[m-1][i], end='  ')
+            print(matrix[m - 1][i], end='  ')
         m -= 1
         # print last column
-        if col<n:
-            for i in range(m-1, row-1, -1):
-                print(matrix[i][n-1], end='  ')
+        if col < n:
+            for i in range(m - 1, row - 1, -1):
+                print(matrix[i][n - 1], end='  ')
         n -= 1
         # print first row
         if row < m:
-            for i in range(n-1, col-1, -1):
+            for i in range(n - 1, col - 1, -1):
                 print(matrix[row][i], end='  ')
         row += 1
     print()
@@ -452,8 +452,46 @@ def swap_major_minor_diagonals(matrix):
     """
     n = len(matrix)
     for i in range(n):
-        matrix[i][i], matrix[i][n-i-1] = matrix[i][n-i-1], matrix[i][i]
+        matrix[i][i], matrix[i][n - i - 1] = matrix[i][n - i - 1], matrix[i][i]
     print_matrix(matrix)
+
+
+def max_path_sum(matrix):
+    """
+    Maximum path sum in matrix.
+    :param matrix:
+    :return:
+    """
+    m, n = len(matrix), len(matrix[0])
+    val = copy.deepcopy(matrix)
+    for i in range(1, m):
+        for j in range(n):
+            if 0 < j < n - 1:
+                val[i][j] += max(val[i - 1][j-1], val[i-1][j], val[i-1][j+1])
+            elif j > 0:
+                val[i][j] += max(val[i-1][j], val[i-1][j-1])
+            elif j<n-1:
+                val[i][j] += max(val[i-1][j], val[i-1][j+1])
+            else:
+                val[i][j] += val[i-1][j]
+    idx = max_idx(val[-1], 0, n)
+    print("maximum sum is", val[-1][idx])
+    res = [idx]
+    for i in range(m-2, -1, -1):
+        idx = max_idx(val[i], idx-1, idx+1)
+        res.append(idx)
+    res.reverse()
+    return res
+
+
+def max_idx(arr, l, r):
+    max_val = -sys.maxsize
+    idx = 0
+    for i in range(max(0, l), min(len(arr), r+1)):
+        if max_val < arr[i]:
+            idx = i
+            max_val = arr[i]
+    return idx
 
 
 if __name__ == '__main__':
@@ -491,3 +529,5 @@ if __name__ == '__main__':
     matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
     counter_clock_spiral_form(matrix)
     swap_major_minor_diagonals(copy.deepcopy(matrix))
+    matrix = [[10, 10, 2, 0, 20, 4], [1, 0, 0, 30, 2, 5], [0, 10, 4, 0, 2, 0], [1, 0, 2, 20, 0, 4]]
+    print('maximum sum', max_path_sum(matrix))

@@ -1,3 +1,6 @@
+import sys
+
+
 def subsequence(arr):
     """
     Find all subsequences of a string.
@@ -105,7 +108,7 @@ def find_arr_sub_arr(arr1, arr2):
     arr2.sort()
     i = j = 0
     equal_count = 0
-    while i<len(arr1) and j<len(arr2):
+    while i < len(arr1) and j < len(arr2):
         if arr1[i] == arr2[j]:
             i += 1
             j += 1
@@ -132,6 +135,61 @@ def check_consecutive(arr):
     return False
 
 
+def find_complement(arr1, arr2):
+    i = j = 0
+    while i < len(arr1) and j < len(arr2):
+        if arr1[i] == arr2[j]:
+            i += 1
+            j += 1
+        elif arr1[i] < arr2[j]:
+            print(arr1[i], end='  ')
+            i += 1
+        else:
+            j += 1
+    if i < len(arr1):
+        print(arr1[i:])
+
+
+def minimum_incr_operation(arr, k):
+    """
+    Minimum increment by k operations to make all elements equal.
+    :param arr:
+    :param k:
+    :return:
+    """
+    m = max(arr)
+    t = 0
+    for i in arr:
+        if (m - i) % k == 0:
+            t += (m - i) // k
+        else:
+            return -1
+    return t
+
+
+def minimum_difference_max_min(A, B, C):
+    """
+    Minimum min(max(A[i],B[j],C[k])-min(A[i],B[j],C[k])) of three different sorted arrays.
+    :param A:
+    :param B:
+    :param C:
+    :return:
+    """
+    i, j, k = len(A) - 1, len(B) - 1, len(C) - 1
+    d = sys.maxsize
+    while i >= 0 and j >= 0 and k >= 0:
+        max_v = max(A[i], B[j], C[k])
+        min_v = min(A[i], B[j], C[k])
+        d = min(d, max_v - min_v)
+        if A[i] == max_v:
+            i -= 1
+        elif B[j] == max_v:
+            j -= 1
+        else:
+            k -= 1
+    return d
+
+
 if __name__ == '__main__':
     arr = ['1', '2', '3', '4']
     print("subsequence", subsequence(arr))
@@ -149,3 +207,12 @@ if __name__ == '__main__':
     arr1 = [11, 1, 13, 21, 3, 7]
     arr2 = [11, 3, 7, 1]
     print(find_arr_sub_arr(arr1, arr2))
+    find_complement(arr1, arr2)
+    arr = [4, 7, 19, 16]
+    arr = [4, 2, 6, 8]
+    k = 3
+    print('minimum increment operation', minimum_incr_operation(arr, k))
+    A = [1, 4, 5, 8, 10]
+    B = [6, 9, 15]
+    C = [2, 3, 6, 6]
+    print(minimum_difference_max_min(A, B, C))

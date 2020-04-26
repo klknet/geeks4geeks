@@ -100,6 +100,38 @@ def find_num_subarray_product(arr, k):
     return res
 
 
+def find_arr_sub_arr(arr1, arr2):
+    arr1.sort()
+    arr2.sort()
+    i = j = 0
+    equal_count = 0
+    while i<len(arr1) and j<len(arr2):
+        if arr1[i] == arr2[j]:
+            i += 1
+            j += 1
+            equal_count += 1
+        elif arr1[i] < arr2[j]:
+            j += 1
+        else:
+            i += 1
+    return equal_count == len(arr2)
+
+
+def check_consecutive(arr):
+    n = len(arr)
+    min_v = min(arr)
+    max_v = max(arr)
+    if max_v - min_v + 1 == n:
+        visited = [False] * n
+        for i in arr:
+            if not visited[i - min_v]:
+                visited[i - min_v] = True
+            else:
+                return False
+        return True
+    return False
+
+
 if __name__ == '__main__':
     arr = ['1', '2', '3', '4']
     print("subsequence", subsequence(arr))
@@ -112,3 +144,8 @@ if __name__ == '__main__':
     k = 24
     k = 1
     print("Number of subarrays", num_of_product_k(arr, k))
+    arr = [5, 4, 2, 3, 1, 6]
+    print("consecutive", check_consecutive(arr))
+    arr1 = [11, 1, 13, 21, 3, 7]
+    arr2 = [11, 3, 7, 1]
+    print(find_arr_sub_arr(arr1, arr2))

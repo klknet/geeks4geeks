@@ -87,6 +87,15 @@ class LinedList(object):
             return cur.data
         return None
 
+    def get_mid(self):
+        if self.empty():
+            return None
+        fast = slow = self.head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        return slow.data
+
     def traverse(self):
         cur = self.head
         while cur is not None:
@@ -97,17 +106,22 @@ class LinedList(object):
     def size(self):
         return self.num
 
+    def empty(self):
+        return self.size() == 0
+
 
 if __name__ == '__main__':
     l = LinedList()
     l.add_all([0, 1, 2, 3, 4, 5, 6])
     print(l.exist(1))
     print(l.exist(10))
-    print(l.get(2))
-    print(l.get_from_end(2))
+    # print(l.get(2))
+    # print(l.get_from_end(2))
+    print(l.get_mid())
     l.push(7)
+    print(l.get_mid())
     l.traverse()
-    print(l.pop(2))
-    print(l.pop())
-    l.traverse()
+    # print(l.pop(2))
+    # print(l.pop())
+    # l.traverse()
     # l.remove_all()

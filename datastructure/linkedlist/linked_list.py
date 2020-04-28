@@ -62,6 +62,31 @@ class LinedList(object):
             cur.next = None
         return res
 
+    def exist(self, x):
+        cur = self.head
+        while cur is not None:
+            if cur.data == x:
+                return True
+            cur = cur.next
+        return False
+
+    def get_from_end(self, idx):
+        if idx >= self.num:
+            raise Exception("Out of Index Boundary Exception")
+        idx = self.num-idx
+        return self.get(idx)
+
+    def get(self, idx):
+        cur = self.head
+        for i in range(idx):
+            if cur:
+                cur = cur.next
+            else:
+                break
+        if cur:
+            return cur.data
+        return None
+
     def traverse(self):
         cur = self.head
         while cur is not None:
@@ -76,6 +101,10 @@ class LinedList(object):
 if __name__ == '__main__':
     l = LinedList()
     l.add_all([0, 1, 2, 3, 4, 5, 6])
+    print(l.exist(1))
+    print(l.exist(10))
+    print(l.get(2))
+    print(l.get_from_end(2))
     l.push(7)
     l.traverse()
     print(l.pop(2))

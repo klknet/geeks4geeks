@@ -65,7 +65,8 @@ def remove_duplicate(node):
     while cur and cur.next:
         if cur.data == cur.next.data:
             cur.next = cur.next.next
-        cur = cur.next
+        else:
+            cur = cur.next
 
 
 if __name__ == '__main__':
@@ -81,7 +82,7 @@ if __name__ == '__main__':
     ll.add_all([1, 2, 3, 4, 5, 4, 3, 2, 1])
     print(check_palindrome(ll))
     dup = _Node(1)
-    dup.add_all([1, 2, 2, 3, 4, 4, 4, 5, 6, 7])
+    dup.add_all([1, 2, 2, 3, 4, 4, 4, 5, 7, 7])
     dup.traverse()
     remove_duplicate(dup)
     dup.traverse()

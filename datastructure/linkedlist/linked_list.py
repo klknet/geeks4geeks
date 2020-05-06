@@ -8,8 +8,23 @@ class _Node:
         self.data = data
         self.next = n
 
+    def traverse(self):
+        cur = self
+        while True:
+            print(cur.data, end='  ')
+            if not cur.next:
+                break
+            cur = cur.next
+        print()
 
-class LinedList(object):
+    def add_all(self, arr):
+        cur = self
+        for d in arr:
+            cur.next = _Node(d)
+            cur = cur.next
+
+
+class LinkedList(object):
     def __init__(self):
         self.head = None
         self.num = 0

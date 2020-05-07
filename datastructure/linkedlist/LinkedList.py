@@ -71,6 +71,27 @@ def remove_duplicate(node):
             cur = cur.next
 
 
+def remove_duplicate_using_hash(node):
+    """
+    Traverse the list and push to a hash table if it's not exists, else remove the node.
+    :param node:
+    :return:
+    """
+    if not node or not node.next:
+        return
+    h = set()
+    cur = node
+    h.add(cur.data)
+    while cur.next:
+        if cur.next.data not in h:
+            h.add(cur.next.data)
+            cur = cur.next
+        else:
+            tmp = cur.next
+            cur.next = tmp.next
+            tmp.next = None
+
+
 def remove_duplicate_unsorted(node):
     """
     Remove duplicates from a unsorted linked list.
@@ -152,6 +173,49 @@ def merge(left, right):
     return res
 
 
+def swap_node(head, x, y):
+    """
+    Swapping nodes in a linked list without swapping data.
+    :param head:
+    :param x:
+    :param y:
+    :return:
+    """
+    if x == y:
+        return
+    prevX = None
+    curX = head
+    while curX:
+        if curX.data == x:
+            break
+        prevX = curX
+        curX = curX.next
+    prevY = None
+    curY = head
+    while curY:
+        if curY.data == y:
+            break
+        prevY = curY
+        curY = curY.next
+    if not curX:
+        return
+    if not curY:
+        return
+
+    if prevX:
+        prevX.next = curY
+    else:
+        head = curY
+    if prevY:
+        prevY.next = curX
+    else:
+        head = curX
+    tmp = curX.next
+    curX.next = curY.next
+    curY.next = tmp
+    return head
+
+
 if __name__ == '__main__':
     e = _Node(5)
     d = _Node(4, e)
@@ -179,3 +243,13 @@ if __name__ == '__main__':
     un.add_all([10, 12, 11, 11, 12, 11, 10])
     remove_duplicate_unsorted_merge_sort(un)
     un.traverse()
+
+    un = _Node(10)
+    un.add_all([10, 12, 11, 11, 12, 11, 10])
+    remove_duplicate_using_hash(un)
+    un.traverse()
+
+    h = _Node(1)
+    h.add_all([2, 3, 4, 5])
+    h = swap_node(h, 1, 4)
+    h.traverse()

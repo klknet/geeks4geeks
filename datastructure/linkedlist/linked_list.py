@@ -23,6 +23,9 @@ class _Node:
             cur.next = _Node(d)
             cur = cur.next
 
+    def __str__(self):
+        return self.data
+
 
 class LinkedList(object):
     def __init__(self):

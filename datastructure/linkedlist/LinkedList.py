@@ -30,7 +30,7 @@ def find_length_of_loop(node):
         j += 1
         slow = slow.next
         if fast == slow:
-            return i-j
+            return i - j
     return 0
 
 
@@ -64,9 +64,92 @@ def remove_duplicate(node):
     cur = node
     while cur and cur.next:
         if cur.data == cur.next.data:
-            cur.next = cur.next.next
+            tmp = cur.next
+            cur.next = tmp.next
+            tmp.next = None
         else:
             cur = cur.next
+
+
+def remove_duplicate_unsorted(node):
+    """
+    Remove duplicates from a unsorted linked list.
+    :param node:
+    :return:
+    """
+    if not node:
+        return
+    i = node
+    while i:
+        j = i
+        while j.next:
+            if j.next.data == i.data:
+                tmp = j.next
+                j.next = tmp.next
+                tmp.next = None
+            else:
+                j = j.next
+        i = i.next
+
+
+def remove_duplicate_unsorted_merge_sort(node):
+    """
+    First sort the list using merge sort, Second remove duplicate from a sorted list.
+    :param node:
+    :return:
+    """
+    remove_duplicate(merge_sort(node))
+
+
+def merge_sort(node):
+    """
+    sort linked list.
+    :param node:
+    :return:
+    """
+    if not node or not node.next:
+        return node
+    mid = middle(node)
+    n = mid.next
+    mid.next = None
+    left = merge_sort(node)
+    right = merge_sort(n)
+    node = merge(left, right)
+    return node
+
+
+def middle(node):
+    """
+    需保证向下取整
+    :param node:
+    :return:
+    """
+    fast, slow = node.next, node
+    while fast:
+        fast = fast.next
+        if fast:
+            slow = slow.next
+            fast = fast.next
+    return slow
+
+
+def merge(left, right):
+    if not left:
+        return right
+    if not right:
+        return left
+    res = None
+    if left.data > right.data:
+        res = right
+        n = right.next
+        right.next = None
+        res.next = merge(left, n)
+    else:
+        res = left
+        n = left.next
+        left.next = None
+        res.next = merge(n, right)
+    return res
 
 
 if __name__ == '__main__':
@@ -86,4 +169,13 @@ if __name__ == '__main__':
     dup.traverse()
     remove_duplicate(dup)
     dup.traverse()
+    unsorted = _Node(1)
+    unsorted.add_all([10, 12, 11, 11, 12, 11, 10])
+    unsorted.traverse()
+    remove_duplicate_unsorted(unsorted)
+    unsorted.traverse()
 
+    un = _Node(10)
+    un.add_all([10, 12, 11, 11, 12, 11, 10])
+    remove_duplicate_unsorted_merge_sort(un)
+    un.traverse()

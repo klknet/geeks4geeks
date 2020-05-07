@@ -1,7 +1,7 @@
 """
 Compare numbers represented by linked list.
 """
-from datastructure.linkedlist.linked_list import LinedList
+from datastructure.linkedlist.base_linked_list import LinkedList
 
 
 def compare(list1, list2):
@@ -32,14 +32,14 @@ def remove_leading_zero(linkedlist):
         linkedlist.head = cur
 
 
-list1 = LinedList()
+list1 = LinkedList()
 list1.add_all([0, 0, 1, 2, 4])
-list2 = LinedList()
+list2 = LinkedList()
 list2.add_all([0, 0, 0, 4, 2])
 print(compare(list1, list2))
 
-list3 = LinedList()
+list3 = LinkedList()
 list3.add_all([2, 3, 1, 2, 4])
-list4 = LinedList()
+list4 = LinkedList()
 list4.add_all([2, 3, 2, 4, 2])
 print(compare(list3, list4))

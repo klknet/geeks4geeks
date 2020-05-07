@@ -4,7 +4,7 @@ Linked list.
 
 
 class _Node:
-    def __init__(self, data, n=None):
+    def __init__(self, data=None, n=None):
         self.data = data
         self.next = n
 
@@ -20,8 +20,11 @@ class _Node:
     def add_all(self, arr):
         cur = self
         for d in arr:
-            cur.next = _Node(d)
-            cur = cur.next
+            if not cur.data:
+                cur.data = d
+            else:
+                cur.next = _Node(d)
+                cur = cur.next
 
     def __str__(self):
         return self.data
@@ -198,7 +201,7 @@ class LinkedList(object):
 
 
 if __name__ == '__main__':
-    l = LinedList()
+    l = LinkedList()
     l.add_all([0, 1, 2, 3, 4, 5, 6])
     print(l.exist(1))
     print(l.exist(10))

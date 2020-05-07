@@ -1,4 +1,4 @@
-from datastructure.linkedlist.linked_list import _Node, LinkedList
+from datastructure.linkedlist.base_linked_list import _Node, LinkedList
 
 
 def detect_loop(node):
@@ -216,6 +216,22 @@ def swap_node(head, x, y):
     return head
 
 
+def pairwise_swap(head):
+    prev = None
+    cur = head
+    while cur and cur.next:
+        tmp = cur.next
+        cur.next = tmp.next
+        tmp.next = cur
+        if not prev:
+            head = tmp
+        else:
+            prev.next = tmp
+        prev = cur
+        cur = cur.next
+    return head
+
+
 if __name__ == '__main__':
     e = _Node(5)
     d = _Node(4, e)
@@ -228,28 +244,32 @@ if __name__ == '__main__':
     ll = LinkedList()
     ll.add_all([1, 2, 3, 4, 5, 4, 3, 2, 1])
     print(check_palindrome(ll))
-    dup = _Node(1)
+    dup = _Node()
     dup.add_all([1, 2, 2, 3, 4, 4, 4, 5, 7, 7])
     dup.traverse()
     remove_duplicate(dup)
     dup.traverse()
-    unsorted = _Node(1)
+    unsorted = _Node()
     unsorted.add_all([10, 12, 11, 11, 12, 11, 10])
     unsorted.traverse()
     remove_duplicate_unsorted(unsorted)
     unsorted.traverse()
 
-    un = _Node(10)
+    un = _Node()
     un.add_all([10, 12, 11, 11, 12, 11, 10])
     remove_duplicate_unsorted_merge_sort(un)
     un.traverse()
 
-    un = _Node(10)
+    un = _Node()
     un.add_all([10, 12, 11, 11, 12, 11, 10])
     remove_duplicate_using_hash(un)
     un.traverse()
 
-    h = _Node(1)
-    h.add_all([2, 3, 4, 5])
+    h = _Node()
+    h.add_all([1, 2, 3, 4, 5])
     h = swap_node(h, 1, 4)
     h.traverse()
+
+    h = _Node()
+    h.add_all([1, 2, 3, 4, 5])
+    pairwise_swap(h).traverse()

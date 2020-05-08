@@ -25,9 +25,10 @@ class _Node:
             else:
                 cur.next = _Node(d)
                 cur = cur.next
+        return cur
 
     def __str__(self):
-        return self.data
+        return str(self.data)
 
 
 class LinkedList(object):
@@ -160,9 +161,48 @@ class LinkedList(object):
             return None
         fast = slow = self.head
         while fast and fast.next:
-            fast = fast.next.next
-            slow = slow.next
+            fast = fast.next
+            if fast.next:
+                fast = fast.next
+                slow = slow.next
         return slow.data
+
+    def swap(self, x, y):
+        """
+        Swap the node of index x and y.
+        :param x:
+        :param y:
+        :return:
+        """
+        if x<0 or x>=self.size() or y<0 or y>=self.size():
+            raise Exception("Index Out Of Boundary Exception.")
+        if x==y:
+            return
+        prevX = None
+        curX = self.head
+        while x:
+            prevX = curX
+            curX = curX.next
+            x -= 1
+        prevY = None
+        curY = self.head
+        while y:
+            prevY = curY
+            curY = curY.next
+            y -= 1
+        if prevX:
+            prevX.next = curY
+        else:
+            self.head = curY
+        if prevY:
+            prevY.next = curX
+        else:
+            self.head = curX
+        tmp = curX.next
+        curX.next = curY.next
+        curY.next = tmp
+
+
 
     def count(self, data):
         """

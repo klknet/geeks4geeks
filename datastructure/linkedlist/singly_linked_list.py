@@ -217,6 +217,11 @@ def swap_node(head, x, y):
 
 
 def pairwise_swap(head):
+    """
+    Pairwise swap nodes of linked list.
+    :param head:
+    :return:
+    """
     prev = None
     cur = head
     while cur and cur.next:
@@ -230,6 +235,60 @@ def pairwise_swap(head):
         prev = cur
         cur = cur.next
     return head
+
+
+def intersection_sorted(node1, node2):
+    """
+    Intersection of two sorted linked list.
+    :param node1:
+    :param node2:
+    :return:
+    """
+    i = node1
+    j = node2
+    dummy = _Node()
+    tail = dummy
+    while i and j:
+        if i.data == j.data:
+            node = _Node(i.data)
+            tail.next = node
+            tail = node
+            i = i.next
+            j = j.next
+        elif i.data > j.data:
+            j = j.next
+        else:
+            i = i.next
+    return dummy.next
+
+
+def get_intersection_of_two_list(node1, node2):
+    """
+    Find the intersection point of two linked list.
+    :param node1:
+    :param node2:
+    :return:
+    """
+    x = y = 0
+    cur = node1
+    while cur:
+        cur = cur.next
+        x += 1
+    cur = node2
+    while cur:
+        cur = cur.next
+        y += 1
+    d = abs(x - y)
+    cur1 = node1 if x > y else node2
+    cur2 = node1 if x < y else node2
+    while d:
+        cur1 = cur1.next
+        d -= 1
+    while cur1 and cur2:
+        if cur1 == cur2:
+            return cur1
+        cur1 = cur1.next
+        cur2 = cur2.next
 
 
 if __name__ == '__main__':
@@ -273,3 +332,23 @@ if __name__ == '__main__':
     h = _Node()
     h.add_all([1, 2, 3, 4, 5])
     pairwise_swap(h).traverse()
+
+    l = LinkedList()
+    l.add_all([1, 2, 3, 4, 5])
+    l.swap(0, l.size() - 1)
+    l.traverse()
+
+    node1 = _Node()
+    node1.add_all([1, 2, 3, 4, 5, 10])
+    node2 = _Node()
+    node2.add_all([3, 4, 8, 10])
+    sec = intersection_sorted(node1, node2)
+    if sec:
+        sec.traverse()
+    c = _Node()
+    c.add_all([15,  30])
+    node1 = _Node()
+    node1.add_all([3, 6, 9]).next = c
+    node2 = _Node(10)
+    node2.next = c
+    print(get_intersection_of_two_list(node1, node2))

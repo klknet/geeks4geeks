@@ -15,3 +15,11 @@ def permutation(s, l, res):
 
 s = ['A', 'B', 'C']
 permutation(s, 0,  "")
+
+a = {'q':1}
+def ref(a):
+    a = {'i':1}
+
+print(a)
+ref(a)
+print(a)

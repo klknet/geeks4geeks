@@ -291,6 +291,59 @@ def get_intersection_of_two_list(node1, node2):
         cur2 = cur2.next
 
 
+def quick_sort(node):
+    """
+    Sort a linked list using quick sort. 9, 3, 10, 6, 8, 7
+    :param node:
+    :return:
+    """
+    return quick_sort_util(node, get_tail(node))
+
+
+def get_tail(node):
+    if not node and not node.next:
+        return node
+    while node.next:
+        node = node.next
+    return node
+
+
+def quick_sort_util(head, tail):
+    if not head or head == tail:
+        return head
+    head, pivot, tail = partition(head, tail)
+    if head != pivot:
+        cur = head
+        while cur.next != pivot:
+            cur = cur.next
+        cur.next = None
+        head = quick_sort_util(head, cur)
+        get_tail(head).next = pivot
+    pivot.next = quick_sort_util(pivot.next, tail)
+    return head
+
+
+def partition(head, tail):
+    prev = None
+    pivot = tail
+    cur = head
+    while cur != pivot:
+        if cur.data > pivot.data:
+            if not prev:
+                head = cur.next
+            else:
+                prev.next = cur.next
+            tmp = cur.next
+            tail.next = cur
+            tail = cur
+            cur.next = None
+            cur = tmp
+        else:
+            prev = cur
+            cur = cur.next
+    return head, pivot, tail
+
+
 if __name__ == '__main__':
     e = _Node(5)
     d = _Node(4, e)
@@ -352,3 +405,11 @@ if __name__ == '__main__':
     node2 = _Node(10)
     node2.next = c
     print(get_intersection_of_two_list(node1, node2))
+
+    n = _Node()
+    d= [9, 3, 10, 6, 8, 7]
+    d = [1, 2, 3, 4, 5]
+    d = [5, 4, 3, 2, 1]
+    d = [30, 3, 4, 20, 5]
+    n.add_all(d)
+    quick_sort(n).traverse()

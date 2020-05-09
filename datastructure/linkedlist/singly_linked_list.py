@@ -345,6 +345,11 @@ def partition(head, tail):
 
 
 def segragate_even_odd(node):
+    """
+    Segregate even and odd nodes in a linked list.
+    :param node:
+    :return:
+    """
     cur = node
     tail = node.tail()
     end = tail
@@ -370,7 +375,25 @@ def segragate_even_odd(node):
         else:
             node = end.next
         end.next = None
+    return node
 
+
+def reverse_list(node):
+    """
+    Reverse a linked list.
+    :param node:
+    :return:
+    """
+    newhead = get_tail(node)
+    reverse_list_util(node)
+    return newhead
+
+
+def reverse_list_util(node):
+    if node and node.next:
+        n = reverse_list_util(node.next)
+        n.next = node
+        node.next = None
     return node
 
 
@@ -448,7 +471,9 @@ if __name__ == '__main__':
     d = [1, 2, 3, 4, 5, 6]
     # d = [1, 3, 5]
     # d = [2, 4, 6]
+    d = [1, 2, 3, 4, 5]
     d = [1, 2]
     n.add_all(d)
-    n = segragate_even_odd(n)
+    # n = segragate_even_odd(n)
+    n = reverse_list(n)
     n.traverse()

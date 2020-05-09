@@ -17,6 +17,12 @@ class _Node:
             cur = cur.next
         print()
 
+    def tail(self):
+        cur = self
+        while cur.next:
+            cur = cur.next
+        return cur
+
     def add_all(self, arr):
         cur = self
         for d in arr:
@@ -174,9 +180,9 @@ class LinkedList(object):
         :param y:
         :return:
         """
-        if x<0 or x>=self.size() or y<0 or y>=self.size():
+        if x < 0 or x >= self.size() or y < 0 or y >= self.size():
             raise Exception("Index Out Of Boundary Exception.")
-        if x==y:
+        if x == y:
             return
         prevX = None
         curX = self.head
@@ -201,8 +207,6 @@ class LinkedList(object):
         tmp = curX.next
         curX.next = curY.next
         curY.next = tmp
-
-
 
     def count(self, data):
         """

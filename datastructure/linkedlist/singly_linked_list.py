@@ -344,6 +344,36 @@ def partition(head, tail):
     return head, pivot, tail
 
 
+def segragate_even_odd(node):
+    cur = node
+    tail = node.tail()
+    end = tail
+    prev = None
+    while cur != end:
+        if cur.data & 1:
+            if prev:
+                prev.next = cur.next
+            else:
+                node = cur.next
+            tmp = cur.next
+            tail.next = cur
+            tail = cur
+            cur.next = None
+            cur = tmp
+        else:
+            prev = cur
+            cur = cur.next
+    if end.data & 1:
+        tail.next = end
+        if prev:
+            prev.next = end.next
+        else:
+            node = end.next
+        end.next = None
+
+    return node
+
+
 if __name__ == '__main__':
     e = _Node(5)
     d = _Node(4, e)
@@ -399,7 +429,7 @@ if __name__ == '__main__':
     if sec:
         sec.traverse()
     c = _Node()
-    c.add_all([15,  30])
+    c.add_all([15, 30])
     node1 = _Node()
     node1.add_all([3, 6, 9]).next = c
     node2 = _Node(10)
@@ -407,9 +437,18 @@ if __name__ == '__main__':
     print(get_intersection_of_two_list(node1, node2))
 
     n = _Node()
-    d= [9, 3, 10, 6, 8, 7]
+    d = [9, 3, 10, 6, 8, 7]
     d = [1, 2, 3, 4, 5]
     d = [5, 4, 3, 2, 1]
     d = [30, 3, 4, 20, 5]
     n.add_all(d)
     quick_sort(n).traverse()
+
+    n = _Node()
+    d = [1, 2, 3, 4, 5, 6]
+    # d = [1, 3, 5]
+    # d = [2, 4, 6]
+    d = [1, 2]
+    n.add_all(d)
+    n = segragate_even_odd(n)
+    n.traverse()

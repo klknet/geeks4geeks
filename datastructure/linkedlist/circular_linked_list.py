@@ -42,15 +42,45 @@ class CircularLinkedList:
 
     def traverse(self):
         tmp = self.head
-        while tmp.next != self.head:
+        while True:
             print(tmp.data, end=' ')
             tmp = tmp.next
+            if tmp == self.head:
+                break
         print()
+
+
+def half(ll):
+    """
+    Split a circular linked list into two halves.
+    :param ll:
+    :return:
+    """
+    if not ll.head:
+        return
+    if ll.head.next == ll.head:
+        ll.traverse()
+        return
+    cur = ll.head
+    fast, slow = cur.next, cur
+    while fast and fast.next != cur:
+        fast = fast.next
+        if fast and fast.next != cur:
+            fast = fast.next
+            slow = slow.next
+    tmp = slow.next
+    slow.next = cur
+    fast.next = tmp
+    left = CircularLinkedList(cur)
+    right = CircularLinkedList(tmp)
+    left.traverse()
+    right.traverse()
 
 
 if __name__ == '__main__':
     c = CircularLinkedList()
     c.push(0)
-    c.add_all([1, 2, 3, 4, 5, 6])
-    c.push(7)
+    # c.add_all([1, 2, 3, 4, 5, 6])
+    # c.push(7)
     c.traverse()
+    half(c)

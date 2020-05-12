@@ -77,6 +77,26 @@ def half(ll):
     right.traverse()
 
 
+def insert(ll, data):
+    cur = ll.head
+    if data<=cur.data:
+        t = ll.tail()
+        t.next = _Node(data, ll.head)
+        ll.head = t.next
+        ll.traverse()
+        return
+    while True:
+        if cur.data < data <= cur.next.data:
+            break
+        if cur.next == ll.head:
+            break
+        cur = cur.next
+    tmp = cur.next
+    cur.next = _Node(data, tmp)
+    ll.traverse()
+
+
+
 if __name__ == '__main__':
     c = CircularLinkedList()
     c.push(0)
@@ -84,3 +104,6 @@ if __name__ == '__main__':
     # c.push(7)
     c.traverse()
     half(c)
+    c = CircularLinkedList()
+    c.add_all([1, 3, 5, 7, 9])
+    insert(c, 10)

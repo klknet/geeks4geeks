@@ -50,6 +50,22 @@ class CircularLinkedList:
         print()
 
 
+class BinaryNode:
+    def __init__(self, data, left=None, right=None):
+        self.data = data
+        self.left = left
+        self.right = right
+
+    def traverse(self):
+        cur = self
+        while True:
+            print(cur.data, end=' ')
+            cur = cur.right
+            if cur == self:
+                break
+        print()
+
+
 def half(ll):
     """
     Split a circular linked list into two halves.
@@ -79,7 +95,7 @@ def half(ll):
 
 def insert(ll, data):
     cur = ll.head
-    if data<=cur.data:
+    if data <= cur.data:
         t = ll.tail()
         t.next = _Node(data, ll.head)
         ll.head = t.next
@@ -96,6 +112,34 @@ def insert(ll, data):
     ll.traverse()
 
 
+def convert_double_list(root):
+    """
+    Convert a Binary Tree to a Circular Doubly Linked List.
+    :param root:
+    :return:
+    """
+    if not root:
+        return
+    leftTree = convert_double_list(root.left)
+    rightTree = convert_double_list(root.right)
+    root.left = root.right = root
+    return concatenate(concatenate(leftTree, root), rightTree)
+
+
+def concatenate(leftTree, rightTree):
+    if not leftTree:
+        return rightTree
+    if not rightTree:
+        return leftTree
+    leftTail = leftTree.left
+    rightTail = rightTree.left
+
+    leftTail.right = rightTree
+    rightTree.left = leftTail
+    leftTree.left = rightTail
+    rightTail.right = leftTree
+    return leftTree
+
 
 if __name__ == '__main__':
     c = CircularLinkedList()
@@ -107,3 +151,6 @@ if __name__ == '__main__':
     c = CircularLinkedList()
     c.add_all([1, 3, 5, 7, 9])
     insert(c, 10)
+    root = BinaryNode(10, BinaryNode(12, BinaryNode(25), BinaryNode(30)), BinaryNode(15, BinaryNode(36)))
+    head = convert_double_list(root)
+    head.traverse()

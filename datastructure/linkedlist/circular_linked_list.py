@@ -141,6 +141,57 @@ def concatenate(leftTree, rightTree):
     return leftTree
 
 
+def insert_head(node, data):
+    if not node:
+        node = _Node(data)
+        node.next = node
+        return
+    head = node.next
+    n = _Node(data, head)
+    node.next = n
+
+
+def insert_end(node, data):
+    if not node:
+        node = _Node(data)
+        node.next = node
+        return
+    head = node.next
+    n = _Node(data, head)
+    node.next = n
+    return n
+
+
+def traverse(node):
+    if not node:
+        return
+    head = node.next
+    cur = head
+    while True:
+        print(cur.data, end=' ')
+        cur = cur.next
+        if cur == head:
+            break
+    print()
+
+
+def insert_after(node, data, item):
+    cur = node
+    exist = False
+    while True:
+        if cur.data == data:
+            exist = True
+            break
+        cur = cur.next
+        if cur == node:
+            break
+    if exist:
+        cur.next = _Node(item, cur.next)
+        if cur == node:
+            return cur.next
+    return node
+
+
 if __name__ == '__main__':
     c = CircularLinkedList()
     c.push(0)
@@ -154,3 +205,17 @@ if __name__ == '__main__':
     root = BinaryNode(10, BinaryNode(12, BinaryNode(25), BinaryNode(30)), BinaryNode(15, BinaryNode(36)))
     head = convert_double_list(root)
     head.traverse()
+    n = _Node(0)
+    n.next = n
+    insert_head(n, -1)
+    insert_head(n, -2)
+    insert_head(n, -3)
+    traverse(n)
+    n = insert_end(n, 1)
+    n = insert_end(n, 2)
+    n = insert_end(n, 3)
+    traverse(n)
+    n = insert_after(n, 2, 2.5)
+    n = insert_after(n, 3, 3.5)
+    n = insert_after(n, -2, -1.5)
+    traverse(n)

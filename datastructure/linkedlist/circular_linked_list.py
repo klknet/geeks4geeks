@@ -251,6 +251,37 @@ def delete(node, data):
     return node
 
 
+def Josephus_cycle(n, k):
+    """
+    Josephus problem using recursion.
+    :param n:
+    :param k:
+    :return:
+    """
+    if n == 1:
+        return 1
+    return (Josephus_cycle(n - 1, k) + k - 1) % n + 1
+
+
+def Josephus_cycle_bit(n, k):
+    pos = msb(n)
+    p = n ^ (1 << (pos - 1))
+    return p << 1 | 1
+
+
+def msb(n):
+    """
+    取n的最高有效位
+    :param n:
+    :return:
+    """
+    pos = 0
+    while n != 0:
+        pos += 1
+        n >>= 1
+    return pos
+
+
 if __name__ == '__main__':
     c = CircularLinkedList()
     c.push(0)
@@ -298,3 +329,6 @@ if __name__ == '__main__':
     cq.dequeue()
     # cq.dequeue()
     cq.traverse()
+    n, k = 14, 2
+    print(Josephus_cycle(n, k))
+    print(Josephus_cycle_bit(n, k))

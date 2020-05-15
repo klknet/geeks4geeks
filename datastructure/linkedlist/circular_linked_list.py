@@ -50,6 +50,42 @@ class CircularLinkedList:
         print()
 
 
+class CircularQueue:
+    def __init__(self):
+        self.__rear = None
+
+    def enqueue(self, data):
+        if not self.__rear:
+            self.__rear = _Node(data)
+            self.__rear.next = self.__rear
+            return
+        n = _Node(data, self.__rear.next)
+        self.__rear.next = n
+        self.__rear = n
+
+    def dequeue(self):
+        if not self.__rear:
+            return None
+        f = self.__rear.next
+        if self.__rear == f:
+            self.__rear = None
+        else:
+            self.__rear.next = f.next
+
+    def front(self):
+        if not self.__rear:
+            return None
+        return self.__rear.next.data
+
+    def rear(self):
+        if not self.__rear:
+            return None
+        return self.__rear.data
+
+    def traverse(self):
+        traverse(self.__rear)
+
+
 class BinaryNode:
     def __init__(self, data, left=None, right=None):
         self.data = data
@@ -192,6 +228,29 @@ def insert_after(node, data, item):
     return node
 
 
+def delete(node, data):
+    if not node:
+        return None
+    head = node.next
+    cur = head
+    prev = node
+    exist = False
+    while True:
+        if cur.data == data:
+            exist = True
+            break
+        prev = cur
+        cur = cur.next
+        if cur == head:
+            break
+    if exist:
+        if cur == node:
+            node = prev
+        prev.next = cur.next
+        cur.next = None
+    return node
+
+
 if __name__ == '__main__':
     c = CircularLinkedList()
     c.push(0)
@@ -219,3 +278,23 @@ if __name__ == '__main__':
     n = insert_after(n, 3, 3.5)
     n = insert_after(n, -2, -1.5)
     traverse(n)
+    n = delete(n, -1.5)
+    n = delete(n, 2.5)
+    n = delete(n, 3.5)
+    n = delete(n, -3)
+    n = delete(n, -13)
+    traverse(n)
+
+    cq = CircularQueue()
+    cq.enqueue(1)
+    cq.enqueue(2)
+    cq.enqueue(3)
+    cq.traverse()
+
+    print(cq.front())
+    print(cq.rear())
+
+    cq.dequeue()
+    cq.dequeue()
+    # cq.dequeue()
+    cq.traverse()

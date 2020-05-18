@@ -102,6 +102,82 @@ class BinaryNode:
         print()
 
 
+class Deque:
+    """
+    Implements Deque using circular array.
+    """
+
+    def __init__(self, n):
+        self.front = -1
+        self.rear = 0
+        self.size = n
+        self.__arr = [None] * n
+
+    def isfull(self):
+        return (self.front == 0 and self.rear == self.size - 1) or (self.front == self.rear + 1)
+
+    def isempty(self):
+        return self.front == -1
+
+    def insertfront(self, d):
+        if self.isfull():
+            return
+        if self.isempty():
+            self.front = 0
+            self.rear = 0
+        elif self.front == 0:
+            self.front = self.size - 1
+        else:
+            self.front -= 1
+        self.__arr[self.front] = d
+
+    def insertrear(self, d):
+        if self.isfull():
+            return
+        if self.isempty():
+            self.front = 0
+            self.rear = 0
+        elif self.rear == self.size - 1:
+            self.rear = 0
+        else:
+            self.rear += 1
+        self.__arr[self.rear] = d
+
+    def deletefront(self):
+        if self.isempty():
+            return
+        if self.front == self.rear:
+            self.front == -1
+            self.rear == -1
+        else:
+            if self.front == self.size - 1:
+                self.front = 0
+            else:
+                self.front += 1
+
+    def deleterear(self):
+        if self.isempty():
+            return
+        if self.front == self.rear:
+            self.front = -1
+            self.rear = -1
+        else:
+            if self.rear == 0:
+                self.rear = self.size - 1
+            else:
+                self.rear -= 1
+
+    def getfront(self):
+        if self.isempty():
+            return None
+        return self.__arr[self.front]
+
+    def getrear(self):
+        if self.isempty():
+            return None
+        return self.__arr[self.rear]
+
+
 def half(ll):
     """
     Split a circular linked list into two halves.
@@ -332,3 +408,15 @@ if __name__ == '__main__':
     n, k = 14, 2
     print(Josephus_cycle(n, k))
     print(Josephus_cycle_bit(n, k))
+
+    print('===========')
+    deq = Deque(5)
+    deq.insertrear(5)
+    deq.insertrear(10)
+    print(deq.getrear())
+    deq.deleterear()
+    print(deq.getrear())
+    deq.insertfront(15)
+    print(deq.getfront())
+    deq.deletefront()
+    print(deq.getfront())

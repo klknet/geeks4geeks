@@ -37,6 +37,12 @@ class _Node:
         return str(self.data)
 
 
+class _DoubleNode(_Node):
+    def __init__(self, prev=None, data=None, n=None):
+        _Node.__init__(self, data, n)
+        self.prev = prev
+
+
 class LinkedList(object):
     def __init__(self):
         self.head = None

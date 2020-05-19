@@ -11,7 +11,7 @@ class _Node:
     def traverse(self):
         cur = self
         while True:
-            print(cur.data, end='  ')
+            print(cur.data, end=' ')
             if not cur.next:
                 break
             cur = cur.next
@@ -36,11 +36,25 @@ class _Node:
     def __str__(self):
         return str(self.data)
 
+    def __del__(self):
+        # print("_Node delete %s" % self.data)
+        pass
+
 
 class _DoubleNode(_Node):
     def __init__(self, prev=None, data=None, n=None):
         _Node.__init__(self, data, n)
         self.prev = prev
+
+    def traverse(self):
+        _Node.traverse(self)
+
+    def reverseTraverse(self):
+        cur = self.tail()
+        while cur:
+            print(cur.data, end=' ')
+            cur = cur.prev
+        print()
 
 
 class LinkedList(object):

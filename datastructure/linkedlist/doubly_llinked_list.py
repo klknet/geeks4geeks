@@ -79,6 +79,30 @@ def reverse(node):
     return newhead if newhead else node
 
 
+def quicksort(head):
+    last = head.tail()
+    _quicksort(head, last)
+
+
+def _quicksort(head, last):
+    if head is not None and last is not None and head != last and head != last.next:
+        pivot = partition(head, last)
+        _quicksort(head, pivot.prev)
+        _quicksort(pivot.next, last)
+
+
+def partition(head, last):
+    i = j = head
+    pivot = last
+    while i != last:
+        if i.data <= pivot.data:
+            i.data, j.data = j.data, i.data
+            j = j.next
+        i = i.next
+    i.data, j.data = j.data, i.data
+    return j
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -97,4 +121,13 @@ if __name__ == '__main__':
     print('===========')
     d.head = reverse(d.head)
     d.traverse()
-    d.reverseTraverse()
+    d.reverseTraverse
+    d = DoublyLinkedList()
+    d.push(5)
+    d.push(15)
+    d.push(7)
+    d.push(5)
+    d.push(1)
+    d.push(10)
+    quicksort(d.head)
+    d.traverse()

@@ -17,6 +17,14 @@ class _Node:
             cur = cur.next
         print()
 
+    def count(self):
+        size = 0
+        cur = self
+        while cur:
+            size += 1
+            cur = cur.next
+        return size
+
     def tail(self):
         cur = self
         while cur.next:

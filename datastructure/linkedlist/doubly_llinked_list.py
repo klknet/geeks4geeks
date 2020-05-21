@@ -1,4 +1,4 @@
-from datastructure.linkedlist.base_linked_list import _DoubleNode
+from datastructure.linkedlist.base_linked_list import _DoubleNode, LinkedList
 
 
 class DoublyLinkedList:
@@ -103,6 +103,42 @@ def partition(head, last):
     return j
 
 
+def swapKth(head, k):
+    """
+    Swap Kth node from beginning with Kth node from end in a linkedlist.
+    :param head:
+    :param k:
+    :return:
+    """
+    if not head:
+        return
+    n = head.count()
+    if k>n:
+        return
+    if (2*k-1) == n:
+        return
+    x = head
+    x_prev = None
+    for i in range(1, k):
+        x_prev = x
+        x = x.next
+    y = head
+    y_prev = None
+    for i in range(1, n-k+1):
+        y_prev = y
+        y = y.next
+    if x_prev:
+        x_prev.next = y
+    if y_prev:
+        y_prev.next = x
+    x.next, y.next = y.next, x.next
+    if k == 1:
+        return y
+    if k == n:
+        return x
+    return head
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -130,4 +166,13 @@ if __name__ == '__main__':
     d.push(1)
     d.push(10)
     quicksort(d.head)
+    d.traverse()
+    print('--------------')
+    d = LinkedList()
+    d.add_all([1, 2, 3, 4, 5, 6])
+    d.head = swapKth(d.head, 1)
+    d.traverse()
+    d.head = swapKth(d.head, 2)
+    d.traverse()
+    d.head = swapKth(d.head, 6)
     d.traverse()

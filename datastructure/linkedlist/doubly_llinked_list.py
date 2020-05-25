@@ -113,9 +113,9 @@ def swapKth(head, k):
     if not head:
         return
     n = head.count()
-    if k>n:
+    if k > n:
         return
-    if (2*k-1) == n:
+    if (2 * k - 1) == n:
         return
     x = head
     x_prev = None
@@ -124,7 +124,7 @@ def swapKth(head, k):
         x = x.next
     y = head
     y_prev = None
-    for i in range(1, n-k+1):
+    for i in range(1, n - k + 1):
         y_prev = y
         y = y.next
     if x_prev:
@@ -137,6 +137,50 @@ def swapKth(head, k):
     if k == n:
         return x
     return head
+
+
+def merge_sort(head):
+    if not head:
+        return
+    if not head.next:
+        return head
+    mid = middle(head)
+    n = mid.next
+    mid.next = None
+    if n:
+        n.prev = None
+    left = merge_sort(head)
+    right = merge_sort(n)
+    return merge(left, right)
+
+
+def merge(left, right):
+    if not left:
+        return right
+    if not right:
+        return left
+    newhead = None
+    if left.data > right.data:
+        newhead = right
+        node = merge(left, right.next)
+        newhead.next = node
+        node.prev = newhead
+    else:
+        newhead = left
+        node = merge(left.next, right)
+        newhead.next = node
+        node.prev = newhead
+    return newhead
+
+
+def middle(node):
+    slow, fast = node, node.next
+    while fast:
+        fast = fast.next
+        if fast:
+            slow = slow.next
+            fast = fast.next
+    return slow
 
 
 if __name__ == '__main__':
@@ -176,3 +220,13 @@ if __name__ == '__main__':
     d.traverse()
     d.head = swapKth(d.head, 6)
     d.traverse()
+    d = DoublyLinkedList()
+    d.push(5)
+    d.push(20)
+    d.push(4)
+    d.push(3)
+    d.push(30)
+    d.push(10)
+    d.head = merge_sort(d.head)
+    d.traverse()
+    d.reverseTraverse()

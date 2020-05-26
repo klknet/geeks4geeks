@@ -12,6 +12,11 @@ class DoublyLinkedList:
         node = _DoubleNode(None, data, self.head)
         self.head.prev = node
         self.head = node
+        return self
+
+    def add_all(self, arr):
+        for i in arr:
+            self.append(i)
 
     def append(self, data):
         t = self.tail()
@@ -231,6 +236,24 @@ def traverseTernaryNode(root):
     print()
 
 
+def pairs_with_given_sum(head, x):
+    """
+    Find pairs with given sum in doubly linked list.
+    :param head:
+    :param x:
+    :return:
+    """
+    tail = head.tail()
+    while head != tail:
+        if head.data + tail.data > x:
+            tail = tail.prev
+        elif head.data + tail.data < x:
+            head = head.next
+        else:
+            print("(%d, %d)" % (head.data, tail.data))
+            head = head.next
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -251,12 +274,7 @@ if __name__ == '__main__':
     d.traverse()
     d.reverseTraverse
     d = DoublyLinkedList()
-    d.push(5)
-    d.push(15)
-    d.push(7)
-    d.push(5)
-    d.push(1)
-    d.push(10)
+    d.add_all([5, 15, 7, 5, 1, 10])
     quicksort(d.head)
     d.traverse()
     print('--------------')
@@ -269,12 +287,7 @@ if __name__ == '__main__':
     d.head = swapKth(d.head, 6)
     d.traverse()
     d = DoublyLinkedList()
-    d.push(5)
-    d.push(20)
-    d.push(4)
-    d.push(3)
-    d.push(30)
-    d.push(10)
+    d.add_all([5, 20, 4, 3, 30, 10])
     d.head = merge_sort(d.head)
     d.traverse()
     d.reverseTraverse()
@@ -283,3 +296,6 @@ if __name__ == '__main__':
                     TernaryNode(63, TernaryNode(31), TernaryNode(55), TernaryNode(65)))
     build_dll_from_ternary_tree(t)
     traverseTernaryNode(t)
+    d = DoublyLinkedList()
+    d.add_all([1, 2, 4, 5, 6, 8, 9])
+    pairs_with_given_sum(d.head, 7)

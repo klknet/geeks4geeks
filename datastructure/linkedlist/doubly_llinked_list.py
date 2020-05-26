@@ -71,6 +71,14 @@ class DoublyLinkedList:
         return cur
 
 
+class TernaryNode:
+    def __init__(self, data=None, left=None, mid=None, right=None):
+        self.data = data
+        self.left = left
+        self.mid = mid
+        self.right = right
+
+
 def reverse(node):
     if not node:
         return
@@ -183,6 +191,46 @@ def middle(node):
     return slow
 
 
+def build_dll_from_ternary_tree(root):
+    """
+    Create a Doubly Linked List from a ternary tree.
+    :param root:
+    :return:
+    """
+    if not root:
+        return
+    left = root.left
+    mid = root.mid
+    right = root.right
+    push(root)
+    build_dll_from_ternary_tree(left)
+    build_dll_from_ternary_tree(mid)
+    build_dll_from_ternary_tree(right)
+
+
+tail = None
+
+
+def push(node):
+    global tail
+    if not tail:
+        tail = node
+        node.left = node.mid = node.right = None
+        return tail
+    tail.right = node
+    node.left = tail
+    node.mid = node.right = None
+    tail = node
+
+
+def traverseTernaryNode(root):
+    cur = root
+    while cur:
+        print(cur.data, end=' ')
+        cur = cur.right
+    print()
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -230,3 +278,8 @@ if __name__ == '__main__':
     d.head = merge_sort(d.head)
     d.traverse()
     d.reverseTraverse()
+    t = TernaryNode(30, TernaryNode(5, TernaryNode(1), TernaryNode(4), TernaryNode(8)),
+                    TernaryNode(11, TernaryNode(6), TernaryNode(7), TernaryNode(15)),
+                    TernaryNode(63, TernaryNode(31), TernaryNode(55), TernaryNode(65)))
+    build_dll_from_ternary_tree(t)
+    traverseTernaryNode(t)

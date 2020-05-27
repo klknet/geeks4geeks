@@ -272,6 +272,30 @@ def insert_in_sorted_list(node, data):
     return node
 
 
+def triplet_dll(node, x):
+    """
+    Count triplets in a sorted doubly linked list whose sum is equal to a given value x.
+    :param node:
+    :param x:
+    :return:
+    """
+    first = node
+    t = node.tail()
+    while first:
+        r = x - first.data
+        second = first.next
+        third = t
+        while second and second != third:
+            if second.data + third.data == r:
+                print("(%d, %d, %d)" % (first.data, second.data, third.data))
+                second = second.next
+            elif second.data + third.data > r:
+                third = third.prev
+            else:
+                second = second.next
+        first = first.next
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -321,3 +345,6 @@ if __name__ == '__main__':
     d.head = insert_in_sorted_list(d.head, -1)
     d.head = insert_in_sorted_list(d.head, 10)
     d.traverse()
+    d = DoublyLinkedList()
+    d.add_all(range(1, 10))
+    triplet_dll(d.head, 17)

@@ -254,6 +254,24 @@ def pairs_with_given_sum(head, x):
             head = head.next
 
 
+def insert_in_sorted_list(node, data):
+    prev = None
+    cur = node
+    while cur:
+        if cur.data > data:
+            break
+        prev = cur
+        cur = cur.next
+    n = _DoubleNode(prev, data, cur)
+    if prev:
+        prev.next = n
+    else:
+        node = n
+    if cur:
+        cur.prev = n
+    return node
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -299,3 +317,7 @@ if __name__ == '__main__':
     d = DoublyLinkedList()
     d.add_all([1, 2, 4, 5, 6, 8, 9])
     pairs_with_given_sum(d.head, 7)
+    d.head = insert_in_sorted_list(d.head, 3)
+    d.head = insert_in_sorted_list(d.head, -1)
+    d.head = insert_in_sorted_list(d.head, 10)
+    d.traverse()

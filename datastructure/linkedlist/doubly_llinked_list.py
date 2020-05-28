@@ -296,6 +296,48 @@ def triplet_dll(node, x):
         first = first.next
 
 
+def remove(node):
+    r = node.next
+    n = r.next
+    r.prev = None
+    r.next = None
+    node.next = n
+    if n:
+        n.prev = node
+
+
+def remove_duplicate(node):
+    cur = node
+    while cur:
+        if cur.next and cur.next.data == cur.data:
+            remove(cur)
+            continue
+        cur = cur.next
+
+
+def remove_all_occur(dll, data):
+    node = dll.head
+    prev = None
+    cur = node
+    while cur:
+        if cur.data == data:
+            n = cur.next
+            cur.next = None
+            cur.prev = None
+            if prev:
+                prev.next = n
+                cur = n
+            else:
+                node = n
+                cur = n
+            if n:
+                n.prev = prev
+        else:
+            prev = cur
+            cur = cur.next
+    dll.head = node
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -348,3 +390,11 @@ if __name__ == '__main__':
     d = DoublyLinkedList()
     d.add_all(range(1, 10))
     triplet_dll(d.head, 17)
+    d = DoublyLinkedList()
+    d.add_all([4, 4, 4, 4, 6, 8, 8, 10, 12, 12])
+    remove_duplicate(d.head)
+    d.traverse()
+    d = DoublyLinkedList()
+    d.add_all([2, 2, 10, 8, 4, 2, 5, 2])
+    remove_all_occur(d, 2)
+    d.traverse()

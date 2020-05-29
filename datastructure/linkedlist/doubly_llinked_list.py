@@ -338,6 +338,21 @@ def remove_all_occur(dll, data):
     dll.head = node
 
 
+def sort_biotonic_dll(head):
+    cur = head
+    while cur:
+        if cur.next and cur.next.data < cur.data:
+            break
+        cur = cur.next
+    if not cur:
+        return head
+    second = cur.next
+    cur.next = None
+    second.prev = None
+    second = reverse(second)
+    return merge(head, second)
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -397,4 +412,10 @@ if __name__ == '__main__':
     d = DoublyLinkedList()
     d.add_all([2, 2, 10, 8, 4, 2, 5, 2])
     remove_all_occur(d, 2)
+    d.traverse()
+    d = DoublyLinkedList()
+    # d.add_all([2, 5, 7, 12, 10, 6, 4, 1])
+    # d.add_all([5, 4, 3, 2, 1])
+    d.add_all([1, 2, 3, 4, 5])
+    d.head = sort_biotonic_dll(d.head)
     d.traverse()

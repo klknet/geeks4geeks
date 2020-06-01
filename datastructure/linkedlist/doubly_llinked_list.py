@@ -1,4 +1,5 @@
 from datastructure.linkedlist.base_linked_list import _DoubleNode, LinkedList
+import heapq
 
 
 class DoublyLinkedList:
@@ -353,6 +354,38 @@ def sort_biotonic_dll(head):
     return merge(head, second)
 
 
+def sort_k_sorted(head, k):
+    """
+    Sort a k-sorted node.
+    :param head:
+    :param k:
+    :return:
+    """
+    newhead = None
+    priorityQueue = []
+    cur = head
+    for i in range(k + 1):
+        if cur:
+            heapq.heappush(priorityQueue, cur)
+            cur = cur.next
+    last = None
+    while len(priorityQueue) > 0:
+        node = heapq.heappop(priorityQueue)
+        if not newhead:
+            newhead = node
+            node.prev = None
+            last = node
+        else:
+            last.next = node
+            node.prev = last
+            last = node
+        if cur:
+            heapq.heappush(priorityQueue, cur)
+            cur = cur.next
+    last.next = None
+    return newhead
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -419,3 +452,8 @@ if __name__ == '__main__':
     d.add_all([1, 2, 3, 4, 5])
     d.head = sort_biotonic_dll(d.head)
     d.traverse()
+    d = DoublyLinkedList()
+    d.add_all([3, 6, 2, 12, 56, 8])
+    d.head = sort_k_sorted(d.head, 2)
+    d.traverse()
+    d.reverseTraverse()

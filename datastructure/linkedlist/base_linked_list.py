@@ -48,6 +48,10 @@ class _Node:
         # print("_Node delete %s" % self.data)
         pass
 
+    def __lt__(self, other):
+        return self.data<other.data
+
+
 
 class _DoubleNode(_Node):
     def __init__(self, prev=None, data=None, n=None):

@@ -1,5 +1,6 @@
-from datastructure.linkedlist.base_linked_list import _DoubleNode, LinkedList
 import heapq
+
+from datastructure.linkedlist.base_linked_list import _DoubleNode, LinkedList
 
 
 class DoublyLinkedList:
@@ -83,6 +84,16 @@ class TernaryNode:
         self.left = left
         self.mid = mid
         self.right = right
+
+
+class BinaryNode:
+    def __init__(self, data=None, left=None, right=None):
+        self.data = data
+        self.left = left
+        self.right = right
+
+    def __str__(self):
+        return str(self.data)
 
 
 def reverse(node):
@@ -214,19 +225,16 @@ def build_dll_from_ternary_tree(root):
     build_dll_from_ternary_tree(right)
 
 
-tail = None
-
-
 def push(node):
-    global tail
-    if not tail:
-        tail = node
+    global args
+    if not args['tail']:
+        args['tail'] = node
         node.left = node.mid = node.right = None
-        return tail
-    tail.right = node
-    node.left = tail
+        return args['tail']
+    args['tail'].right = node
+    node.left = args['tail']
     node.mid = node.right = None
-    tail = node
+    args['tail'] = node
 
 
 def traverseTernaryNode(root):
@@ -386,6 +394,78 @@ def sort_k_sorted(head, k):
     return newhead
 
 
+def convert2Dll(tree):
+    """
+    Convert a binary tree into doubly linked list in inorder.
+    :param tree:
+    :return:
+    """
+    if not tree:
+        return
+    left = tree.left
+    right = tree.right
+    tree.left = None
+    tree.right = None
+    return link(link(convert2Dll(left), tree), convert2Dll(right))
+
+
+def link(left, right):
+    if not left:
+        return right
+    if not right:
+        return left
+    tail = binaryTreeTail(left)
+    tail.right = right
+    right.left = tail
+    return left
+
+
+args = {'head': None, 'tail': None}
+
+
+def tree2dll(root):
+    global args
+    if not root:
+        return
+    tree2dll(root.right)
+    root.right = args['head']
+    if args['head']:
+        args['head'].left = root
+    args['head'] = root
+    tree2dll(root.left)
+
+
+def btTraversel():
+    global args
+    traverse(args['head'])
+    reverseTraverse(args['head'])
+
+
+def binaryTreeTail(root):
+    tail = root
+    while True:
+        if tail and not tail.right:
+            break
+        tail = tail.right
+    return tail
+
+
+def traverse(bt):
+    cur = bt
+    while cur:
+        print(cur.data, end=' ')
+        cur = cur.right
+    print()
+
+
+def reverseTraverse(bt):
+    tail = binaryTreeTail(bt)
+    while tail:
+        print(tail.data, end=' ')
+        tail = tail.left
+    print()
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -457,3 +537,10 @@ if __name__ == '__main__':
     d.head = sort_k_sorted(d.head, 2)
     d.traverse()
     d.reverseTraverse()
+    bt = BinaryNode(10, BinaryNode(12, BinaryNode(25), BinaryNode(30)), BinaryNode(15, BinaryNode(36)))
+    newhead = convert2Dll(bt)
+    traverse(newhead)
+    reverseTraverse(newhead)
+    bt = BinaryNode(10, BinaryNode(12, BinaryNode(25), BinaryNode(30)), BinaryNode(15, BinaryNode(36)))
+    tree2dll(bt)
+    btTraversel()

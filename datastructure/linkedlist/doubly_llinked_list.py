@@ -63,8 +63,8 @@ class DoublyLinkedList:
             cur = cur.next
         return cur
 
-    def traverse(self):
-        self.head.traverse()
+    def traverse(self, split=None):
+        self.head.traverse(split)
 
     def reverseTraverse(self):
         self.head.reverseTraverse()
@@ -466,6 +466,61 @@ def reverseTraverse(bt):
     print()
 
 
+class HugeInt(object):
+    def __init__(self, s=None):
+        self.head = self.tail = None
+        if s is not None:
+            self.insert(s)
+
+    def insert(self, s):
+        for i in range(len(s)):
+            self.insertEnd(s[i])
+
+    def insertFront(self, data):
+        node = _DoubleNode(data=int(data), n=self.head)
+        if self.head:
+            self.head.prev = node
+        if not self.tail:
+            self.tail = node
+        self.head = node
+
+    def insertEnd(self, data):
+        node = _DoubleNode(data=int(data), prev=self.tail)
+        if self.tail:
+            self.tail.next = node
+        if not self.head:
+            self.head = node
+        self.tail = node
+
+    def __str__(self):
+        return str(self.data)
+
+    @staticmethod
+    def add(a: 'HugeInt', b: 'HugeInt') -> DoublyLinkedList:
+        res = DoublyLinkedList()
+        s = c = 0
+        atail = a.tail
+        btail = b.tail
+        while atail is not None or btail is not None:
+            if atail is None and btail is not None:
+                s = (btail.data + c) % 10
+                c = (btail.data + c) // 10
+                btail = btail.prev
+            elif atail is not None and btail is None:
+                s = (atail.data + c) % 10
+                c = (atail.data + c) // 10
+                atail = atail.prev
+            else:
+                s = (atail.data + btail.data + c) % 10
+                c = (atail.data + btail.data + c) // 10
+                atail = atail.prev
+                btail = btail.prev
+            res.push(s)
+        if c:
+            res.push(c)
+        return res
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -544,3 +599,6 @@ if __name__ == '__main__':
     bt = BinaryNode(10, BinaryNode(12, BinaryNode(25), BinaryNode(30)), BinaryNode(15, BinaryNode(36)))
     tree2dll(bt)
     btTraversel()
+    a = HugeInt('123456789123456789123456789123456789123456789123456789')
+    b = HugeInt('456789123456789123456789123456789123456789123456789')
+    HugeInt.add(a, b).traverse('')

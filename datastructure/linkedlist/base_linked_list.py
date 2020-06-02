@@ -8,10 +8,10 @@ class _Node:
         self.data = data
         self.next = n
 
-    def traverse(self):
+    def traverse(self, split=None):
         cur = self
         while True:
-            print(cur.data, end=' ')
+            print(cur.data, end=' ' if split is None else split)
             if not cur.next:
                 break
             cur = cur.next
@@ -58,8 +58,8 @@ class _DoubleNode(_Node):
         _Node.__init__(self, data, n)
         self.prev = prev
 
-    def traverse(self):
-        _Node.traverse(self)
+    def traverse(self, split=None):
+        _Node.traverse(self, split)
 
     def reverseTraverse(self):
         cur = self.tail()

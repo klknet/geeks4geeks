@@ -467,8 +467,10 @@ def reverseTraverse(bt):
 
 
 class HugeInt(object):
-    def __init__(self, s=None):
+    def __init__(self, s=None, sign=0):
         self.head = self.tail = None
+        self.length = 0
+        self.sign = sign
         if s is not None:
             self.insert(s)
 
@@ -477,6 +479,7 @@ class HugeInt(object):
             self.insertEnd(s[i])
 
     def insertFront(self, data):
+        self.length += 1
         node = _DoubleNode(data=int(data), n=self.head)
         if self.head:
             self.head.prev = node
@@ -485,6 +488,7 @@ class HugeInt(object):
         self.head = node
 
     def insertEnd(self, data):
+        self.length += 1
         node = _DoubleNode(data=int(data), prev=self.tail)
         if self.tail:
             self.tail.next = node
@@ -492,13 +496,65 @@ class HugeInt(object):
             self.head = node
         self.tail = node
 
+    def trim(self):
+        cur = self.head
+        while cur:
+            if cur.data != 0:
+                break
+            self.head = cur.next
+            if cur.next:
+                cur.next.prev = None
+            cur = cur.next
+            self.length -= 1
+        return self
+
+    def abs(self):
+        self.sign = 0
+        return self
+
+    def empty(self):
+        return self.length == 0 or self.head.data == 0
+
+    def neg(self):
+        self.sign = 1
+        return self
+
+    def display(self):
+        if not self.head:
+            print(0)
+            return
+        if self.sign == 1:
+            print('-', end='')
+        cur = self.head
+        while cur:
+            print(cur.data, end='')
+            cur = cur.next
+        print()
+
     def __str__(self):
         return str(self.data)
 
     @staticmethod
-    def add(a: 'HugeInt', b: 'HugeInt') -> DoublyLinkedList:
-        res = DoublyLinkedList()
-        s = c = 0
+    def add(a: 'HugeInt', b: 'HugeInt') -> 'HugeInt':
+        if a.empty():
+            return b
+        if b.empty():
+            return a
+        if a.sign == 0 and b.sign == 1:
+            res = HugeInt.diff(a, b.abs())
+            b.neg()
+            return res
+        if a.sign == 1 and b.sign == 0:
+            res = HugeInt.diff(b, a.abs())
+            a.neg()
+            return res
+        if a.sign == 1 and b.sign == 1:
+            res = HugeInt.add(a.abs(), b.abs()).neg()
+            b.neg()
+            a.neg()
+            return res
+        res = HugeInt()
+        c = 0
         atail = a.tail
         btail = b.tail
         while atail is not None or btail is not None:
@@ -515,10 +571,124 @@ class HugeInt(object):
                 c = (atail.data + btail.data + c) // 10
                 atail = atail.prev
                 btail = btail.prev
-            res.push(s)
+            res.insertFront(s)
         if c:
-            res.push(c)
+            res.insertFront(c)
         return res
+
+    @staticmethod
+    def diff(a: 'HugeInt', b: 'HugeInt') -> 'HugeInt':
+        r = HugeInt.cmp(a, b)
+        if r == 0:
+            return HugeInt()
+        if a.sign == 0 and b.sign == 1:
+            res = HugeInt.add(a, b.abs())
+            b.neg()
+            return res
+        if a.sign == 1 and b.sign == 0:
+            res = HugeInt.add(a.abs(), b).neg()
+            a.neg()
+            return res
+        if r == -1 and a.sign == b.sign == 0:
+            a, b = b, a
+        c = 0
+        atail = a.tail
+        btail = b.tail
+        res = HugeInt(sign=1 if r == -1 else 0)
+        while atail and btail:
+            d = (atail.data - btail.data - c + 10) % 10
+            c = 1 if atail.data - btail.data - c < 0 else 0
+            res.insertFront(d)
+            atail = atail.prev
+            btail = btail.prev
+        while atail:
+            res.insertFront(atail.data - c)
+            atail = atail.prev
+        return res.trim()
+
+    @staticmethod
+    def cmp(a: 'HugeInt', b: 'HugeInt'):
+        if a.sign == b.sign:
+            res = 0
+            if a.length > b.length:
+                res = 1
+            elif a.length < b.length:
+                res = -1
+            else:
+                ahead, bhead = a.head, b.head
+                while ahead:
+                    if ahead.data == bhead.data:
+                        ahead = ahead.next
+                        bhead = bhead.next
+                    elif ahead.data > bhead.data:
+                        res = 1
+                        break
+                    else:
+                        res = -1
+                        break
+            return res if a.sign == 0 else -res
+        elif a.sign == 0 and b.sign == 1:
+            return 1
+        else:
+            return -1
+
+    @staticmethod
+    def multiply(a: 'HugeInt', b: 'HugeInt') -> 'HugeInt':
+        if a.empty() or b.empty():
+            return HugeInt()
+        btail = b.tail
+        s = []
+        k = 0
+        res = HugeInt()
+        while btail is not None:
+            atail = a.tail
+            h = HugeInt()
+            s.append(h)
+            m = c = 0
+            while atail is not None:
+                m = (atail.data * btail.data + c) % 10
+                c = (atail.data * btail.data + c) // 10
+                h.insertFront(m)
+                atail = atail.prev
+            if c:
+                h.insertFront(c)
+            # 错位相乘时补0
+            for i in range(k):
+                h.insertEnd(0)
+            res = HugeInt.add(res, h)
+            btail = btail.prev
+            k += 1
+        if a.sign + b.sign == 1:
+            res.sign = 1
+        return res
+
+    @staticmethod
+    def quotient(a: 'HugeInt', b: 'HugeInt') -> 'HugeInt':
+        sign = 1 if a.sign+b.sign==1 else 0
+        r = HugeInt.cmp(a.abs(), b.abs())
+        if r == -1:
+            return HugeInt('0')
+        if r == 0:
+            return HugeInt('1')
+        ex = HugeInt()
+        ahead = a.head
+        for i in range(b.length):
+            ex.insertEnd(ahead.data)
+            ahead = ahead.next
+        res = HugeInt(sign=sign)
+        while True:
+            for i in range(1, 11):
+                pr = HugeInt.multiply(b, HugeInt(str(i)))
+                if HugeInt.cmp(ex, pr) == -1:
+                    break
+            res.insertEnd(i - 1)
+            if i > 1:
+                ex = HugeInt.diff(ex, HugeInt.multiply(b, HugeInt(str(i - 1))))
+            if not ahead:
+                break
+            ex.insertEnd(ahead.data)
+            ahead = ahead.next
+        return res.trim()
 
 
 if __name__ == '__main__':
@@ -600,5 +770,10 @@ if __name__ == '__main__':
     tree2dll(bt)
     btTraversel()
     a = HugeInt('123456789123456789123456789123456789123456789123456789')
-    b = HugeInt('456789123456789123456789123456789123456789123456789')
-    HugeInt.add(a, b).traverse('')
+    b = HugeInt('456789123456789123456789123456789123456789123456789', sign=1)
+    a = HugeInt('9990', sign=0)
+    b = HugeInt('11', sign=0)
+    HugeInt.add(a, b).display()
+    HugeInt.multiply(a, b).display()
+    HugeInt.diff(a, b).display()
+    HugeInt.quotient(a, b).display()

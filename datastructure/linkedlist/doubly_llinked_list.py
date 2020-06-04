@@ -664,7 +664,7 @@ class HugeInt(object):
 
     @staticmethod
     def quotient(a: 'HugeInt', b: 'HugeInt') -> 'HugeInt':
-        sign = 1 if a.sign+b.sign==1 else 0
+        sign = 1 if a.sign + b.sign == 1 else 0
         r = HugeInt.cmp(a.abs(), b.abs())
         if r == -1:
             return HugeInt('0')
@@ -689,6 +689,78 @@ class HugeInt(object):
             ex.insertEnd(ahead.data)
             ahead = ahead.next
         return res.trim()
+
+
+def rotate_dll(head, n):
+    """
+    Rotate a doubly linked list by N nodes.
+    :param head:
+    :param n:
+    :return:
+    """
+    if n <= 0:
+        return head
+    cur = head
+    for i in range(n):
+        cur = cur.next
+    cur.prev.next = None
+    cur.prev = None
+    t = cur.tail()
+    t.next = head
+    head.prev = t
+    return cur
+
+
+class PriorityQueue:
+    def __init__(self):
+        self.head = None
+        self.rear = None
+
+    def push(self, data, priority):
+        pn = PriorityQueue.PriorityNode(data, priority)
+        if self.head is None:
+            self.head = self.rear = pn
+        else:
+            if self.head.priority > priority:
+                pn.next = self.head
+                self.head.prev = pn
+                self.head = pn
+            elif self.rear.priority < priority:
+                pn.prev = self.rear
+                self.rear.next = pn
+                self.rear = pn
+            else:
+                cur = self.head
+                while cur:
+                    if cur.priority > priority:
+                        break
+                    cur = cur.next
+                prev = cur.prev
+                prev.next = pn
+                cur.prev = pn
+                pn.prev = prev
+                pn.next = cur
+
+    def peek(self):
+        if self.head:
+            return self.head.data
+
+    def pop(self):
+        if self.head:
+            cur = self.head
+            n = cur.next
+            cur.next = None
+            if n:
+                n.prev = None
+            else:
+                self.rear = None
+            self.head = n
+            return cur.data
+
+    class PriorityNode(_DoubleNode):
+        def __init__(self, data=None, priority=0, prev=None, n=None):
+            _DoubleNode.__init__(self, prev, data, n)
+            self.priority = priority
 
 
 if __name__ == '__main__':
@@ -771,9 +843,23 @@ if __name__ == '__main__':
     btTraversel()
     a = HugeInt('123456789123456789123456789123456789123456789123456789')
     b = HugeInt('456789123456789123456789123456789123456789123456789', sign=1)
-    a = HugeInt('9990', sign=0)
-    b = HugeInt('11', sign=0)
+    a = HugeInt('1111', sign=0)
+    b = HugeInt('9999', sign=0)
     HugeInt.add(a, b).display()
     HugeInt.multiply(a, b).display()
     HugeInt.diff(a, b).display()
     HugeInt.quotient(a, b).display()
+    d = DoublyLinkedList()
+    d.add_all([1, 2, 3, 4, 5])
+    d.head = rotate_dll(d.head, 2)
+    d.traverse()
+    p = PriorityQueue()
+    p.push(2, 3)
+    p.push(3, 4)
+    p.push(4, 5)
+    p.push(5, 6)
+    p.push(6, 7)
+    p.push(1, 12)
+    print(p.peek())
+    print(p.pop())
+    print(p.pop())

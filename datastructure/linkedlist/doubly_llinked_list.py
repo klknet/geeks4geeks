@@ -763,6 +763,31 @@ class PriorityQueue:
             self.priority = priority
 
 
+def reverse_in_groups(node, n):
+    """
+    Reverse a doubly linked list in groups of given size.
+    :param node:
+    :param n:
+    :return:
+    """
+    cur = node
+    prev = None
+    i=n
+    while cur and i > 0:
+        tmp = cur.next
+        cur.next = prev
+        cur.prev = tmp
+        prev = cur
+        cur = tmp
+        i -= 1
+    prev.prev = None
+    if cur:
+        newhead = reverse_in_groups(cur, n)
+        node.next = newhead
+        newhead.prev = node
+    return prev
+
+
 if __name__ == '__main__':
     d = DoublyLinkedList()
     d.push(1)
@@ -863,3 +888,8 @@ if __name__ == '__main__':
     print(p.peek())
     print(p.pop())
     print(p.pop())
+    d = DoublyLinkedList()
+    d.add_all([1, 2, 3, 4, 5, 6, 7, 8])
+    d.head = reverse_in_groups(d.head, 3)
+    d.traverse()
+    d.reverseTraverse()

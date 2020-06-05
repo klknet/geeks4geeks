@@ -772,7 +772,7 @@ def reverse_in_groups(node, n):
     """
     cur = node
     prev = None
-    i=n
+    i = n
     while cur and i > 0:
         tmp = cur.next
         cur.next = prev
@@ -786,6 +786,76 @@ def reverse_in_groups(node, n):
         node.next = newhead
         newhead.prev = node
     return prev
+
+
+class CircularDoublyLinkedList(object):
+    def __init__(self, head: _DoubleNode = None):
+        self.head = head
+
+    def insertFront(self, data):
+        if not self.head:
+            self.head = _DoubleNode(data=data)
+            self.head.prev = self.head
+            self.head.next = self.head
+            return
+        node = _DoubleNode(self.head.prev, data=data, n=self.head)
+        self.head.prev.next = node
+        self.head.prev = node
+        self.head = node
+
+    def insertRear(self, data):
+        if not self.head:
+            self.head = _DoubleNode(data=data)
+            self.head.prev = self.head
+            self.head.next = self.head
+            return
+        node = _DoubleNode(self.head.prev, data=data, n=self.head)
+        self.head.prev.next = node
+        self.head.prev = node
+
+    def traverse(self):
+        cur = self.head
+        while cur:
+            print(cur.data, end=' ')
+            cur = cur.next
+            if cur == self.head:
+                break
+        print()
+
+    def delete(self, value):
+        cur = self.valueOf(value)
+        if not cur:
+            return
+        if cur.next == cur:
+            self.head=None
+            return
+        if cur == self.head:
+            self.head = cur.next
+        cur.prev.next = cur.next
+        cur.next.prev = cur.next
+        cur.next = None
+        cur.prev = None
+
+    def insertAfter(self, v1, v2):
+        cur = self.valueOf(v1)
+        if not cur:
+            return
+        node = _DoubleNode(cur, data=v2, n=cur.next)
+        n = cur.next
+        n.prev = node
+        cur.next = node
+
+    def valueOf(self, value):
+        cur = self.head
+        found = False
+        while cur:
+            if cur.data == value:
+                found = True
+                break
+            cur = cur.next
+            if cur == self.head:
+                break
+        return cur if found else None
 
 
 if __name__ == '__main__':
@@ -893,3 +963,17 @@ if __name__ == '__main__':
     d.head = reverse_in_groups(d.head, 3)
     d.traverse()
     d.reverseTraverse()
+    c = CircularDoublyLinkedList()
+    c.insertFront(1)
+    c.insertFront(3)
+    c.insertFront(5)
+    c.insertRear(4)
+    c.insertRear(6)
+    c.insertRear(8)
+    c.insertAfter(5, 5.5)
+    c.insertAfter(1, 1.5)
+    c.insertAfter(8, 8.5)
+    c.delete(5)
+    c.delete(8.5)
+    c.delete(1.5)
+    c.traverse()

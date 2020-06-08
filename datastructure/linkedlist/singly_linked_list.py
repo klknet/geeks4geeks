@@ -1,4 +1,4 @@
-from datastructure.linkedlist.base_linked_list import _Node, LinkedList
+from base_linked_list import _Node, LinkedList
 
 
 def detect_loop(node):

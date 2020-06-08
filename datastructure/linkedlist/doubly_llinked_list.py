@@ -1,6 +1,6 @@
 import heapq
 
-from datastructure.linkedlist.base_linked_list import _DoubleNode, LinkedList
+from base_linked_list import _DoubleNode, LinkedList
 
 
 class DoublyLinkedList:

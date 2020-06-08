@@ -1,6 +1,6 @@
 import os
 import re
-
+from linkedlist.base_linked_list import _Node
 
 def remove_idea(root):
     pathDir = os.listdir(root)
@@ -13,4 +13,7 @@ def remove_idea(root):
             os.remove(filepath)
 
 
-remove_idea("D:\workspace\wisteria\.idea\modules")
+# remove_idea("D:\workspace\wisteria\.idea\modules")
+n = _Node()
+n.add_all([1,2,3])
+n.traverse()

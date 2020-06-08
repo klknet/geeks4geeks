@@ -1,5 +1,7 @@
-from datastructure.linkedlist.base_linked_list import _Node
+import sys
+from base_linked_list import _Node
 
+print(sys.path)
 
 class CircularLinkedList:
     def __init__(self, node=None):

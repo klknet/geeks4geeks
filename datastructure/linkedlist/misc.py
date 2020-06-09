@@ -2,6 +2,10 @@ import random
 
 
 class Node(object):
+    """
+    A node have levels.
+    """
+
     def __init__(self, key=None, lv=None):
         self.key = key
         self.lv = lv
@@ -34,8 +38,33 @@ class SkipList(object):
                 n.forword[i] = update[i].forword[i]
                 update[i].forword[i] = n
 
+    def delete(self, key):
+        update = [None]*(self.MAX_LV+1)
+        cur = self.head
+        for i in range(self.level, -1, -1):
+            while cur.forword[i] and cur.forword[i].key<key:
+                cur = cur.forword[i]
+            update[i] = cur
+        cur = cur.forword[0]
+        if cur:
+            for i in range(cur.lv+1):
+                update[i].forword[i] = cur.forword[i]
+            del cur
+
+    def search(self, key) -> Node:
+        cur = self.head
+        for i in range(self.level, -1, -1):
+            while cur.forword[i] and cur.forword[i].key < key:
+                cur = cur.forword[i]
+        cur = cur.forword[0]
+        if cur and cur.key == key:
+            print('Fount key %s' % (key))
+        else:
+            print("Key Not Found %s" % (key))
+        return cur
+
     def display(self):
-        for i in range(self.level+1):
+        for i in range(self.MAX_LV+1):
             cur = self.head.forword[i]
             while cur:
                 print(cur.key, end=" ")
@@ -53,7 +82,7 @@ if __name__ == '__main__':
     sl = SkipList(0.5, 3)
     sl.insert(3)
     sl.insert(6)
-    sl.insert(17)
+    sl.insert(18)
     sl.insert(9)
     sl.insert(12)
     sl.insert(19)
@@ -61,4 +90,9 @@ if __name__ == '__main__':
     sl.insert(26)
     sl.insert(21)
     sl.insert(25)
+    sl.display()
+    sl.search(12)
+    sl.search(120)
+    sl.delete(17)
+    sl.delete(21)
     sl.display()

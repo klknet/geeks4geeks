@@ -34,7 +34,7 @@ class _Node:
     def add_all(self, arr):
         cur = self
         for d in arr:
-            if not cur.data:
+            if cur.data is None:
                 cur.data = d
             else:
                 cur.next = _Node(d)
